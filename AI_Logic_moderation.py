@@ -1,188 +1,142 @@
-import os
-import re
 import json
-import requests
-
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-URL = "https://api.groq.com/openai/v1/chat/completions"
+import re
+import aiohttp
 
 
-def groq_check(message: str) -> dict:
-    try:
+class AIModeration:
+
+    def __init__(self, gemini_key=None, groq_key=None):
+        self.gemini_key = gemini_key
+        self.groq_key = groq_key
+
+    # =========================
+    # PUBLIC MAIN ROUTER
+    # =========================
+    async def moderation_check(self, content: str) -> dict:
+        """
+        MAIN ENTRY:
+        - thử Gemini trước (thông minh hơn)
+        - fail thì qua Groq (nhanh + rẻ)
+        - fail nữa thì fallback rule-based
+        """
+
+        result = await self.gemini_check(content)
+        if result:
+            return result
+
+        result = await self.groq_check(content)
+        if result:
+            return result
+
+        return self.fallback_check(content)
+
+    # =========================
+    # GEMINI CHECK
+    # =========================
+    async def gemini_check(self, content: str):
+        if not self.gemini_key:
+            return None
+
+        prompt = self._build_prompt(content)
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.gemini_key}"
 
         payload = {
-            "model": "llama-3.3-70b-versatile",
-            "temperature": 0,
-            "max_tokens": 50,
-            "response_format": {
-                "type": "json_object"
-            },
-            "messages": [
-              {
-    "role": "system",
-    "content": """
-You are a Discord moderation classifier.
+            "contents": [{"parts": [{"text": prompt}]}]
+        }
 
-Return ONLY valid JSON.
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload) as res:
+                    data = await res.json()
 
-Your task is to detect ONLY content that clearly violates server rules.
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            return self._parse_json(text)
 
-LABELS:
-SAFE
-HARASSMENT
-HATE
-POLITICS
-AD
-SPAM
+        except:
+            return None
 
-SAFE:
-- Casual conversation
-- Gaming chat
-- Technical discussions
-- Programming code
-- Questions
-- News discussion
-- Friendly teasing
-- Memes
-- Reactions
-- Emojis
-- Stickers
-- GIFs
-- Short messages
-- Mentions
+    # =========================
+    # GROQ CHECK
+    # =========================
+    async def groq_check(self, content: str):
+        if not self.groq_key:
+            return None
 
-HARASSMENT:
-- Direct insults toward a person
-- Personal attacks
-- Bullying
-- Threats
-- Targeted abuse
+        prompt = self._build_prompt(content)
 
-Examples HARASSMENT:
-- "mày ngu vl"
-- "thằng chó"
-- "con đĩ"
-- "óc chó"
-- "cút mẹ đi"
-- "tao ghét mày"
+        url = "https://api.groq.com/openai/v1/chat/completions"
 
-NOT HARASSMENT:
-- Generic profanity
-- Swearing without a target
-- Expressions of frustration
+        headers = {
+            "Authorization": f"Bearer {self.groq_key}",
+            "Content-Type": "application/json"
+        }
 
-Examples SAFE:
-- "địt mẹ lag quá"
-- "vcl game này khó"
-- "cc gì vậy"
-- "má nó cay"
+        payload = {
+            "model": "llama-3.1-8b-instant",
+            "messages": [{"role": "user", "content": prompt}]
+        }
 
-HATE:
-- Racism
-- Religious hostility
-- Ethnic hostility
-- Hate speech
-- Calls for discrimination
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload, headers=headers) as res:
+                    data = await res.json()
 
-POLITICS:
-- Political propaganda
-- Political extremism
-- Political attacks
-- Calls for political violence
+            text = data["choices"][0]["message"]["content"]
+            return self._parse_json(text)
 
-AD:
-- Selling products
-- Recruitment
-- Advertisements
-- Scams
-- Crypto promotion
-- Investment promotion
+        except:
+            return None
 
-SPAM:
-- Flooding
-- Repeated messages
-- Mass mentions
-- Mass emoji spam
+    # =========================
+    # FALLBACK RULE ENGINE
+    # =========================
+    def fallback_check(self, content: str):
+        lower = content.lower()
 
-IMPORTANT:
+        toxic_words = ["ngu", "địt", "cút", "dm", "đmm"]
+        spam_words = ["http", "discord.gg", "free", "click"]
 
-Single profanity alone is usually SAFE.
+        return {
+            "toxic": any(w in lower for w in toxic_words),
+            "spam": any(w in lower for w in spam_words),
+            "sexual": False,
+            "hate": "kill" in lower,
+            "scam": "free money" in lower,
+            "reason": "fallback rule-based",
+            "action": "warn"
+        }
 
-Only classify HARASSMENT when a person is being targeted.
+    # =========================
+    # PROMPT BUILDER
+    # =========================
+    def _build_prompt(self, content: str):
+        return f"""
+You are a Discord moderation AI.
 
-If uncertain -> SAFE.
+Analyze message:
+"{content}"
 
-Return JSON only:
-
-{
-    "label":"SAFE|HARASSMENT|HATE|POLITICS|AD|SPAM",
-    "score":0.00
-}
+Return ONLY JSON:
+{{
+  "toxic": true/false,
+  "spam": true/false,
+  "sexual": true/false,
+  "hate": true/false,
+  "scam": true/false,
+  "reason": "short reason",
+  "action": "allow/warn/mute/ban"
+}}
 """
-},
 
-                
-                {
-                    "role": "user",
-                    "content": message
-                }
-            ]
-        }
-
-        r = requests.post(
-            URL,
-            headers={
-                "Authorization": f"Bearer {GROQ_API_KEY}",
-                "Content-Type": "application/json"
-            },
-            json=payload,
-            timeout=15
-        )
-
-        r.raise_for_status()
-
-        data = r.json()
-
-        content = (
-            data["choices"][0]
-            ["message"]
-            ["content"]
-            .strip()
-        )
-
-        # remove markdown fences
-        content = re.sub(
-            r"^```json|```$",
-            "",
-            content,
-            flags=re.MULTILINE
-        ).strip()
-        print("\n===== GROQ RAW =====")
-        print(content)
-        print("====================\n")
-        result = json.loads(content)
-
-        label = str(
-            result.get("label", "SAFE")
-        ).upper()
-
-        score = float(
-            result.get("score", 0)
-        )
-
-        return {
-            "label": label,
-            "score": max(
-                0,
-                min(score, 1)
-            )
-        }
-
-    except Exception as e:
-        print("[GROQ ERROR]", repr(e))
-
-        return {
-            "label": "SAFE",
-            "score": 0
-        }
+    # =========================
+    # JSON PARSER SAFE
+    # =========================
+    def _parse_json(self, text: str):
+        try:
+            match = re.search(r"\{.*\}", text, re.DOTALL)
+            if match:
+                return json.loads(match.group(0))
+        except:
+            pass
+        return None
