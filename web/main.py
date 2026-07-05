@@ -24,6 +24,24 @@ app.mount("/static", StaticFiles(directory="web/static"), name="static")
 # Setup Jinja2 templates
 templates = Jinja2Templates(directory="web/templates")
 
+# ─── Jinja2 custom globals ────────────────────────────────────────────────────
+_CONN_COLORS = {
+    "steam": "#1b2838", "twitch": "#9146ff", "youtube": "#ff0000",
+    "twitter": "#1da1f2", "github": "#24292e", "spotify": "#1db954",
+    "reddit": "#ff4500", "facebook": "#1877f2", "tiktok": "#010101",
+    "xbox": "#107c10", "playstation": "#00439c", "battlenet": "#009ae4",
+    "epicgames": "#2f2f2f", "leagueoflegends": "#c89b3c", "roblox": "#e42424",
+}
+_CONN_EMOJIS = {
+    "steam": "🎮", "twitch": "📡", "youtube": "▶️", "twitter": "🐦",
+    "github": "🐙", "spotify": "🎵", "reddit": "🤖", "facebook": "📘",
+    "tiktok": "🎵", "xbox": "🎮", "playstation": "🎮", "battlenet": "⚔️",
+    "epicgames": "🕹️", "leagueoflegends": "⚔️", "roblox": "🧱",
+}
+templates.env.globals["conn_color"] = lambda t: _CONN_COLORS.get(t, "#374151")
+templates.env.globals["conn_emoji"] = lambda t: _CONN_EMOJIS.get(t, "🔗")
+
+
 # Import routers later to avoid circular imports if they rely on app
 from web.auth import router as auth_router
 from web.api import router as api_router
@@ -68,5 +86,14 @@ async def public_lookup_page(request: Request):
     user_session = request.session.get("discord_user")
     invite_url = get_invite_url(request)
     return templates.TemplateResponse(request=request, name="lookup.html", context={"user": user_session, "invite_url": invite_url})
+
+@app.get("/profile")
+async def profile_page(request: Request):
+    user_session = request.session.get("discord_user")
+    invite_url = get_invite_url(request)
+    if not user_session:
+        return templates.TemplateResponse(request=request, name="login.html", context={"invite_url": invite_url, "error": "Vui lòng đăng nhập để xem trang cá nhân"})
+    return templates.TemplateResponse(request=request, name="profile.html", context={"user": user_session, "invite_url": invite_url})
+
 
 

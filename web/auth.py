@@ -97,10 +97,53 @@ async def callback(request: Request, code: str):
                     "visibility": c.get("visibility")
                 }
                 for c in (user_connections if isinstance(user_connections, list) else [])
+        # Lưu session
+        session_data = {
+            "id": uid,
+            "username": user_info.get("username"),
+            "global_name": user_info.get("global_name"),
+            "avatar": avatar_hash,
+            "avatar_url": (
+                f"https://cdn.discordapp.com/avatars/{uid}/{avatar_hash}.png"
+                if avatar_hash else
+                f"https://cdn.discordapp.com/embed/avatars/{int(uid) % 5}.png"
+            ),
+            "banner_url": (
+                f"https://cdn.discordapp.com/banners/{uid}/{banner_hash}.png"
+                if banner_hash else None
+            ),
+            "accent_color": user_info.get("accent_color"),
+            "badges": badges,
+            "guilds": [
+                {
+                    "id": g.get("id"),
+                    "name": g.get("name"),
+                    "icon": g.get("icon"),
+                    "owner": g.get("owner", False),
+                    "permissions": g.get("permissions")
+                }
+                for g in (user_guilds if isinstance(user_guilds, list) else [])
+            ],
+            "connections": [
+                {
+                    "type": c.get("type"),
+                    "name": c.get("name"),
+                    "verified": c.get("verified", False),
+                    "visibility": c.get("visibility")
+                }
+                for c in (user_connections if isinstance(user_connections, list) else [])
             ]
         }
-        
-    return RedirectResponse("/control")
+        request.session["discord_user"] = session_data
+
+        # Kiểm tra quyền admin: nếu user là owner hoặc có quyền Manage Guild (0x20) trên bất kỳ guild nào
+        is_admin = any(
+            g.get("owner") or (int(g.get("permissions", 0)) & 0x20)
+            for g in (user_guilds if isinstance(user_guilds, list) else [])
+        )
+
+    return RedirectResponse("/control" if is_admin else "/profile")
+
 
 def decode_badges(flags: int) -> list[str]:
     """Giải mã public_flags thành danh sách huy hiệu Discord."""
