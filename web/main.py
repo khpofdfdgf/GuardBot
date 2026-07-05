@@ -33,23 +33,40 @@ app.include_router(auth_router)
 app.include_router(api_router)
 app.include_router(ws_router)
 
+def get_invite_url(request: Request):
+    bot = request.app.state.bot
+    if bot and bot.user:
+        return f"https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=8&scope=bot%20applications.commands"
+    return "#"
+
 @app.get("/")
 async def index(request: Request):
     user_session = request.session.get("discord_user")
+    invite_url = get_invite_url(request)
     if user_session:
-        return templates.TemplateResponse(request=request, name="dashboard.html", context={"user": user_session})
+        return templates.TemplateResponse(request=request, name="dashboard.html", context={"user": user_session, "invite_url": invite_url})
     else:
-        return templates.TemplateResponse(request=request, name="login.html", context={})
+        return templates.TemplateResponse(request=request, name="login.html", context={"invite_url": invite_url})
 
 @app.get("/tracking")
 async def tracking(request: Request):
     user_session = request.session.get("discord_user")
-    return templates.TemplateResponse(request=request, name="tracking.html", context={"user": user_session})
+    invite_url = get_invite_url(request)
+    return templates.TemplateResponse(request=request, name="tracking.html", context={"user": user_session, "invite_url": invite_url})
 
 @app.get("/control")
 async def control(request: Request):
     user_session = request.session.get("discord_user")
+    invite_url = get_invite_url(request)
     if not user_session:
-        return templates.TemplateResponse(request=request, name="login.html", context={"error": "Vui lòng đăng nhập để truy cập Control Panel"})
+        return templates.TemplateResponse(request=request, name="login.html", context={"error": "Vui lòng đăng nhập để truy cập Control Panel", "invite_url": invite_url})
     
-    return templates.TemplateResponse(request=request, name="control.html", context={"user": user_session})
+    return templates.TemplateResponse(request=request, name="control.html", context={"user": user_session, "invite_url": invite_url})
+
+@app.get("/lookup")
+async def public_lookup_page(request: Request):
+    user_session = request.session.get("discord_user")
+    invite_url = get_invite_url(request)
+    return templates.TemplateResponse(request=request, name="lookup.html", context={"user": user_session, "invite_url": invite_url})
+
+

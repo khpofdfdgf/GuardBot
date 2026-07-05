@@ -550,5 +550,142 @@ async def run_command_api(request: Request, req: RunCommandReq):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi thực thi lệnh qua code: {str(e)}")
 
+from pydantic import BaseModel
+
+class BulkLookupReq(BaseModel):
+    queries: list[str]
+
+async def perform_user_lookup(bot, q: str):
+    is_uid = q.strip().isdigit()
+    target_id = int(q.strip()) if is_uid else None
+
+    result = {
+        "query": q,
+        "found": False,
+        "discord_profile": None,
+        "joined_servers": [],
+        "warnings": [],
+        "cases": []
+    }
+
+    # Find mutual guilds
+    mutual_guilds = []
+    found_member_global = None
+
+    for guild in bot.guilds:
+        member = None
+        if is_uid:
+            member = guild.get_member(target_id)
+        else:
+            member = discord.utils.find(
+                lambda m: q.lower() in m.name.lower() or q.lower() in m.display_name.lower(),
+                guild.members
+            )
+        if member:
+            found_member_global = member
+            if not target_id:
+                target_id = member.id
+            mutual_guilds.append({
+                "guild_id": str(guild.id),
+                "guild_name": guild.name,
+                "display_name": member.display_name,
+                "joined_at": member.joined_at.isoformat() if member.joined_at else None,
+                "roles": [r.name for r in member.roles if r.name != "@everyone"]
+            })
+
+    result["joined_servers"] = mutual_guilds
+
+    # Fetch public Discord profile if UID is resolved
+    if target_id:
+        try:
+            async with httpx.AsyncClient() as client:
+                r = await client.get(
+                    f"https://discord.com/api/v10/users/{target_id}",
+                    headers={"Authorization": f"Bot {bot.http.token}"}
+                )
+                if r.status_code == 200:
+                    u = r.json()
+                    avatar_hash = u.get("avatar")
+                    avatar_url = (
+                        f"https://cdn.discordapp.com/avatars/{target_id}/{avatar_hash}.png"
+                        if avatar_hash else
+                        f"https://cdn.discordapp.com/embed/avatars/{int(target_id) % 5}.png"
+                    )
+                    result["discord_profile"] = {
+                        "id": str(target_id),
+                        "username": u.get("username"),
+                        "global_name": u.get("global_name"),
+                        "avatar": avatar_url,
+                        "bot": u.get("bot", False),
+                        "created_at": str(discord.utils.snowflake_time(target_id).isoformat())
+                    }
+                    result["found"] = True
+        except Exception:
+            pass
+
+        # Load warnings & cases
+        try:
+            with open("data/warnings.json", "r", encoding="utf-8") as f:
+                warnings_db = json.load(f)
+            result["warnings"] = warnings_db.get(str(target_id), [])
+        except:
+            pass
+
+        try:
+            with open("data/cases.json", "r", encoding="utf-8") as f:
+                cases_db = json.load(f)
+            result["cases"] = [
+                c for c in cases_db.values()
+                if str(c.get("target_id")) == str(target_id)
+            ]
+        except:
+            pass
+
+    if found_member_global and not result["discord_profile"]:
+        avatar_url = found_member_global.display_avatar.url if found_member_global.display_avatar else f"https://cdn.discordapp.com/embed/avatars/{int(target_id) % 5}.png"
+        result["discord_profile"] = {
+            "id": str(target_id),
+            "username": found_member_global.name,
+            "global_name": found_member_global.display_name,
+            "avatar": avatar_url,
+            "bot": found_member_global.bot,
+            "created_at": str(discord.utils.snowflake_time(target_id).isoformat())
+        }
+        result["found"] = True
+
+    return result
+
+@router.get("/api/public/lookup")
+async def public_lookup(request: Request, q: str):
+    bot = request.app.state.bot
+    if not bot:
+        raise HTTPException(status_code=500, detail="Bot is not running")
+    res = await perform_user_lookup(bot, q)
+    if not res["found"] and not res["joined_servers"]:
+        raise HTTPException(status_code=404, detail="User not found")
+    return res
+
+@router.post("/api/public/bulk_lookup")
+async def public_bulk_lookup(request: Request, req: BulkLookupReq):
+    bot = request.app.state.bot
+    if not bot:
+        raise HTTPException(status_code=500, detail="Bot is not running")
+    results = []
+    for query in req.queries:
+        query_stripped = query.strip()
+        if not query_stripped:
+            continue
+        try:
+            res = await perform_user_lookup(bot, query_stripped)
+            results.append(res)
+        except Exception as e:
+            results.append({
+                "query": query_stripped,
+                "found": False,
+                "error": str(e)
+            })
+    return {"results": results}
+
+
 
 

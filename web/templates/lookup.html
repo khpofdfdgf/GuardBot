@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Người Dùng - Discord Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2">
+    <style>
+        .lookup-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .search-type-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-type-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .search-type-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+        textarea.bulk-input {
+            width: 100%;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: white;
+            padding: 12px 16px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        textarea.bulk-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .result-card {
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 15px;
+            padding: 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 0 12px 12px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .server-tag {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin: 3px;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        .bulk-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .bulk-table th, .bulk-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .bulk-table th {
+            background: rgba(0,0,0,0.2);
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div id="toast-container"></div>
+    <div class="container animate-fade-in">
+        <header>
+            <div class="brand">
+                <h1 style="cursor: pointer;" onclick="window.location.href='/'">🤖 Discord Public Lookup</h1>
+            </div>
+            <div class="user-profile">
+                <a href="{{ invite_url }}" target="_blank" class="btn" style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); color: white; display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 127.14 96.36" fill="white">
+                        <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.1,46,96,53,91.08,65.69,84.69,65.69Z"/>
+                    </svg>
+                    Invite Bot
+                </a>
+                {% if user %}
+                <span>{{ user.username }}</span>
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                <a href="/control" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Control Panel</a>
+                {% else %}
+                <a href="/" class="btn btn-primary">Login with Discord</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="lookup-container">
+            <div class="search-type-tabs">
+                <button class="search-type-btn active" id="btn-single" onclick="setSearchType('single')">🔍 Tra cứu đơn lẻ</button>
+                <button class="search-type-btn" id="btn-bulk" onclick="setSearchType('bulk')">📋 Tra cứu hàng loạt</button>
+            </div>
+
+            <!-- Single Search Section -->
+            <div id="single-search-section" class="glass-panel">
+                <h3 style="margin-top:0;">Tra cứu người dùng</h3>
+                <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:1.5rem;">Nhập ID người dùng (UID) hoặc Tên tài khoản để tìm kiếm thông tin cá nhân và kiểm tra các server chung có bot tham gia.</p>
+                <div class="chat-input">
+                    <input type="text" id="single-q" placeholder="Nhập UID hoặc tên người dùng..." onkeypress="if(event.key==='Enter') doSingleLookup()">
+                    <button class="btn btn-primary" onclick="doSingleLookup()">Tìm kiếm</button>
+                </div>
+                <div id="single-result" style="margin-top: 24px; display: none;"></div>
+            </div>
+
+            <!-- Bulk Search Section -->
+            <div id="bulk-search-section" class="glass-panel" style="display: none;">
+                <h3 style="margin-top:0;">Tra cứu hàng loạt</h3>
+                <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:1.5rem;">Nhập danh sách UID hoặc Tên người dùng cần tra cứu (mỗi dòng một người hoặc phân tách bằng dấu phẩy).</p>
+                <textarea class="bulk-input" id="bulk-q" placeholder="VD:&#10;123456789012345678&#10;987654321098765432&#10;user_name_1"></textarea>
+                <button class="btn btn-primary" onclick="doBulkLookup()">Bắt đầu tra cứu hàng loạt</button>
+
+                <div id="bulk-result" style="margin-top: 24px; display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if(!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        let currentSearchType = 'single';
+
+        function setSearchType(type) {
+            currentSearchType = type;
+            if(type === 'single') {
+                document.getElementById('btn-single').classList.add('active');
+                document.getElementById('btn-bulk').classList.remove('active');
+                document.getElementById('single-search-section').style.display = 'block';
+                document.getElementById('bulk-search-section').style.display = 'none';
+            } else {
+                document.getElementById('btn-single').classList.remove('active');
+                document.getElementById('btn-bulk').classList.add('active');
+                document.getElementById('single-search-section').style.display = 'none';
+                document.getElementById('bulk-search-section').style.display = 'block';
+            }
+        }
+
+        async function doSingleLookup() {
+            const q = document.getElementById('single-q').value.trim();
+            if(!q) {
+                showToast("Vui lòng nhập UID hoặc tên tài khoản!", "error");
+                return;
+            }
+
+            const resultBox = document.getElementById('single-result');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<div style="text-align:center; color:var(--text-secondary); padding: 20px;">Đang tìm kiếm...</div>`;
+
+            try {
+                const res = await fetch(`/api/public/lookup?q=${encodeURIComponent(q)}`);
+                if(res.status === 404) {
+                    resultBox.innerHTML = `<div style="text-align:center; color:var(--danger-color); font-weight:600; padding: 20px;">❌ Không tìm thấy thông tin của người dùng này trên hệ thống.</div>`;
+                    return;
+                }
+                if(!res.ok) {
+                    throw new Error("Lỗi máy chủ");
+                }
+
+                const data = await res.json();
+                renderSingleResult(data, resultBox);
+            } catch(e) {
+                resultBox.innerHTML = `<div style="text-align:center; color:var(--danger-color); padding: 20px;">❌ Đã xảy ra lỗi khi kết nối hoặc xử lý.</div>`;
+            }
+        }
+
+        function renderSingleResult(data, container) {
+            const p = data.discord_profile;
+            const servers = data.joined_servers;
+            const warnings = data.warnings || [];
+            const cases = data.cases || [];
+
+            const isBot = p && p.bot ? `<span style="background:var(--primary-color);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;margin-left:5px;vertical-align:middle;">BOT</span>` : '';
+
+            // Render profile section
+            let profileHtml = '';
+            if(p) {
+                const createdAt = new Date(p.created_at).toLocaleString('vi-VN');
+                profileHtml = `
+                    <div style="display:flex; gap:20px; align-items:center; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border-color);">
+                        <img src="${p.avatar}" style="width:72px; height:72px; border-radius:50%; border:3px solid var(--primary-color); box-shadow: 0 0 15px var(--primary-glow);">
+                        <div>
+                            <h2 style="margin:0; font-size:1.4rem;">${p.global_name || p.username}${isBot}</h2>
+                            <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size:0.88rem;">@${p.username} &nbsp;·&nbsp; ID: <code>${p.id}</code></p>
+                            <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size:0.85rem;">Tạo tài khoản lúc: ${createdAt}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                profileHtml = `
+                    <div style="padding:15px; background:rgba(239,68,68,0.1); border-radius:10px; margin-bottom:24px; border:1px solid rgba(239,68,68,0.2);">
+                        ⚠️ Không thể lấy thông tin trực tiếp từ Discord API cho UID này (Người dùng này có thể không tồn tại hoặc ID không hợp lệ).
+                    </div>
+                `;
+            }
+
+            // Render mutual servers
+            let serversHtml = '';
+            if(servers && servers.length > 0) {
+                serversHtml = `
+                    <h4 style="margin:20px 0 10px 0; color:var(--text-primary);">🏠 Các server cùng tham gia (${servers.length})</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        ${servers.map(s => {
+                            const joinedAt = s.joined_at ? new Date(s.joined_at).toLocaleString('vi-VN') : 'Không rõ';
+                            const rolesHtml = s.roles && s.roles.length > 0
+                                ? s.roles.map(r => `<span class="server-tag" style="font-size:0.72rem; padding: 2px 6px;">${r}</span>`).join('')
+                                : '<span style="color:var(--text-secondary); font-size:0.75rem;">Không có vai trò</span>';
+                            return `
+                                <div class="result-card">
+                                    <div style="font-weight:700; font-size:1rem; color:#93c5fd; margin-bottom:4px;">${s.guild_name}</div>
+                                    <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;">
+                                        Tên hiển thị: <b>${s.display_name}</b> &nbsp;·&nbsp; Ngày vào: ${joinedAt}
+                                    </div>
+                                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:4px;">
+                                        <span style="font-size:0.78rem; color:var(--text-secondary); margin-right:4px;">Vai trò:</span>
+                                        ${rolesHtml}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            } else {
+                serversHtml = `
+                    <h4 style="margin:20px 0 10px 0; color:var(--text-primary);">🏠 Các server cùng tham gia</h4>
+                    <div style="color:var(--text-secondary); font-size:0.9rem; padding: 10px 0;">
+                        Không phát hiện người dùng này trong bất kỳ server nào bot đang có mặt.
+                    </div>
+                `;
+            }
+
+            // Render warnings & cases
+            let casesHtml = '';
+            if(warnings.length > 0 || cases.length > 0) {
+                const totalWarns = warnings.length;
+                casesHtml = `
+                    <h4 style="margin:24px 0 10px 0; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
+                        ⚠️ Lịch sử kỷ luật <span style="background:var(--danger-color); color:white; padding:2px 8px; border-radius:99px; font-size:0.75rem;">${totalWarns} cảnh cáo</span>
+                    </h4>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${cases.map(c => `
+                            <div style="background:rgba(0,0,0,0.2); border-left:3px solid var(--danger-color); padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.85rem;">
+                                <div><b>Case #${c.id}</b> - Hành động: <span style="color:#f87171; font-weight:700;">${c.action}</span></div>
+                                <div style="color:var(--text-secondary); margin-top:2px;">Lý do: ${c.reason || 'Không có lý do'}</div>
+                                <div style="color:var(--text-secondary); font-size:0.75rem; margin-top:2px;">Bởi Mod: ${c.mod_tag || 'Hệ thống'}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div>
+                    ${profileHtml}
+                    ${serversHtml}
+                    ${casesHtml}
+                </div>
+            `;
+        }
+
+        async function doBulkLookup() {
+            const rawQ = document.getElementById('bulk-q').value.trim();
+            if(!rawQ) {
+                showToast("Vui lòng nhập danh sách cần tra cứu!", "error");
+                return;
+            }
+
+            // Parse queries by newlines, commas, or spaces
+            const queries = rawQ.split(/[\n,]+/).map(q => q.trim()).filter(q => q.length > 0);
+            if(queries.length === 0) {
+                showToast("Danh sách rỗng hoặc không hợp lệ!", "error");
+                return;
+            }
+
+            const resultBox = document.getElementById('bulk-result');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<div style="text-align:center; color:var(--text-secondary); padding: 20px;">Đang xử lý ${queries.length} đối tượng, vui lòng đợi...</div>`;
+
+            try {
+                const res = await fetch('/api/public/bulk_lookup', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({queries: queries})
+                });
+
+                if(!res.ok) throw new Error("Lỗi xử lý hàng loạt");
+
+                const data = await res.json();
+                renderBulkResult(data.results, resultBox);
+            } catch(e) {
+                resultBox.innerHTML = `<div style="text-align:center; color:var(--danger-color); padding: 20px;">❌ Đã xảy ra lỗi trong quá trình tra cứu hàng loạt.</div>`;
+            }
+        }
+
+        function renderBulkResult(results, container) {
+            if(!results || results.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-secondary); padding:20px;">Không có kết quả.</div>`;
+                return;
+            }
+
+            // 1. Calculate commonalities
+            const commonGuilds = {};
+            const commonRoles = {};
+            const commonMods = {};
+            
+            results.forEach(r => {
+                const username = r.discord_profile ? (r.discord_profile.global_name || r.discord_profile.username) : r.query;
+                const userTag = `<b>${username}</b>`;
+                
+                // Guilds & Roles
+                if(r.joined_servers && r.joined_servers.length > 0) {
+                    r.joined_servers.forEach(s => {
+                        // Guild
+                        if(!commonGuilds[s.guild_id]) {
+                            commonGuilds[s.guild_id] = { name: s.guild_name, users: [] };
+                        }
+                        commonGuilds[s.guild_id].users.push(userTag);
+                        
+                        // Roles
+                        if(s.roles && s.roles.length > 0) {
+                            s.roles.forEach(role => {
+                                const roleKey = `${s.guild_name} - ${role}`;
+                                if(!commonRoles[roleKey]) {
+                                    commonRoles[roleKey] = { role: role, guild: s.guild_name, users: [] };
+                                }
+                                commonRoles[roleKey].users.push(userTag);
+                            });
+                        }
+                    });
+                }
+                
+                // Cases & Mods
+                if(r.cases && r.cases.length > 0) {
+                    r.cases.forEach(c => {
+                        const mod = c.mod_tag || 'Hệ thống';
+                        if(!commonMods[mod]) {
+                            commonMods[mod] = { name: mod, users: [] };
+                        }
+                        if(!commonMods[mod].users.includes(userTag)) {
+                            commonMods[mod].users.push(userTag);
+                        }
+                    });
+                }
+            });
+
+            // Filter out items with only 1 user (not common)
+            const sharedGuilds = Object.values(commonGuilds).filter(g => g.users.length > 1);
+            const sharedRoles = Object.values(commonRoles).filter(r => r.users.length > 1);
+            const sharedMods = Object.values(commonMods).filter(m => m.users.length > 1);
+
+            let commonalitiesHtml = '';
+            if(sharedGuilds.length > 0 || sharedRoles.length > 0 || sharedMods.length > 0) {
+                commonalitiesHtml = `
+                    <div style="margin-top: 25px; padding: 20px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px;">
+                        <h4 style="margin: 0 0 15px 0; color: #60a5fa; display:flex; align-items:center; gap:8px;">🤝 Điểm Chung Phát Hiện</h4>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                `;
+
+                if(sharedGuilds.length > 0) {
+                    commonalitiesHtml += `
+                        <div>
+                            <span style="font-weight:700; color:var(--text-primary); font-size:0.9rem;">🏠 Các server chung (${sharedGuilds.length}):</span>
+                            <ul style="margin:5px 0 0 0; padding-left:20px; font-size:0.85rem; color:var(--text-secondary);">
+                                ${sharedGuilds.map(g => `<li>Server <b>${g.name}</b> có chung ${g.users.length} người: ${g.users.join(', ')}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                if(sharedRoles.length > 0) {
+                    commonalitiesHtml += `
+                        <div style="margin-top:5px;">
+                            <span style="font-weight:700; color:var(--text-primary); font-size:0.9rem;">🎭 Các vai trò chung (${sharedRoles.length}):</span>
+                            <ul style="margin:5px 0 0 0; padding-left:20px; font-size:0.85rem; color:var(--text-secondary);">
+                                ${sharedRoles.map(r => `<li>Vai trò <b>${r.role}</b> (ở server <i>${r.guild}</i>) được sở hữu bởi: ${r.users.join(', ')}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                if(sharedMods.length > 0) {
+                    commonalitiesHtml += `
+                        <div style="margin-top:5px;">
+                            <span style="font-weight:700; color:var(--text-primary); font-size:0.9rem;">👮 Bị xử phạt bởi cùng Moderator:</span>
+                            <ul style="margin:5px 0 0 0; padding-left:20px; font-size:0.85rem; color:var(--text-secondary);">
+                                ${sharedMods.map(m => `<li>Moderator <b>${m.name}</b> đã từng xử lý các tài khoản: ${m.users.join(', ')}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                commonalitiesHtml += `
+                        </div>
+                    </div>
+                `;
+            } else {
+                commonalitiesHtml = `
+                    <div style="margin-top: 25px; padding: 15px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; text-align:center; color:var(--text-secondary); font-size:0.88rem;">
+                        🔍 Không phát hiện điểm chung nổi bật (server chung, vai trò chung, mod xử lý chung) giữa các tài khoản được tra cứu.
+                    </div>
+                `;
+            }
+
+            let rows = results.map((r, index) => {
+                const query = r.query;
+                const p = r.discord_profile;
+                const servers = r.joined_servers || [];
+                const warnings = r.warnings || [];
+
+                let userCell = '';
+                if(p) {
+                    userCell = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${p.avatar}" style="width:36px; height:36px; border-radius:50%;">
+                            <div>
+                                <div style="font-weight:700;">${p.global_name || p.username}</div>
+                                <div style="font-size:0.75rem; color:var(--text-secondary);">@${p.username} (ID: ${p.id})</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    userCell = `<div style="color:var(--text-secondary); font-style:italic;">Chỉ tìm kiếm: ${query} (Không lấy được thông tin API)</div>`;
+                }
+
+                let serversCell = '';
+                if(servers.length > 0) {
+                    serversCell = servers.map(s => `<span class="server-tag" style="margin:2px; font-size:0.75rem;">${s.guild_name}</span>`).join('');
+                } else {
+                    serversCell = `<span style="color:var(--text-secondary); font-size:0.8rem;">Không có server chung</span>`;
+                }
+
+                let statusCell = '';
+                if(r.found) {
+                    statusCell = `<span style="color:var(--success-color); font-weight:700;">✅ Thành công</span>`;
+                } else if(servers.length > 0) {
+                    statusCell = `<span style="color:#60a5fa; font-weight:700;">🌐 Trong server</span>`;
+                } else {
+                    statusCell = `<span style="color:var(--text-secondary);">❌ Không tìm thấy</span>`;
+                }
+
+                const warnCell = warnings.length > 0
+                    ? `<span style="color:var(--danger-color); font-weight:700;">⚠️ ${warnings.length} cảnh cáo</span>`
+                    : `<span style="color:var(--text-secondary);">0</span>`;
+
+                return `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${userCell}</td>
+                        <td>${serversCell}</td>
+                        <td>${warnCell}</td>
+                        <td>${statusCell}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h4 style="margin:0; color:var(--text-primary);">📊 Kết quả tra cứu hàng loạt (${results.length})</h4>
+                    <button class="btn" style="background:rgba(255,255,255,0.1); padding: 6px 12px; font-size:0.8rem; color:white;" onclick="window.print()">🖨️ In / Xuất PDF</button>
+                </div>
+                <div class="table-container">
+                    <table class="bulk-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">STT</th>
+                                <th>Người dùng</th>
+                                <th>Server chung</th>
+                                <th>Kỷ luật</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+                ${commonalitiesHtml}
+            `;
+        }
+    </script>
+</body>
+</html>
