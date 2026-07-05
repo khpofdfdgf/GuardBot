@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container animate-fade-in">
+        <header>
+            <div class="brand">
+                <h1>Tracking Dashboard</h1>
+            </div>
+            <div class="user-profile">
+                {% if user %}
+                <span>{{ user.username }}</span>
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar">
+                <a href="/auth/logout" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Logout</a>
+                {% else %}
+                <a href="/auth/login" class="btn btn-primary">Login</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <a href="/tracking" class="active">Stats & Logs</a>
+            <a href="/control">Control Panel</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="glass-panel">
+                <h3>Server Stats</h3>
+                <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                    <div>
+                        <div style="color: var(--text-secondary)">Members</div>
+                        <div class="stat-value" id="stat-members">--</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-secondary)">Channels</div>
+                        <div class="stat-value" id="stat-channels">--</div>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-secondary)">Guilds</div>
+                        <div class="stat-value" id="stat-guilds">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h3>SafeMode Status</h3>
+                <div style="margin-top: 1rem;">
+                    <div id="safemode-status" class="stat-value" style="color: var(--success-color);">OFF</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Hệ thống chống nuke đang hoạt động ngầm.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel" style="margin-top: 2rem;">
+            <h3>Recent Audit Logs & Moderation</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody id="logs-table">
+                    <tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Loading logs...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStats() {
+            const res = await fetch('/api/stats');
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('stat-members').innerText = data.members;
+                document.getElementById('stat-channels').innerText = data.channels;
+                document.getElementById('stat-guilds').innerText = data.guilds;
+                
+                const sm = document.getElementById('safemode-status');
+                if (data.safemode) {
+                    sm.innerText = "ON";
+                    sm.style.color = "var(--danger-color)";
+                } else {
+                    sm.innerText = "OFF";
+                    sm.style.color = "var(--success-color)";
+                }
+            }
+        }
+
+        async function fetchLogs() {
+            const res = await fetch('/api/logs');
+            if (res.ok) {
+                const data = await res.json();
+                const tbody = document.getElementById('logs-table');
+                tbody.innerHTML = '';
+                if(data.logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">No recent logs.</td></tr>';
+                    return;
+                }
+                data.logs.forEach(log => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${log.type}</span></td>
+                        <td>${log.target_name} (${log.target_id})</td>
+                        <td>${log.action}</td>
+                        <td>${log.reason}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        fetchStats();
+        fetchLogs();
+        setInterval(fetchStats, 10000); // Auto refresh every 10s
+    </script>
+</body>
+</html>

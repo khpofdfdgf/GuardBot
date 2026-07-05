@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container animate-fade-in">
+        <header>
+            <div class="brand">
+                <h1>Control Panel</h1>
+            </div>
+            <div class="user-profile">
+                {% if user %}
+                <span>{{ user.username }}</span>
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar">
+                <a href="/auth/logout" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Logout</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <a href="/tracking">Stats & Logs</a>
+            <a href="/control" class="active">Control Panel</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="glass-panel">
+                <h3>Phòng Chống Raid (SafeMode)</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Bật công tắc này để lập tức kích hoạt bảo vệ và khóa (lockdown) server nếu bị tấn công.</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="safemode-toggle" onclick="toggleSafeMode()">
+                        <span class="slider"></span>
+                    </label>
+                    <span id="safemode-text" style="font-weight: bold;">Loading...</span>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <h3>Quản Lý Backups</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Danh sách các bản sao lưu đã tạo.</p>
+                <button class="btn btn-primary" onclick="alert('Tính năng tải lên JSON đang được phát triển!')" style="margin-bottom: 1rem;">Import JSON</button>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table style="width: 100%; font-size: 0.9rem;">
+                        <tbody id="backups-list">
+                            <tr><td>Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchSafeMode() {
+            const res = await fetch('/api/stats');
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('safemode-toggle').checked = data.safemode;
+                document.getElementById('safemode-text').innerText = data.safemode ? "Bật (ON)" : "Tắt (OFF)";
+                document.getElementById('safemode-text').style.color = data.safemode ? "var(--danger-color)" : "var(--success-color)";
+            }
+        }
+
+        async function toggleSafeMode() {
+            const res = await fetch('/api/safemode/toggle', { method: 'POST' });
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('safemode-toggle').checked = data.safemode;
+                document.getElementById('safemode-text').innerText = data.safemode ? "Bật (ON)" : "Tắt (OFF)";
+                document.getElementById('safemode-text').style.color = data.safemode ? "var(--danger-color)" : "var(--success-color)";
+            } else {
+                alert("Bạn không có quyền hoặc có lỗi xảy ra!");
+                fetchSafeMode(); // reset state
+            }
+        }
+
+        async function fetchBackups() {
+            const res = await fetch('/api/backups');
+            if (res.ok) {
+                const data = await res.json();
+                const tbody = document.getElementById('backups-list');
+                tbody.innerHTML = '';
+                if(data.backups.length === 0) {
+                    tbody.innerHTML = '<tr><td style="color: var(--text-secondary);">Chưa có bản backup nào.</td></tr>';
+                    return;
+                }
+                data.backups.forEach(b => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${b}</td>
+                        <td style="text-align: right;">
+                            <button class="btn" style="background: rgba(255,255,255,0.1); padding: 5px 10px; font-size: 0.8rem; color: white;" onclick="alert('Tính năng tải xuống file đang phát triển!')">Export</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        fetchSafeMode();
+        fetchBackups();
+    </script>
+</body>
+</html>

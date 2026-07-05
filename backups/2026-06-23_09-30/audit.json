@@ -1,0 +1,702 @@
+[
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.message_delete",
+        "target": "Dyno#3861",
+        "time": "2026-06-23T01:44:53.041000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "huoo65s",
+        "time": "2026-06-23T00:54:20.409000+00:00"
+    },
+    {
+        "user": "Wick#3938",
+        "user_id": 536991182035746816,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "ticket-0013",
+        "time": "2026-06-23T00:13:04.972000+00:00"
+    },
+    {
+        "user": "Embedded#3939",
+        "user_id": 1402327963029999646,
+        "action": "AuditLogAction.webhook_create",
+        "target": "<Webhook id=1518770829285003444 type=<WebhookType.incoming: 1> name='Embedded'>",
+        "time": "2026-06-23T00:13:03.099000+00:00"
+    },
+    {
+        "user": "Ticket Tool#4843",
+        "user_id": 557628352828014614,
+        "action": "AuditLogAction.channel_create",
+        "target": "ticket-0013",
+        "time": "2026-06-23T00:13:01.984000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_delete",
+        "target": "<Object id=1518652064241029130 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-22T16:22:02.607000+00:00"
+    },
+    {
+        "user": "Wick#3938",
+        "user_id": 536991182035746816,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "<Object id=1518652064241029130 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-22T16:21:13.953000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.member_move",
+        "target": "None",
+        "time": "2026-06-22T16:21:07.556000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_create",
+        "target": "<Object id=1518652064241029130 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-22T16:21:07.306000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "merrickld77",
+        "time": "2026-06-22T15:45:12.732000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T15:08:21.267000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "Members: 579",
+        "time": "2026-06-22T14:43:11.581000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "All Members: 618",
+        "time": "2026-06-22T14:43:10.761000+00:00"
+    },
+    {
+        "user": "Akinator#1101",
+        "user_id": 831140416312180756,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:35:22.411000+00:00"
+    },
+    {
+        "user": "Akinator#1101",
+        "user_id": 831140416312180756,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:34:52.968000+00:00"
+    },
+    {
+        "user": "Akinator#1101",
+        "user_id": 831140416312180756,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:34:43.380000+00:00"
+    },
+    {
+        "user": "heavha",
+        "user_id": 1243488372521959512,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:28:48.337000+00:00"
+    },
+    {
+        "user": "ProBot \u2728#5803",
+        "user_id": 282859044593598464,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:28:44.759000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:28:10.783000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:28:10.665000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "heavha",
+        "time": "2026-06-22T14:28:10.527000+00:00"
+    },
+    {
+        "user": "nama_vnnnnnnnnnnnnnnnnnnnnnnnnnn",
+        "user_id": 1269843192883314710,
+        "action": "AuditLogAction.invite_create",
+        "target": "https://discord.gg/bUMuJSj3E",
+        "time": "2026-06-22T14:27:57.657000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "Members: 579",
+        "time": "2026-06-22T11:47:07.798000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "All Members: 618",
+        "time": "2026-06-22T11:47:06.898000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "rumbocphet",
+        "time": "2026-06-22T11:43:04.504000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "rumbocphet",
+        "time": "2026-06-22T11:32:00.225000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "rumbocphet",
+        "time": "2026-06-22T11:32:00.060000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "rumbocphet",
+        "time": "2026-06-22T11:31:59.911000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:50.403000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:50.383000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:39.193000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:39.163000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:10.312000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:10.309000+00:00"
+    },
+    {
+        "user": "femisia01_41262",
+        "user_id": 1376710118003052586,
+        "action": "AuditLogAction.member_update",
+        "target": "leleii1728",
+        "time": "2026-06-22T10:37:06.005000+00:00"
+    },
+    {
+        "user": "hanhung2011",
+        "user_id": 1252646777463635998,
+        "action": "AuditLogAction.message_delete",
+        "target": "OwO#8456",
+        "time": "2026-06-22T07:10:43.930000+00:00"
+    },
+    {
+        "user": "hanhung2011",
+        "user_id": 1252646777463635998,
+        "action": "AuditLogAction.message_delete",
+        "target": "happynewwyear",
+        "time": "2026-06-22T05:51:45.538000+00:00"
+    },
+    {
+        "user": "nguoi_b1_an",
+        "user_id": 1382713672526332056,
+        "action": "AuditLogAction.member_update",
+        "target": "nguoi_b1_an",
+        "time": "2026-06-22T04:25:58.491000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lilwolf13",
+        "time": "2026-06-22T04:06:33.014000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "Members: 579",
+        "time": "2026-06-22T03:54:09.411000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "All Members: 618",
+        "time": "2026-06-22T03:54:08.547000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:41:43.960000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:32.069000+00:00"
+    },
+    {
+        "user": "lett1ngluvmine",
+        "user_id": 980847351784701952,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:14.942000+00:00"
+    },
+    {
+        "user": "ProBot \u2728#5803",
+        "user_id": 282859044593598464,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:11.457000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:04.107000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:03.846000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-22T03:34:03.667000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "_.thein.nhann._",
+        "time": "2026-06-22T03:27:13.846000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "Members: 579",
+        "time": "2026-06-22T00:07:18.932000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "All Members: 618",
+        "time": "2026-06-22T00:07:18.096000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:39:44.787000+00:00"
+    },
+    {
+        "user": "nightmare078129",
+        "user_id": 1229784113557274636,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:37:28.755000+00:00"
+    },
+    {
+        "user": "ProBot \u2728#5803",
+        "user_id": 282859044593598464,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:37:28.430000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:37:18.122000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:37:17.982000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "nightmare078129",
+        "time": "2026-06-21T23:37:17.843000+00:00"
+    },
+    {
+        "user": "hanhung2011",
+        "user_id": 1252646777463635998,
+        "action": "AuditLogAction.message_delete",
+        "target": "Embedded#3939",
+        "time": "2026-06-21T15:23:01.048000+00:00"
+    },
+    {
+        "user": "lam_043",
+        "user_id": 1445657495610593292,
+        "action": "AuditLogAction.invite_create",
+        "target": "https://discord.gg/nyHtt8N2G",
+        "time": "2026-06-21T15:22:33.578000+00:00"
+    },
+    {
+        "user": "hai_diddy_yeu_thanh_epstei_90277",
+        "user_id": 1469929443853340865,
+        "action": "AuditLogAction.member_update",
+        "target": "hai_diddy_yeu_thanh_epstei_90277",
+        "time": "2026-06-21T15:00:12.524000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:50:13.974000+00:00"
+    },
+    {
+        "user": "lett1ngluvmine",
+        "user_id": 980847351784701952,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:44:43.924000+00:00"
+    },
+    {
+        "user": "ProBot \u2728#5803",
+        "user_id": 282859044593598464,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:44:43.623000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:44:32.400000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:44:32.233000+00:00"
+    },
+    {
+        "user": "Dyno#3861",
+        "user_id": 155149108183695360,
+        "action": "AuditLogAction.member_role_update",
+        "target": "lett1ngluvmine",
+        "time": "2026-06-21T13:44:32.107000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.message_delete",
+        "target": "SnipeBot#3414",
+        "time": "2026-06-21T12:35:42.388000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "Members: 579",
+        "time": "2026-06-21T12:21:16.808000+00:00"
+    },
+    {
+        "user": "ServerStats#0197",
+        "user_id": 458276816071950337,
+        "action": "AuditLogAction.channel_update",
+        "target": "All Members: 618",
+        "time": "2026-06-21T12:21:16.016000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.message_delete",
+        "target": "thephong_25213",
+        "time": "2026-06-21T11:44:40.098000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_update",
+        "target": "thephong_25213",
+        "time": "2026-06-21T11:39:22.275000+00:00"
+    },
+    {
+        "user": "jinsakai_1274",
+        "user_id": 1210954954483699794,
+        "action": "AuditLogAction.member_update",
+        "target": "thephong_25213",
+        "time": "2026-06-21T11:39:22.261000+00:00"
+    },
+    {
+        "user": "thephong_25213",
+        "user_id": 1330421499047448679,
+        "action": "AuditLogAction.member_role_update",
+        "target": "thephong_25213",
+        "time": "2026-06-21T11:20:48.281000+00:00"
+    },
+    {
+        "user": "thephong_25213",
+        "user_id": 1330421499047448679,
+        "action": "AuditLogAction.member_role_update",
+        "target": "thephong_25213",
+        "time": "2026-06-21T11:20:42.354000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_delete",
+        "target": "<Object id=1518208142490603591 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T10:57:16.605000+00:00"
+    },
+    {
+        "user": "Wick#3938",
+        "user_id": 536991182035746816,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "<Object id=1518208142490603591 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T10:57:10.792000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.member_move",
+        "target": "None",
+        "time": "2026-06-21T10:57:08.461000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_create",
+        "target": "<Object id=1518208142490603591 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T10:57:08.113000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_delete",
+        "target": "<Object id=1518130744784851104 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T06:57:09.770000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_delete",
+        "target": "<Object id=1518132094981636126 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:55:12.907000+00:00"
+    },
+    {
+        "user": "Wick#3938",
+        "user_id": 536991182035746816,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "<Object id=1518132094981636126 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:55:00.031000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.member_move",
+        "target": "None",
+        "time": "2026-06-21T05:54:57.226000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_create",
+        "target": "<Object id=1518132094981636126 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:54:56.974000+00:00"
+    },
+    {
+        "user": "empty214",
+        "user_id": 971364191892045844,
+        "action": "AuditLogAction.message_delete",
+        "target": "GuardBot#2014",
+        "time": "2026-06-21T05:54:36.488000+00:00"
+    },
+    {
+        "user": "empty214",
+        "user_id": 971364191892045844,
+        "action": "AuditLogAction.message_delete",
+        "target": "LunaBot \ud83c\udf19#9997",
+        "time": "2026-06-21T05:53:45.705000+00:00"
+    },
+    {
+        "user": "empty214",
+        "user_id": 971364191892045844,
+        "action": "AuditLogAction.message_delete",
+        "target": "Word Chain Bot Indently#7352",
+        "time": "2026-06-21T05:53:39.306000+00:00"
+    },
+    {
+        "user": "idoldange",
+        "user_id": 1048484561966866462,
+        "action": "AuditLogAction.unknown_192",
+        "target": "None",
+        "time": "2026-06-21T05:49:54.126000+00:00"
+    },
+    {
+        "user": "idoldange",
+        "user_id": 1048484561966866462,
+        "action": "AuditLogAction.channel_update",
+        "target": "<Object id=1518130744784851104 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:49:43.758000+00:00"
+    },
+    {
+        "user": "Wick#3938",
+        "user_id": 536991182035746816,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "<Object id=1518130744784851104 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:49:40.164000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.member_move",
+        "target": "None",
+        "time": "2026-06-21T05:49:35.394000+00:00"
+    },
+    {
+        "user": "TempVoice#5646",
+        "user_id": 762217899355013120,
+        "action": "AuditLogAction.channel_create",
+        "target": "<Object id=1518130744784851104 type=<class 'discord.object.Object'>>",
+        "time": "2026-06-21T05:49:35.062000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "benms29",
+        "time": "2026-06-21T05:07:29.405000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "benms29",
+        "time": "2026-06-21T05:07:02.750000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "datto_bel",
+        "time": "2026-06-21T05:05:17.095000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "datto_bel",
+        "time": "2026-06-21T05:05:16.293000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "datto_bel",
+        "time": "2026-06-21T05:05:13.499000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "datto_bel",
+        "time": "2026-06-21T05:05:10.116000+00:00"
+    },
+    {
+        "user": "datto_bel",
+        "user_id": 1132672438568755232,
+        "action": "AuditLogAction.member_role_update",
+        "target": "datto_bel",
+        "time": "2026-06-21T05:05:00.089000+00:00"
+    },
+    {
+        "user": "empty214",
+        "user_id": 971364191892045844,
+        "action": "AuditLogAction.overwrite_update",
+        "target": "\ud83d\udd4a\ufe0f\u00ab Partner & Advertisement  \u00bb\ud83d\udd4a\ufe0f",
+        "time": "2026-06-21T05:02:31.214000+00:00"
+    },
+    {
+        "user": "empty214",
+        "user_id": 971364191892045844,
+        "action": "AuditLogAction.overwrite_create",
+        "target": "\ud83d\udd4a\ufe0f\u00ab Partner & Advertisement  \u00bb\ud83d\udd4a\ufe0f",
+        "time": "2026-06-21T05:02:23.127000+00:00"
+    }
+]

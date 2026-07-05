@@ -1,0 +1,520 @@
+[
+    {
+        "id": 1516286359902486598,
+        "name": "Th\u00f4ng Tin",
+        "type": "category",
+        "position": 0,
+        "category_id": null
+    },
+    {
+        "id": 1516286359902486599,
+        "name": "ch\u00e0o-m\u1eebng-v\u00e0-n\u1ed9i-quy",
+        "type": "text",
+        "position": 1,
+        "category_id": 1516286359902486598
+    },
+    {
+        "id": 1516286359902486600,
+        "name": "ghi-ch\u00fa-t\u00e0i-nguy\u00ean",
+        "type": "text",
+        "position": 2,
+        "category_id": 1516286359902486598
+    },
+    {
+        "id": 1516286359902486601,
+        "name": "K\u00eanh Chat",
+        "type": "category",
+        "position": 3,
+        "category_id": null
+    },
+    {
+        "id": 1516286359902486602,
+        "name": "chung",
+        "type": "text",
+        "position": 4,
+        "category_id": 1516286359902486601
+    },
+    {
+        "id": 1516286359902486603,
+        "name": "tr\u1ee3-gi\u00fap-l\u00e0m-b\u00e0i-t\u1eadp-v\u1ec1-nh\u00e0",
+        "type": "text",
+        "position": 5,
+        "category_id": 1516286359902486601
+    },
+    {
+        "id": 1516286359902486604,
+        "name": "l\u00ean-k\u1ebf-ho\u1ea1ch-phi\u00ean",
+        "type": "text",
+        "position": 6,
+        "category_id": 1516286359902486601
+    },
+    {
+        "id": 1516286359902486605,
+        "name": "l\u1ea1c-\u0111\u1ec1",
+        "type": "text",
+        "position": 7,
+        "category_id": 1516286359902486601
+    },
+    {
+        "id": 1516286359902486606,
+        "name": "K\u00eanh Tho\u1ea1i",
+        "type": "category",
+        "position": 8,
+        "category_id": null
+    },
+    {
+        "id": 1516286359902486607,
+        "name": "Ph\u00f2ng Ch\u1edd",
+        "type": "voice",
+        "position": 9,
+        "category_id": 1516286359902486606
+    },
+    {
+        "id": 1516286360108011602,
+        "name": "Ph\u00f2ng H\u1ecdc 1",
+        "type": "voice",
+        "position": 10,
+        "category_id": 1516286359902486606
+    },
+    {
+        "id": 1516286360108011603,
+        "name": "Ph\u00f2ng H\u1ecdc 2",
+        "type": "voice",
+        "position": 11,
+        "category_id": 1516286359902486606
+    },
+    {
+        "id": 1518806333800054834,
+        "name": "\ud83d\udd4a\ufe0f\u00ab Partner & Advertisement  \u00bb\ud83d\udd4a\ufe0f",
+        "type": "category",
+        "position": 9,
+        "category_id": null
+    },
+    {
+        "id": 1518806339063775362,
+        "name": "\ud83d\udcca\u00ab SERVER STATS \u00bb\ud83d\udcca",
+        "type": "category",
+        "position": 10,
+        "category_id": null
+    },
+    {
+        "id": 1518806344004669440,
+        "name": "\u26d3\ufe0fT\u00f9\u26d3\ufe0f",
+        "type": "category",
+        "position": 11,
+        "category_id": null
+    },
+    {
+        "id": 1518806347834065018,
+        "name": "H\u00e0nh lang qu\u00ean l\u00e3ng",
+        "type": "category",
+        "position": 12,
+        "category_id": null
+    },
+    {
+        "id": 1518806354431709277,
+        "name": "\ud83d\udd0a\u00ab Voice \u00bb\ud83d\udd0a",
+        "type": "category",
+        "position": 13,
+        "category_id": null
+    },
+    {
+        "id": 1518806360912036031,
+        "name": "\ud83d\udde8\ufe0f\u00ab K\u00eanh Chat \u00bb\ud83d\udde8\ufe0f",
+        "type": "category",
+        "position": 14,
+        "category_id": null
+    },
+    {
+        "id": 1518806365831954643,
+        "name": "\ud83c\udfb2\u00ab Bot | Fun Game \u00bb\ud83c\udfb2",
+        "type": "category",
+        "position": 15,
+        "category_id": null
+    },
+    {
+        "id": 1518806371133427843,
+        "name": "\ud83d\udcda\u00ab Th\u00f4ng Tin \u00bb \ud83d\udcda",
+        "type": "category",
+        "position": 16,
+        "category_id": null
+    },
+    {
+        "id": 1518806376220983377,
+        "name": "\ud83d\udce9\u00ab H\u1ed7 tr\u1ee3 \u00bb\ud83d\udce9",
+        "type": "category",
+        "position": 17,
+        "category_id": null
+    },
+    {
+        "id": 1518806381115998369,
+        "name": "\u26e9\ufe0f\u00ab C\u1ed5ng \u00bb\u26e9\ufe0f",
+        "type": "category",
+        "position": 18,
+        "category_id": null
+    },
+    {
+        "id": 1518806386006294698,
+        "name": "\ud83c\udfae\u00ab Gaming Channel \u00bb\ud83c\udfae",
+        "type": "category",
+        "position": 19,
+        "category_id": null
+    },
+    {
+        "id": 1518806392662917181,
+        "name": "\ud83c\udfc5\u00ab role \u00bb\ud83c\udfc5",
+        "type": "category",
+        "position": 20,
+        "category_id": null
+    },
+    {
+        "id": 1518806396626407485,
+        "name": "\u2502\ud83e\udd16\u2503chat-gpt",
+        "type": "text",
+        "position": 8,
+        "category_id": 1518806365831954643
+    },
+    {
+        "id": 1518806402259488850,
+        "name": "\u2570\u26d3\ufe0f\u2503prisoner-playground",
+        "type": "text",
+        "position": 9,
+        "category_id": 1518806344004669440
+    },
+    {
+        "id": 1518806407275610122,
+        "name": "All Members: 618",
+        "type": "voice",
+        "position": 12,
+        "category_id": 1518806339063775362
+    },
+    {
+        "id": 1518806412455706624,
+        "name": "\u2570\u26a1\u2503reaction-games",
+        "type": "text",
+        "position": 10,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806416704536596,
+        "name": "\u2502\ud83e\uddf1\u2503blocky-games",
+        "type": "text",
+        "position": 11,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806422496870472,
+        "name": "\u2502\ud83d\udd2b\u2503esport-games",
+        "type": "text",
+        "position": 12,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806427785891931,
+        "name": "\u2502\ud83c\udfa8\u2503v\u1ebd-v\u1eddi",
+        "type": "text",
+        "position": 13,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806432114409585,
+        "name": "wick-logs",
+        "type": "text",
+        "position": 14,
+        "category_id": 1518806347834065018
+    },
+    {
+        "id": 1518806440800817233,
+        "name": "ki\u1ec3m-duy\u1ec7t-ai",
+        "type": "text",
+        "position": 15,
+        "category_id": 1518806347834065018
+    },
+    {
+        "id": 1518806445594902528,
+        "name": "\u2502\ud83c\udfb2\u2503gacha-games",
+        "type": "text",
+        "position": 16,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806451907461262,
+        "name": "skibidi",
+        "type": "text",
+        "position": 17,
+        "category_id": 1518806347834065018
+    },
+    {
+        "id": 1518806457867305000,
+        "name": "\u2502\ud83d\udda5\ufe0f\u2503technology",
+        "type": "text",
+        "position": 18,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806462711992421,
+        "name": "\u256d\ud83e\udd16\u2503all-bot-cmd",
+        "type": "text",
+        "position": 19,
+        "category_id": 1518806365831954643
+    },
+    {
+        "id": 1518806467539632188,
+        "name": "\ud83c\udfab\u2503appeal",
+        "type": "text",
+        "position": 20,
+        "category_id": 1518806376220983377
+    },
+    {
+        "id": 1518806471847186494,
+        "name": "ticket-0013",
+        "type": "text",
+        "position": 21,
+        "category_id": null
+    },
+    {
+        "id": 1518806477220085770,
+        "name": "Members: 579",
+        "type": "voice",
+        "position": 13,
+        "category_id": 1518806339063775362
+    },
+    {
+        "id": 1518806486086848612,
+        "name": "\u2502\ud83d\udd4a\ufe0f\u2503partner-post",
+        "type": "text",
+        "position": 22,
+        "category_id": 1518806333800054834
+    },
+    {
+        "id": 1518806492214595645,
+        "name": "\u256d\ud83c\udfae\u2503other-games",
+        "type": "text",
+        "position": 23,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806496866209874,
+        "name": "\u257d\ud83d\udcfb\u257fLofi radio chill",
+        "type": "voice",
+        "position": 14,
+        "category_id": 1518806354431709277
+    },
+    {
+        "id": 1518806503019249824,
+        "name": "\u256d\ud83d\udc4b\u2503welcome",
+        "type": "text",
+        "position": 24,
+        "category_id": 1518806381115998369
+    },
+    {
+        "id": 1518806508484427858,
+        "name": "\u2502\ud83c\udf38\u2503waifu-anime",
+        "type": "text",
+        "position": 25,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806513202888804,
+        "name": "\u2570\ud83d\udd14\u2503th\u00f4ng-b\u00e1o-sv",
+        "type": "text",
+        "position": 26,
+        "category_id": 1518806371133427843
+    },
+    {
+        "id": 1518806517690667108,
+        "name": "\u2502\ud83c\udfb0\u2503casino",
+        "type": "text",
+        "position": 27,
+        "category_id": 1518806365831954643
+    },
+    {
+        "id": 1518806523214696570,
+        "name": "\u256d\ud83e\udd1d\u2503partner",
+        "type": "text",
+        "position": 28,
+        "category_id": 1518806333800054834
+    },
+    {
+        "id": 1518806528440664194,
+        "name": "\ud83c\udfab\u2503ticket",
+        "type": "text",
+        "position": 29,
+        "category_id": 1518806376220983377
+    },
+    {
+        "id": 1518806532911792290,
+        "name": "\u257d\u2795\u257fT\u1ea1o voice",
+        "type": "voice",
+        "position": 15,
+        "category_id": 1518806354431709277
+    },
+    {
+        "id": 1518806539266162828,
+        "name": "\u2570\ud83d\udcd6\u2503partner-rule",
+        "type": "text",
+        "position": 30,
+        "category_id": 1518806333800054834
+    },
+    {
+        "id": 1518806543993274368,
+        "name": "\u2502\ud83d\udce2\u2503advertisement",
+        "type": "text",
+        "position": 31,
+        "category_id": 1518806333800054834
+    },
+    {
+        "id": 1518806548493631548,
+        "name": "\u256d\ud83c\udf96\ufe0f\u2503get-roles",
+        "type": "text",
+        "position": 32,
+        "category_id": 1518806392662917181
+    },
+    {
+        "id": 1518806553220874410,
+        "name": "\u26a0\ufe0f-pls-dont-chat",
+        "type": "text",
+        "position": 33,
+        "category_id": null
+    },
+    {
+        "id": 1518806558153113640,
+        "name": "\u2502\ud83c\udfad\u2503mudea",
+        "type": "text",
+        "position": 34,
+        "category_id": 1518806365831954643
+    },
+    {
+        "id": 1518806563152986163,
+        "name": "Bots: 39",
+        "type": "voice",
+        "position": 16,
+        "category_id": 1518806339063775362
+    },
+    {
+        "id": 1518806568949252146,
+        "name": "mod-log",
+        "type": "text",
+        "position": 35,
+        "category_id": 1518806347834065018
+    },
+    {
+        "id": 1518806573437288462,
+        "name": "\u2502\ud83d\udd14\u2503th\u00f4ng-b\u00e1o-event",
+        "type": "text",
+        "position": 36,
+        "category_id": 1518806371133427843
+    },
+    {
+        "id": 1518806578864853073,
+        "name": "\u2502\ud83c\udf0d\u2503global-chat",
+        "type": "text",
+        "position": 37,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806583931568359,
+        "name": "\u2502\ud83d\udcf8\u2503media",
+        "type": "text",
+        "position": 38,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806590944448654,
+        "name": "\u2502\u265f\ufe0f\u2503iq-games",
+        "type": "text",
+        "position": 39,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806596543582238,
+        "name": "\u2502\ud83c\udfa7\u2503\u0111\u00e0m-\u0111\u1ea1o-\u00e2m-nh\u1ea1c",
+        "type": "text",
+        "position": 40,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806603074113606,
+        "name": "\u2570\ud83d\udc4b\u2503goodbye",
+        "type": "text",
+        "position": 41,
+        "category_id": 1518806381115998369
+    },
+    {
+        "id": 1518806607302099096,
+        "name": "\u2502\ud83e\udd21\u2503memes",
+        "type": "text",
+        "position": 42,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806612167364728,
+        "name": "\u2570\ud83c\udfb5\u2503musicbox",
+        "type": "text",
+        "position": 43,
+        "category_id": 1518806365831954643
+    },
+    {
+        "id": 1518806617187942585,
+        "name": "\u2502\ud83c\udf20\u2503hoyoverse",
+        "type": "text",
+        "position": 44,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806622590337054,
+        "name": "test-chat",
+        "type": "text",
+        "position": 45,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806628105715783,
+        "name": "\u2502\ud83d\uddd1\u2503spam",
+        "type": "text",
+        "position": 46,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806634896429157,
+        "name": "\u2502\ud83c\udf19\u2503project-moon-game",
+        "type": "text",
+        "position": 47,
+        "category_id": 1518806386006294698
+    },
+    {
+        "id": 1518806640131051553,
+        "name": "\u2570\ud83c\udf96\ufe0f\u2503information-role",
+        "type": "text",
+        "position": 48,
+        "category_id": 1518806392662917181
+    },
+    {
+        "id": 1518806644950175839,
+        "name": "\u2502\u2757\u2503fact",
+        "type": "text",
+        "position": 49,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806650272747642,
+        "name": "\u256d\ud83d\udcac\u2503main-chat",
+        "type": "text",
+        "position": 50,
+        "category_id": 1518806360912036031
+    },
+    {
+        "id": 1518806655624548462,
+        "name": "\u256d\ud83d\udcd6\u2503n\u1ed9i-quy",
+        "type": "text",
+        "position": 51,
+        "category_id": 1518806371133427843
+    },
+    {
+        "id": 1518806661823729777,
+        "name": "\u256d\u26d3\ufe0f\u2503criminal-prison",
+        "type": "text",
+        "position": 52,
+        "category_id": 1518806344004669440
+    }
+]

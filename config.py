@@ -10,6 +10,11 @@ load_dotenv()
 
 # ─── Bắt buộc điền vào .env ──────────────────────────────────────────────────
 TOKEN = os.getenv("DISCORD_TOKEN", "")
+DISCORD_CLIENT_ID     = os.getenv("DISCORD_CLIENT_ID", "")
+DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET", "")
+OAUTH_REDIRECT_URI    = os.getenv("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
+WEB_PORT              = int(os.getenv("WEB_PORT", "5000"))
+JWT_SECRET            = os.getenv("JWT_SECRET", "super-secret-key-change-me")
 
 # ─── Đường dẫn data ──────────────────────────────────────────────────────────
 DATA_DIR        = os.path.join(os.path.dirname(__file__), "data")
@@ -185,6 +190,18 @@ class _ConfigManager:
     def suspicious_domains(self) -> list: return self.get("suspicious_domains", [])
     @property
     def warn_punishments(self) -> dict: return self.get("warn_punishments", {})
+
+    # ─── Web Dashboard ───────────────────────────────────────────────────────
+    @property
+    def discord_client_id(self) -> str:     return DISCORD_CLIENT_ID
+    @property
+    def discord_client_secret(self) -> str: return DISCORD_CLIENT_SECRET
+    @property
+    def oauth_redirect_uri(self) -> str:    return OAUTH_REDIRECT_URI
+    @property
+    def web_port(self) -> int:              return WEB_PORT
+    @property
+    def jwt_secret(self) -> str:            return JWT_SECRET
 
 
 # Singleton – import và dùng trực tiếp: from config import cfg

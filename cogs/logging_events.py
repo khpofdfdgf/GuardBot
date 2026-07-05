@@ -23,6 +23,14 @@ class Logging(commands.Cog):
         if ch:
             await ch.send(embed=embed)
 
+    def write_log(self, event_type: str, details: str) -> None:
+        import os
+        from datetime import datetime, timezone
+        os.makedirs("data", exist_ok=True)
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        with open("data/server.log", "a", encoding="utf-8") as f:
+            f.write(f"[{now}] [{event_type}] {details}\n")
+
     # ─── Thành viên vào/ra ───────────────────────────────────────────────────
 
     @commands.Cog.listener()
@@ -41,6 +49,7 @@ class Logging(commands.Cog):
         )
         embed.set_footer(text=f"Tổng thành viên: {member.guild.member_count}")
         await self._log(member.guild, embed)
+        self.write_log("JOIN", f"{member} ({member.id}) joined. Total members: {member.guild.member_count}")
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member) -> None:
@@ -55,6 +64,7 @@ class Logging(commands.Cog):
         if roles:
             embed.add_field(name="Roles", value=" ".join(roles[-5:]), inline=True)
         await self._log(member.guild, embed)
+        self.write_log("LEAVE", f"{member} ({member.id}) left the server.")
 
     # ─── Tin nhắn bị xóa ─────────────────────────────────────────────────────
 
@@ -77,6 +87,7 @@ class Logging(commands.Cog):
             inline=False,
         )
         await self._log(message.guild, embed)
+        self.write_log("MSG_DELETE", f"Author: {message.author} ({message.author.id}) in #{message.channel.name} - Content: {message.content[:200]}")
 
     # ─── Tin nhắn bị chỉnh sửa ───────────────────────────────────────────────
 
@@ -105,6 +116,7 @@ class Logging(commands.Cog):
             inline=False,
         )
         await self._log(before.guild, embed)
+        self.write_log("MSG_EDIT", f"Author: {before.author} ({before.author.id}) in #{before.channel.name} - Before: {before.content[:100]} | After: {after.content[:100]}")
 
     # ─── Thành viên bị timeout ───────────────────────────────────────────────
 
@@ -125,6 +137,7 @@ class Logging(commands.Cog):
                     inline=True,
                 )
                 await self._log(after.guild, embed)
+                self.write_log("TIMEOUT", f"{after} ({after.id}) was timed out until {after.timed_out_until}")
             else:
                 embed = discord.Embed(
                     title="🔊 Thành viên được bỏ timeout",
@@ -132,6 +145,7 @@ class Logging(commands.Cog):
                     color=COLOR_SUCCESS,
                 )
                 await self._log(after.guild, embed)
+                self.write_log("UNTIMEOUT", f"{after} ({after.id}) timeout was removed.")
 
 
 async def setup(bot: commands.Bot) -> None:

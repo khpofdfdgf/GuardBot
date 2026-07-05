@@ -65,12 +65,14 @@ class ModerationBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         cogs = [
-            # "cogs.automod",
+            "cogs.guardbot",
             "cogs.moderation",
             "cogs.rules",
             "cogs.appeals",
             "cogs.logging_events",
             "cogs.config_cmd",
+            "cogs.safemode",
+            "cogs.online",
         ]
 
         for cog in cogs:

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Discord Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2">
+</head>
+<body>
+    <div class="container animate-fade-in">
+        <header>
+            <div class="brand">
+                <h1>🤖 Bot Dashboard</h1>
+            </div>
+            <div class="user-profile">
+                {% if user %}
+                <span>{{ user.username }}</span>
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                <a href="/auth/logout" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Logout</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <a href="/tracking">Stats & Logs</a>
+            <a href="/control">Control Panel</a>
+        </div>
+
+        <div style="text-align: center; padding: 3rem 0;">
+            {% if user %}
+            <div class="glass-panel" style="max-width: 500px; margin: 0 auto;">
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png"
+                     onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'"
+                     style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                <h2 style="margin-bottom: 0.5rem;">Xin chào, <span style="background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ user.username }}</span>!</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Bạn đã đăng nhập thành công vào hệ thống.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/tracking" class="btn btn-primary" style="text-decoration: none;">📊 Stats & Logs</a>
+                    <a href="/control" class="btn" style="background: rgba(255,255,255,0.1); color: white; text-decoration: none;">⚙️ Control Panel</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="glass-panel" style="max-width: 400px; margin: 0 auto;">
+                <h2>Chưa đăng nhập</h2>
+                <a href="/auth/login" class="btn btn-primary" style="text-decoration: none; margin-top: 1rem; display: inline-block;">Login with Discord</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

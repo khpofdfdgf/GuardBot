@@ -232,7 +232,12 @@ class AutoMod(commands.Cog):
             # FAST FILTERS (spam/link/ad/pii)
             # =========================
 
-            if self.is_spam(member.id, content):
+            safemode_cog = self.bot.get_cog("SafeMode")
+            enable_spam_filter = True
+            if safemode_cog and safemode_cog.safemode_active:
+                enable_spam_filter = safemode_cog.spam_protection
+
+            if enable_spam_filter and self.is_spam(member.id, content):
                 print("[SPAM]")
                 return await self.punish(message, "SPAM", "Spam detected")
 

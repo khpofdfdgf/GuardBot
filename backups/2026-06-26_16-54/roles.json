@@ -1,0 +1,902 @@
+[
+    {
+        "id": 1382898536265289809,
+        "name": "@everyone",
+        "permissions": 137439281152,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 0
+    },
+    {
+        "id": 1516313441357267096,
+        "name": "GuardBot",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 1
+    },
+    {
+        "id": 1516007039195938979,
+        "name": "Discohook Utils",
+        "permissions": 1478274444304,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 2
+    },
+    {
+        "id": 1515592391661453415,
+        "name": "Arona",
+        "permissions": 110402238537280,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 3
+    },
+    {
+        "id": 1513180255743905875,
+        "name": "H! | HRV Hrv Rero Bot",
+        "permissions": 2146958847,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 4
+    },
+    {
+        "id": 1509811766115303447,
+        "name": "The All Seeing Eye",
+        "permissions": 268749830,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 5
+    },
+    {
+        "id": 1506331619127070774,
+        "name": "Embedded",
+        "permissions": 275414789184,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 6
+    },
+    {
+        "id": 1503686264652566549,
+        "name": "Word Chain Bot Indently",
+        "permissions": 268766272,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 7
+    },
+    {
+        "id": 1498232158333173780,
+        "name": "Reedroux-Bot",
+        "permissions": 4332055832,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 8
+    },
+    {
+        "id": 1494335774781472790,
+        "name": "Callisto",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 9
+    },
+    {
+        "id": 1493469091539718264,
+        "name": "Honeypot",
+        "permissions": 3094,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 10
+    },
+    {
+        "id": 1488899555259977838,
+        "name": "\u0110\u00e3 b\u1ecb thi\u1ebfn",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 11
+    },
+    {
+        "id": 1486315277766365246,
+        "name": "Project Moon BOT",
+        "permissions": 8866461766385663,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 12
+    },
+    {
+        "id": 1483132306532335689,
+        "name": "SnipeBot",
+        "permissions": 412317248576,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 13
+    },
+    {
+        "id": 1480501343205462028,
+        "name": "Cygames",
+        "permissions": 4361743433719681,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 14
+    },
+    {
+        "id": 1479141469615952084,
+        "name": "GlitchBucket",
+        "permissions": 52664888455167,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 15
+    },
+    {
+        "id": 1476140834050150425,
+        "name": "ProBot \u2728",
+        "permissions": 2080374975,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 16
+    },
+    {
+        "id": 1471012378740129871,
+        "name": "Akinator",
+        "permissions": 7318436099222616,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 17
+    },
+    {
+        "id": 1456165889698430999,
+        "name": "Assyst",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 18
+    },
+    {
+        "id": 1447247016911568987,
+        "name": "TOR Music\ud83c\udfb9\ud83c\udfb8",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 19
+    },
+    {
+        "id": 1431634916143267892,
+        "name": "Mudae",
+        "permissions": 288840,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 20
+    },
+    {
+        "id": 1430932442969276426,
+        "name": "Lofi Radio",
+        "permissions": 66407488,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 21
+    },
+    {
+        "id": 1425488961408733237,
+        "name": "InviteLogger",
+        "permissions": 268496113,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 22
+    },
+    {
+        "id": 1424069243783348326,
+        "name": "Chip",
+        "permissions": 412353940808,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 23
+    },
+    {
+        "id": 1424024836220391558,
+        "name": "LunaBot \ud83c\udf19",
+        "permissions": 37088600,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 24
+    },
+    {
+        "id": 1424023912882376776,
+        "name": "VirtualFisher",
+        "permissions": 313344,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 25
+    },
+    {
+        "id": 1419357677426835560,
+        "name": "NeonUtil",
+        "permissions": 2252074960415864,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 26
+    },
+    {
+        "id": 1418584860804780112,
+        "name": "Noctaly",
+        "permissions": 1374658358526,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 28
+    },
+    {
+        "id": 1417726182782271589,
+        "name": "OwO",
+        "permissions": 277025754184,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 29
+    },
+    {
+        "id": 1413055933591982205,
+        "name": "CountBot",
+        "permissions": 268790864,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 30
+    },
+    {
+        "id": 1410611168166412413,
+        "name": "ServerStats",
+        "permissions": 1166352,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 31
+    },
+    {
+        "id": 1406253067644567617,
+        "name": "Pok\u00e9Meow",
+        "permissions": 277025745984,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 32
+    },
+    {
+        "id": 1406252726563770450,
+        "name": "TempVoice",
+        "permissions": 395962534937,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 33
+    },
+    {
+        "id": 1406228986807189565,
+        "name": "Ticket Tool",
+        "permissions": 2952916056,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 34
+    },
+    {
+        "id": 1405544720985227326,
+        "name": "Sapphire",
+        "permissions": 1101596716286,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 35
+    },
+    {
+        "id": 1406253118198386781,
+        "name": "MeowHelper",
+        "permissions": 137976343664,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 36
+    },
+    {
+        "id": 1405531284343885907,
+        "name": "FredBoat\u266a\u266a",
+        "permissions": 274881072128,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 37
+    },
+    {
+        "id": 1405538585729306674,
+        "name": "Dyno",
+        "permissions": 1513962695871,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 38
+    },
+    {
+        "id": 1405531251842089002,
+        "name": "Jockie Music",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 39
+    },
+    {
+        "id": 1476134093363351612,
+        "name": "<===========Bot role==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 40
+    },
+    {
+        "id": 1503408329366437942,
+        "name": "The Ring Artwork",
+        "permissions": 0,
+        "color": 15158332,
+        "hoist": false,
+        "mentionable": false,
+        "position": 41
+    },
+    {
+        "id": 1514842954370387978,
+        "name": "T\u00f9 nh\u00e2n b\u1ecb c\u00e1ch ly",
+        "permissions": 0,
+        "color": 460551,
+        "hoist": false,
+        "mentionable": false,
+        "position": 42
+    },
+    {
+        "id": 1414255151920844852,
+        "name": "T\u00f9 nh\u00e2n",
+        "permissions": 1125902054326272,
+        "color": 5533306,
+        "hoist": false,
+        "mentionable": false,
+        "position": 43
+    },
+    {
+        "id": 1464447037830594622,
+        "name": "Notification role",
+        "permissions": 1720707884371521,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 44
+    },
+    {
+        "id": 1451238907781054585,
+        "name": "Foreigners \ud83c\uddfa\ud83c\uddf3",
+        "permissions": 594256074231361,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 45
+    },
+    {
+        "id": 1451238475826204763,
+        "name": "Vietnamese \ud83c\uddfb\ud83c\uddf3",
+        "permissions": 585459981209153,
+        "color": 15735815,
+        "hoist": false,
+        "mentionable": false,
+        "position": 46
+    },
+    {
+        "id": 1462109411236642991,
+        "name": "Gi\u1edbi t\u00ednh linh tinh \ud83e\udd14?",
+        "permissions": 0,
+        "color": 15277667,
+        "hoist": false,
+        "mentionable": false,
+        "position": 47
+    },
+    {
+        "id": 1476132843200581683,
+        "name": "<==========External Role==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 48
+    },
+    {
+        "id": 1510931579537588244,
+        "name": "TF2",
+        "permissions": 0,
+        "color": 15844367,
+        "hoist": false,
+        "mentionable": false,
+        "position": 49
+    },
+    {
+        "id": 1510931509601632396,
+        "name": "TFT",
+        "permissions": 1720707884371521,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 50
+    },
+    {
+        "id": 1462108150432792649,
+        "name": "Undertale-Deltarune",
+        "permissions": 0,
+        "color": 16746375,
+        "hoist": false,
+        "mentionable": false,
+        "position": 51
+    },
+    {
+        "id": 1462107671506190550,
+        "name": "Blue archive",
+        "permissions": 0,
+        "color": 4240639,
+        "hoist": false,
+        "mentionable": false,
+        "position": 52
+    },
+    {
+        "id": 1469653275170045962,
+        "name": "Touhou project",
+        "permissions": 1720707884371521,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 53
+    },
+    {
+        "id": 1462107601117647131,
+        "name": "Wuthering wave",
+        "permissions": 0,
+        "color": 23704,
+        "hoist": false,
+        "mentionable": false,
+        "position": 54
+    },
+    {
+        "id": 1462107518456037569,
+        "name": "Li\u00ean qu\u00e2n",
+        "permissions": 0,
+        "color": 4784128,
+        "hoist": false,
+        "mentionable": false,
+        "position": 55
+    },
+    {
+        "id": 1462107434872078569,
+        "name": "Valorant",
+        "permissions": 0,
+        "color": 16758568,
+        "hoist": false,
+        "mentionable": false,
+        "position": 56
+    },
+    {
+        "id": 1462107372960088094,
+        "name": "Geometry dash",
+        "permissions": 0,
+        "color": 3066993,
+        "hoist": false,
+        "mentionable": false,
+        "position": 57
+    },
+    {
+        "id": 1462107169255194748,
+        "name": "Arknight",
+        "permissions": 0,
+        "color": 39935,
+        "hoist": false,
+        "mentionable": false,
+        "position": 58
+    },
+    {
+        "id": 1462107088103936304,
+        "name": "Project moon",
+        "permissions": 0,
+        "color": 16775722,
+        "hoist": false,
+        "mentionable": false,
+        "position": 59
+    },
+    {
+        "id": 1462106979529920655,
+        "name": "Chess",
+        "permissions": 0,
+        "color": 9807270,
+        "hoist": false,
+        "mentionable": false,
+        "position": 60
+    },
+    {
+        "id": 1462107024472018996,
+        "name": "Uma musume",
+        "permissions": 0,
+        "color": 16734704,
+        "hoist": false,
+        "mentionable": false,
+        "position": 61
+    },
+    {
+        "id": 1462106942309793996,
+        "name": "Zenless zone zero",
+        "permissions": 0,
+        "color": 7405485,
+        "hoist": false,
+        "mentionable": false,
+        "position": 62
+    },
+    {
+        "id": 1462106876249505997,
+        "name": "Genshin impact",
+        "permissions": 0,
+        "color": 16776861,
+        "hoist": false,
+        "mentionable": false,
+        "position": 63
+    },
+    {
+        "id": 1462106710549332243,
+        "name": "Honkai star rail",
+        "permissions": 0,
+        "color": 4587629,
+        "hoist": false,
+        "mentionable": false,
+        "position": 64
+    },
+    {
+        "id": 1462106648754524180,
+        "name": "Roblox",
+        "permissions": 0,
+        "color": 1052688,
+        "hoist": false,
+        "mentionable": false,
+        "position": 65
+    },
+    {
+        "id": 1462106594463711353,
+        "name": "Minecraft",
+        "permissions": 0,
+        "color": 1210624,
+        "hoist": false,
+        "mentionable": false,
+        "position": 66
+    },
+    {
+        "id": 1392124251729039470,
+        "name": "D\u00e2n th\u01b0\u1eddng (Peasant)",
+        "permissions": 79680300764224,
+        "color": 15844367,
+        "hoist": true,
+        "mentionable": false,
+        "position": 67
+    },
+    {
+        "id": 1392125123808591922,
+        "name": "N\u1eef (Female)",
+        "permissions": 39719961742912,
+        "color": 16711901,
+        "hoist": false,
+        "mentionable": false,
+        "position": 68
+    },
+    {
+        "id": 1392125039549222956,
+        "name": "Nam (Male)",
+        "permissions": 39960412540480,
+        "color": 62207,
+        "hoist": false,
+        "mentionable": false,
+        "position": 69
+    },
+    {
+        "id": 1412775699793707040,
+        "name": "artist, animator and shit",
+        "permissions": 67108864,
+        "color": 1947651,
+        "hoist": false,
+        "mentionable": false,
+        "position": 70
+    },
+    {
+        "id": 1476132203045064704,
+        "name": "<==========View Role===========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 71
+    },
+    {
+        "id": 1462109576404008990,
+        "name": "Qu\u00e1 kh\u1ee9 l\u00e0 t\u00f9 nh\u00e2n",
+        "permissions": 0,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 72
+    },
+    {
+        "id": 1462109498398347464,
+        "name": "Optimus prime",
+        "permissions": 0,
+        "color": 14372235,
+        "hoist": false,
+        "mentionable": false,
+        "position": 73
+    },
+    {
+        "id": 1460242114293272669,
+        "name": "K\u1eb9o Con \ud83c\udf6d",
+        "permissions": 0,
+        "color": 15158332,
+        "hoist": false,
+        "mentionable": false,
+        "position": 74
+    },
+    {
+        "id": 1465507698547359973,
+        "name": "K\u1eb9o cha (Th\u1eafng) \ud83c\udf6c\ud83c\udf6d",
+        "permissions": 0,
+        "color": 15158332,
+        "hoist": false,
+        "mentionable": false,
+        "position": 75
+    },
+    {
+        "id": 1462109007719174329,
+        "name": "Ch\u00faa h\u1ec1",
+        "permissions": 0,
+        "color": 16726843,
+        "hoist": false,
+        "mentionable": false,
+        "position": 76
+    },
+    {
+        "id": 1476132420658003989,
+        "name": "<==========Custom Role==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 77
+    },
+    {
+        "id": 1382900204050583593,
+        "name": "Kh\u00e1ch x\u1ecbn \ud83e\udd11",
+        "permissions": 1782280535474112,
+        "color": 16355116,
+        "hoist": true,
+        "mentionable": false,
+        "position": 78
+    },
+    {
+        "id": 1413144602478641224,
+        "name": "S\u00edg ma nh\u1ea5t sivi \ud83e\udd11",
+        "permissions": 2401476404314112,
+        "color": 2505983,
+        "hoist": true,
+        "mentionable": false,
+        "position": 79
+    },
+    {
+        "id": 1382899882284548106,
+        "name": "Commenter si\u00eau ch\u1ea5t \ud83d\udd25",
+        "permissions": 1720705736887872,
+        "color": 16644640,
+        "hoist": true,
+        "mentionable": false,
+        "position": 80
+    },
+    {
+        "id": 1513219240411533312,
+        "name": "Youtuber",
+        "permissions": 1720707884371521,
+        "color": 16187392,
+        "hoist": false,
+        "mentionable": false,
+        "position": 81
+    },
+    {
+        "id": 1433039387431665674,
+        "name": "Partner \ud83d\udd4a\ufe0f",
+        "permissions": 1711911791349313,
+        "color": 15105570,
+        "hoist": true,
+        "mentionable": false,
+        "position": 82
+    },
+    {
+        "id": 1476139443177128007,
+        "name": "<==========Special Role==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 83
+    },
+    {
+        "id": 1514616713637920919,
+        "name": "\u0110a C\u1ea5p",
+        "permissions": 0,
+        "color": 1872092,
+        "hoist": false,
+        "mentionable": false,
+        "position": 84
+    },
+    {
+        "id": 1512871037430137022,
+        "name": "Ng\u1ee7 \u0111\u00f4ng",
+        "permissions": 1099511628800,
+        "color": 554686,
+        "hoist": false,
+        "mentionable": false,
+        "position": 85
+    },
+    {
+        "id": 1468251392996151510,
+        "name": "qu\u1ea3n l\u00ed c\u1ea5p th\u1ea5p",
+        "permissions": 1711911955066817,
+        "color": 15844367,
+        "hoist": false,
+        "mentionable": false,
+        "position": 86
+    },
+    {
+        "id": 1511300378514161795,
+        "name": "The Index Proxy",
+        "permissions": 1721807559716803,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 87
+    },
+    {
+        "id": 1455912819190005841,
+        "name": "Asiyah (H\u1ed7 tr\u1ee3)",
+        "permissions": 8582770183888883,
+        "color": 7653887,
+        "hoist": true,
+        "mentionable": false,
+        "position": 88
+    },
+    {
+        "id": 1493893130301210654,
+        "name": "Qu\u1ea3n gia",
+        "permissions": 8827978158825201,
+        "color": 10181046,
+        "hoist": true,
+        "mentionable": false,
+        "position": 89
+    },
+    {
+        "id": 1455911885353386164,
+        "name": "Briah (H\u00e0nh quy\u1ebft)",
+        "permissions": 1518977994536855,
+        "color": 8585216,
+        "hoist": true,
+        "mentionable": false,
+        "position": 90
+    },
+    {
+        "id": 1516017796235133008,
+        "name": "C\u1ee5c qu\u1ea3n l\u00fd gi\u00e1m s\u00e1t",
+        "permissions": 1721826619162623,
+        "color": 2123412,
+        "hoist": true,
+        "mentionable": false,
+        "position": 91
+    },
+    {
+        "id": 1405551389400236032,
+        "name": "Bot",
+        "permissions": 1721835209097215,
+        "color": 408155,
+        "hoist": false,
+        "mentionable": false,
+        "position": 92
+    },
+    {
+        "id": 1517001386989060226,
+        "name": "GuardBotRoels",
+        "permissions": 4513911576456438,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 93
+    },
+    {
+        "id": 1468253529268420688,
+        "name": "Admin",
+        "permissions": 1721826619162623,
+        "color": 11342935,
+        "hoist": true,
+        "mentionable": false,
+        "position": 94
+    },
+    {
+        "id": 1514832149667385475,
+        "name": "S\u1ebfp c\u0169",
+        "permissions": 17605070947328,
+        "color": 7194111,
+        "hoist": false,
+        "mentionable": false,
+        "position": 95
+    },
+    {
+        "id": 1476134321969565847,
+        "name": "<==========Admin, Mod Role==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 96
+    },
+    {
+        "id": 1514830995960889515,
+        "name": "Bot Protect",
+        "permissions": 1721835209097215,
+        "color": 3447003,
+        "hoist": true,
+        "mentionable": true,
+        "position": 97
+    },
+    {
+        "id": 1514832954420101261,
+        "name": "Best friend",
+        "permissions": 1721826619162615,
+        "color": 10070709,
+        "hoist": false,
+        "mentionable": false,
+        "position": 98
+    },
+    {
+        "id": 1460945114074714274,
+        "name": "\u1ed8 guri cap \ud83d\udc0e",
+        "permissions": 0,
+        "color": 3525119,
+        "hoist": true,
+        "mentionable": false,
+        "position": 99
+    },
+    {
+        "id": 1514842114729447609,
+        "name": "Wick",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 100
+    }
+]

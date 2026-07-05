@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2">
+</head>
+<body>
+    <div class="container animate-fade-in" style="max-width: 1400px;">
+        <header>
+            <div class="brand">
+                <h1>Control Panel</h1>
+            </div>
+            <div class="user-profile">
+                {% if user %}
+                <span>{{ user.username }}</span>
+                <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar">
+                <a href="/auth/logout" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Logout</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <a href="/tracking">Stats & Logs</a>
+            <a href="/control" class="active">Control Panel</a>
+        </div>
+
+        <div class="three-column">
+            <!-- Cột 1: Danh sách -->
+            <div class="glass-panel" style="display: flex; flex-direction: column;">
+                <h3>Quản Lý</h3>
+                <select id="guild-selector" onchange="loadGuildData()" style="width: 100%; padding: 8px; margin-bottom: 10px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-color); border-radius: 4px;">
+                    <option value="">Chọn Server...</option>
+                </select>
+                
+                <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                    <button class="btn btn-primary" style="flex: 1; padding: 5px;" onclick="switchTab('channels')">Channels</button>
+                    <button class="btn" style="flex: 1; padding: 5px; background: rgba(255,255,255,0.1); color: white;" onclick="switchTab('members')" id="btn-members">Members</button>
+                </div>
+
+                <div id="list-channels" class="scroll-list"></div>
+                <div id="list-members" class="scroll-list" style="display: none;"></div>
+            </div>
+
+            <!-- Cột 2: Live Chat -->
+            <div class="glass-panel chat-container">
+                <h3>Live Chat <span id="ws-status" style="font-size: 0.8rem; color: var(--danger-color);">(Đang kết nối...)</span></h3>
+                <div class="chat-messages" id="chat-box">
+                    <div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">
+                        Tin nhắn sẽ hiện ở đây theo thời gian thực...
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input-text" placeholder="Nhập tin nhắn để gửi với tư cách Bot..." onkeypress="handleChatKey(event)">
+                    <button class="btn btn-primary" onclick="sendChat()">Gửi</button>
+                </div>
+            </div>
+
+            <!-- Cột 3: Controls -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Command Panel -->
+                <div class="glass-panel" style="flex-shrink:0;">
+                    <h3>⚡ Lệnh Bot</h3>
+
+                    <!-- Target input -->
+                    <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+                        <div>
+                            <label style="font-size:0.78rem; color:var(--text-secondary);">Đối tượng (UID hoặc @tên)</label>
+                            <input type="text" id="cmd-target" placeholder="VD: 123456789 hoặc username"
+                                style="width:100%; padding:8px 10px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:6px; color:white; font-size:0.88rem; box-sizing:border-box; margin-top:3px;">
+                        </div>
+                        <div>
+                            <label style="font-size:0.78rem; color:var(--text-secondary);">Lý do / Tham số</label>
+                            <input type="text" id="cmd-reason" placeholder="Nhập lý do hoặc tham số..."
+                                style="width:100%; padding:8px 10px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:6px; color:white; font-size:0.88rem; box-sizing:border-box; margin-top:3px;">
+                        </div>
+                    </div>
+
+                    <!-- Bot commands -->
+                    <div style="margin-top:10px;">
+                        <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">🤖 Bot của bạn</div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('warn')">⚠️ Warn</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('mute')">🔇 Mute</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('unmute')">🔊 Unmute</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('kick')">👢 Kick</button>
+                            <button class="cmd-btn cmd-danger" onclick="runCmd('ban')">🔨 Ban</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('unban')">✅ Unban</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('mutejail')">🔒 Jail</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('unmutejail')">🔓 Unjail</button>
+                            <button class="cmd-btn cmd-info" onclick="runCmd('warns')">📋 Warns</button>
+                            <button class="cmd-btn cmd-info" onclick="runCmd('clearwarns')">🧹 Clearwarns</button>
+                            <button class="cmd-btn cmd-info" onclick="runCmd('case')">📁 Case</button>
+                            <button class="cmd-btn cmd-mod" onclick="runCmd('purge')">🗑️ Purge</button>
+                        </div>
+                    </div>
+
+                    <!-- Dyno commands -->
+                    <div style="margin-top:12px;">
+                        <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">🤖 Dyno</div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('warn')">⚠️ ?warn</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('mute')">🔇 ?mute</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('unmute')">🔊 ?unmute</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('kick')">👢 ?kick</button>
+                            <button class="cmd-btn cmd-dyno cmd-danger" onclick="runDyno('ban')">🔨 ?ban</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('unban')">✅ ?unban</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('mute 1d')">⏰ ?mute 1d</button>
+                            <button class="cmd-btn cmd-dyno" onclick="runDyno('cleanup')">🧹 ?cleanup</button>
+                        </div>
+                    </div>
+
+                    <!-- Result -->
+                    <div id="cmd-result" style="display:none; margin-top:10px; padding:8px 12px; border-radius:6px; font-size:0.85rem; background:rgba(0,0,0,0.3); border-left:3px solid var(--primary-color);"></div>
+                </div>
+
+                <div class="glass-panel">
+                    <h3>🔍 Tra Người Dùng</h3>
+                    <div class="chat-input" style="margin-top: 10px;">
+                        <input type="text" id="lookup-input" placeholder="UID hoặc tên người dùng..." onkeypress="if(event.key==='Enter') lookupUser()">
+                        <button class="btn btn-primary" onclick="lookupUser()">Tra</button>
+                    </div>
+                    <div id="lookup-result" style="margin-top: 12px; display: none;"></div>
+                </div>
+
+                <div class="glass-panel">
+                    <h3>Phòng Chống Raid</h3>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="safemode-toggle" onclick="toggleSafeMode()">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="safemode-text" style="font-weight: bold;">Loading...</span>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px; justify-content: space-between;">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);">Chặn Spam khi bật:</span>
+                        <select id="safemode-spam" onchange="changeSafeModeSpam()" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 6px; color: white; padding: 4px 10px; font-size: 0.85rem; font-family: inherit; cursor: pointer; outline: none;">
+                            <option value="on">Bật (ON)</option>
+                            <option value="off">Tắt (OFF)</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="glass-panel" style="flex: 1; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>Backups</h3>
+                        <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.8rem;" onclick="uploadBackup()">Upload Backup</button>
+                    </div>
+                    <div style="flex: 1; overflow-y: auto; margin-top: 10px;">
+                        <table style="width: 100%; font-size: 0.9rem;">
+                            <tbody id="backups-list"><tr><td>Loading...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if(!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        let currentGuildId = null;
+        let activeChannelId = null;
+
+        async function lookupUser() {
+            const q = document.getElementById('lookup-input').value.trim();
+            if (!q) { showToast("Nhập UID hoặc tên người dùng!", "error"); return; }
+
+            const resultBox = document.getElementById('lookup-result');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<div style="color:var(--text-secondary); text-align:center; padding:10px;">Đang tra cứu...</div>`;
+
+            const res = await fetch(`/api/user/lookup?q=${encodeURIComponent(q)}`);
+
+            if (res.status === 404) {
+                resultBox.innerHTML = `<div style="color:var(--danger-color); text-align:center; padding:10px;">❌ Không tìm thấy người dùng này.</div>`;
+                return;
+            }
+            if (!res.ok) {
+                resultBox.innerHTML = `<div style="color:var(--danger-color);">Lỗi khi tra cứu.</div>`;
+                return;
+            }
+
+            const data = await res.json();
+            const p = data.discord_profile;
+            const s = data.server_info;
+
+            const inServerBadge = data.found_in_server
+                ? `<span style="background:#22c55e;color:#fff;padding:2px 8px;border-radius:99px;font-size:0.75rem;">✅ Trong server</span>`
+                : `<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:99px;font-size:0.75rem;">❌ Không trong server</span>`;
+
+            const warnBadge = data.warnings.length > 0
+                ? `<span style="background:#f59e0b;color:#fff;padding:2px 8px;border-radius:99px;font-size:0.75rem;">⚠️ ${data.warnings.length} cảnh cáo</span>`
+                : `<span style="background:rgba(255,255,255,0.1);padding:2px 8px;border-radius:99px;font-size:0.75rem;">0 cảnh cáo</span>`;
+
+            const casesHtml = data.cases.length > 0
+                ? data.cases.map(c => `<div style="font-size:0.8rem;padding:4px 8px;border-left:3px solid var(--danger-color);margin-top:6px;background:rgba(0,0,0,0.2);border-radius:0 4px 4px 0;">[Case #${c.id}] <b>${c.action}</b> – ${c.reason || 'Không có lý do'}</div>`).join('')
+                : `<div style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;">Không có case nào.</div>`;
+
+            const rolesHtml = s ? s.roles.slice(0, 5).map(r => `<span style="background:rgba(88,101,242,0.3);padding:2px 6px;border-radius:4px;font-size:0.75rem;">${r}</span>`).join(' ') : '';
+            const joinedAt = s && s.joined_at ? new Date(s.joined_at).toLocaleDateString('vi-VN') : '—';
+            const createdAt = p && p.created_at ? new Date(p.created_at).toLocaleDateString('vi-VN') : '—';
+
+            resultBox.innerHTML = `
+                <div style="display:flex;gap:12px;align-items:flex-start;">
+                    <img src="${p ? p.avatar : 'https://cdn.discordapp.com/embed/avatars/0.png'}"
+                         style="width:56px;height:56px;border-radius:50%;border:2px solid var(--primary-color);">
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-weight:700;font-size:1rem;">${p ? (p.global_name || p.username) : (s ? s.display_name : 'Unknown')}</div>
+                        <div style="font-size:0.8rem;color:var(--text-secondary);">@${p ? p.username : '—'} &nbsp;·&nbsp; ID: ${p ? p.id : '—'}</div>
+                        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">${inServerBadge} ${warnBadge}</div>
+                    </div>
+                </div>
+                <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:0.82rem;">
+                    <div><span style="color:var(--text-secondary);">Tạo tài khoản:</span><br>${createdAt}</div>
+                    <div><span style="color:var(--text-secondary);">Vào server:</span><br>${joinedAt}</div>
+                    ${s ? `<div style="grid-column:1/-1;"><span style="color:var(--text-secondary);">Server:</span> ${s.guild_name}</div>` : ''}
+                    ${rolesHtml ? `<div style="grid-column:1/-1;"><span style="color:var(--text-secondary);">Roles:</span><br><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">${rolesHtml}</div></div>` : ''}
+                </div>
+                <div style="margin-top:10px;">
+                    <div style="color:var(--text-secondary);font-size:0.8rem;margin-bottom:4px;">Lịch sử xử lý:</div>
+                    ${casesHtml}
+                </div>
+            `;
+        }
+
+        async function sendBotCommand(command, botPrefix) {
+            if (!activeChannelId) {
+                showToast("Vui lòng chọn một kênh chat trước!", "error");
+                return;
+            }
+            const target = document.getElementById('cmd-target').value.trim();
+            const reason = document.getElementById('cmd-reason').value.trim();
+
+            if (!target) {
+                showToast("Nhập UID hoặc tên đối tượng vi phạm!", "error");
+                return;
+            }
+
+            const resultBox = document.getElementById('cmd-result');
+            resultBox.style.display = 'block';
+            resultBox.innerText = "Đang gửi lệnh...";
+            resultBox.style.borderColor = "var(--primary-color)";
+
+            try {
+                const res = await fetch('/api/run_command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        channel_id: activeChannelId,
+                        command: command,
+                        target: target,
+                        reason: reason,
+                        bot_prefix: botPrefix
+                    })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    resultBox.innerText = `Đã gửi: ${data.sent}`;
+                    resultBox.style.borderColor = "var(--success-color)";
+                    showToast("Đã kích hoạt lệnh!", "success");
+                } else {
+                    const err = await res.json();
+                    resultBox.innerText = `Lỗi: ${err.detail || 'Không thành công'}`;
+                    resultBox.style.borderColor = "var(--danger-color)";
+                    showToast("Gửi lệnh thất bại!", "error");
+                }
+            } catch (err) {
+                resultBox.innerText = `Lỗi kết nối: ${err}`;
+                resultBox.style.borderColor = "var(--danger-color)";
+            }
+        }
+
+        function runCmd(cmd) {
+            sendBotCommand(cmd, "!");
+        }
+
+        function runDyno(cmd) {
+            sendBotCommand(cmd, "?");
+        }
+        
+        // Setup WebSocket
+        const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const ws = new WebSocket(`${wsProtocol}//${window.location.host}/ws/chat`);
+        
+        ws.onopen = () => {
+            document.getElementById('ws-status').innerText = "(Đã kết nối Live)";
+            document.getElementById('ws-status').style.color = "var(--success-color)";
+        };
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.event === "message") {
+                if (data.channel_id === activeChannelId) {
+                    appendMessage(data);
+                }
+            }
+        };
+
+        function appendMessage(msg) {
+            const box = document.getElementById('chat-box');
+            if (box.children.length === 1 && box.children[0].innerText.includes("thời gian thực")) {
+                box.innerHTML = '';
+            }
+            const div = document.createElement('div');
+            div.className = 'message animate-fade-in';
+            const avatar = msg.author_avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
+            div.innerHTML = `
+                <img src="${avatar}">
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="message-author">${msg.author}</span>
+                        <span class="message-time">[${msg.channel_name}]</span>
+                    </div>
+                    <div style="font-size: 0.95rem; word-break: break-word;">${msg.content}</div>
+                </div>
+            `;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            if (box.children.length > 50) {
+                box.removeChild(box.firstChild);
+            }
+        }
+
+        async function initData() {
+            fetchSafeMode();
+            fetchBackups();
+            loadBotGuilds();
+        }
+
+        async function loadBotGuilds() {
+            const res = await fetch('/api/my_guilds');
+            if (res.ok) {
+                const data = await res.json();
+                const sel = document.getElementById('guild-selector');
+                data.guilds.forEach(g => {
+                    sel.innerHTML += `<option value="${g.id}">${g.name}</option>`;
+                });
+                if(data.guilds.length > 0) {
+                    sel.value = data.guilds[0].id;
+                    loadGuildData();
+                }
+            }
+        }
+
+        function switchTab(tab) {
+            if(tab === 'channels') {
+                document.getElementById('list-channels').style.display = 'block';
+                document.getElementById('list-members').style.display = 'none';
+            } else {
+                document.getElementById('list-channels').style.display = 'none';
+                document.getElementById('list-members').style.display = 'block';
+            }
+        }
+
+        async function loadGuildData() {
+            const gid = document.getElementById('guild-selector').value;
+            if(!gid) return;
+            currentGuildId = gid;
+            
+            // Fetch Channels
+            const cRes = await fetch(`/api/guilds/${gid}/channels`);
+            if(cRes.ok) {
+                const data = await cRes.json();
+                const clist = document.getElementById('list-channels');
+                clist.innerHTML = '';
+                data.channels.forEach(c => {
+                    clist.innerHTML += `<div class="list-item" onclick="selectChannel('${c.id}', '${c.name}')"># ${c.name}</div>`;
+                });
+            }
+            
+            // Fetch Members
+            const mRes = await fetch(`/api/guilds/${gid}/members`);
+            if(mRes.ok) {
+                const data = await mRes.json();
+                const mlist = document.getElementById('list-members');
+                mlist.innerHTML = '';
+                data.members.forEach(m => {
+                    mlist.innerHTML += `
+                        <div class="list-item" style="display:flex; justify-content:space-between; width:100%;">
+                            <span>${m.name} ${m.bot ? '<span style="font-size:0.7rem; background:#5865F2; padding:2px 4px; border-radius:3px;">BOT</span>' : ''}</span>
+                            <div>
+                                <button class="action-btn" onclick="memberAction('${gid}', '${m.id}', 'kick')">Kick</button>
+                                <button class="action-btn" onclick="memberAction('${gid}', '${m.id}', 'ban')">Ban</button>
+                            </div>
+                        </div>`;
+                });
+            }
+        }
+
+        async function selectChannel(id, name) {
+            activeChannelId = id;
+            showToast(`Đã chọn kênh #${name}`, 'info');
+            const box = document.getElementById('chat-box');
+            box.innerHTML = `<div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">Đang tải lịch sử kênh #${name}...</div>`;
+            
+            const res = await fetch(`/api/channels/${id}/messages`);
+            if (res.ok) {
+                const data = await res.json();
+                box.innerHTML = '';
+                if(data.messages.length === 0) {
+                    box.innerHTML = `<div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">Chưa có tin nhắn nào.</div>`;
+                } else {
+                    data.messages.forEach(msg => appendMessage(msg));
+                }
+            } else {
+                showToast("Lỗi khi tải lịch sử chat!", "error");
+            }
+        }
+
+        async function memberAction(gid, uid, action) {
+            if(!confirm(`Bạn có chắc muốn ${action} người này?`)) return;
+            const res = await fetch(`/api/members/${gid}/${uid}/${action}`, {method: 'POST'});
+            if(res.ok) showToast(`Đã ${action} thành công!`, 'success');
+            else showToast(`Lỗi khi ${action}!`, 'error');
+        }
+
+        async function sendChat() {
+            const text = document.getElementById('chat-input-text').value;
+            if(!text || !activeChannelId) {
+                showToast("Vui lòng chọn 1 kênh ở cột trái và nhập tin nhắn!", "error");
+                return;
+            }
+            const res = await fetch('/api/chat/send', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({channel_id: activeChannelId, content: text})
+            });
+            if(res.ok) {
+                document.getElementById('chat-input-text').value = '';
+            } else {
+                showToast("Lỗi gửi tin!", "error");
+            }
+        }
+        
+        function handleChatKey(e) {
+            if(e.key === 'Enter') sendChat();
+        }
+
+        async function fetchSafeMode() {
+            const res = await fetch('/api/stats');
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('safemode-toggle').checked = data.safemode;
+                document.getElementById('safemode-text').innerText = data.safemode ? "Bật (ON)" : "Tắt (OFF)";
+                document.getElementById('safemode-text').style.color = data.safemode ? "var(--danger-color)" : "var(--success-color)";
+                document.getElementById('safemode-spam').value = data.safemode_spam ? "on" : "off";
+            }
+        }
+
+        async function toggleSafeMode() {
+            const spamVal = document.getElementById('safemode-spam').value;
+            const res = await fetch(`/api/safemode/toggle?spam=${spamVal}`, { method: 'POST' });
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById('safemode-toggle').checked = data.safemode;
+                document.getElementById('safemode-text').innerText = data.safemode ? "Bật (ON)" : "Tắt (OFF)";
+                document.getElementById('safemode-text').style.color = data.safemode ? "var(--danger-color)" : "var(--success-color)";
+                showToast(`Đã ${data.safemode ? 'bật' : 'tắt'} SafeMode (Spam: ${data.safemode_spam ? 'ON' : 'OFF'})`, 'success');
+            } else {
+                showToast("Bạn không có quyền hoặc có lỗi xảy ra!", "error");
+                fetchSafeMode();
+            }
+        }
+
+        async function changeSafeModeSpam() {
+            const isChecked = document.getElementById('safemode-toggle').checked;
+            if (isChecked) {
+                const spamVal = document.getElementById('safemode-spam').value;
+                const res = await fetch(`/api/safemode/toggle?active=on&spam=${spamVal}`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    showToast(`Đã cập nhật chặn Spam: ${data.safemode_spam ? 'ON' : 'OFF'}`, 'success');
+                }
+            }
+        }
+
+
+        async function fetchBackups() {
+            const res = await fetch('/api/backups');
+            if (res.ok) {
+                const data = await res.json();
+                const tbody = document.getElementById('backups-list');
+                tbody.innerHTML = '';
+                
+                // Thêm data/cases.json và data/warnings.json như là backup mặc định
+                const defaultFiles = ['cases.json', 'warnings.json'];
+                const allFiles = [...new Set([...data.backups, ...defaultFiles])];
+                
+                allFiles.forEach(b => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${b}</td>
+                        <td style="text-align: right;">
+                            <a href="/api/backups/export/${b}" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); padding: 5px 10px; font-size: 0.8rem; color: white; text-decoration: none;">Download</a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        async function uploadBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const res = await fetch('/api/backups/import', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (res.ok) {
+                    showToast(`Đã tải lên ${file.name} thành công!`, 'success');
+                    fetchBackups();
+                } else {
+                    showToast(`Lỗi khi tải lên ${file.name}`, 'error');
+                }
+            };
+            input.click();
+        }
+
+        initData();
+    </script>
+</body>
+</html>
