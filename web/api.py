@@ -568,9 +568,10 @@ async def perform_user_lookup(bot, q: str):
         "cases": []
     }
 
-    # Find mutual guilds
+    # Find mutual guilds + presence info
     mutual_guilds = []
     found_member_global = None
+    presence_info = None
 
     for guild in bot.guilds:
         member = None
@@ -585,15 +586,45 @@ async def perform_user_lookup(bot, q: str):
             found_member_global = member
             if not target_id:
                 target_id = member.id
+
+            # --- Presence / Activity ---
+            if presence_info is None and member.status != discord.Status.offline:
+                activities = []
+                for act in member.activities:
+                    if isinstance(act, discord.Spotify):
+                        activities.append({
+                            "type": "Spotify",
+                            "title": act.title,
+                            "artist": act.artist,
+                            "album": act.album,
+                        })
+                    elif isinstance(act, discord.Game):
+                        activities.append({"type": "Game", "name": act.name})
+                    elif isinstance(act, discord.Streaming):
+                        activities.append({"type": "Streaming", "name": act.name, "url": act.url})
+                    elif isinstance(act, discord.CustomActivity):
+                        activities.append({"type": "Custom", "state": str(act.name or act.state or "")})
+                    elif act:
+                        activities.append({"type": "Activity", "name": str(act.name or "")})
+
+                presence_info = {
+                    "status": str(member.status),
+                    "mobile": member.is_on_mobile(),
+                    "activities": activities
+                }
+
             mutual_guilds.append({
                 "guild_id": str(guild.id),
                 "guild_name": guild.name,
                 "display_name": member.display_name,
                 "joined_at": member.joined_at.isoformat() if member.joined_at else None,
-                "roles": [r.name for r in member.roles if r.name != "@everyone"]
+                "roles": [r.name for r in member.roles if r.name != "@everyone"],
+                "is_admin": member.guild_permissions.administrator if member.guild_permissions else False,
             })
 
     result["joined_servers"] = mutual_guilds
+    result["presence"] = presence_info
+
 
     # Fetch public Discord profile if UID is resolved
     if target_id:

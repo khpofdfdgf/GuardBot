@@ -216,20 +216,50 @@
             const servers = data.joined_servers;
             const warnings = data.warnings || [];
             const cases = data.cases || [];
+            const presence = data.presence;
 
             const isBot = p && p.bot ? `<span style="background:var(--primary-color);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;margin-left:5px;vertical-align:middle;">BOT</span>` : '';
+
+            // --- Status badge ---
+            const statusColors = { online: '#22c55e', idle: '#f59e0b', dnd: '#ef4444', offline: '#6b7280' };
+            const statusLabels = { online: '🟢 Đang online', idle: '🟡 Vắng mặt', dnd: '🔴 Không làm phiền', offline: '⚫ Ngoại tuyến' };
+            let presenceHtml = '';
+            if(presence) {
+                const color = statusColors[presence.status] || '#6b7280';
+                const label = statusLabels[presence.status] || presence.status;
+                const mobileTag = presence.mobile ? `<span style="font-size:0.72rem; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; margin-left:6px;">📱 Mobile</span>` : '';
+
+                let actHtml = '';
+                if(presence.activities && presence.activities.length > 0) {
+                    actHtml = presence.activities.map(a => {
+                        if(a.type === 'Spotify') return `<div style="margin-top:6px; font-size:0.82rem; color:#1DB954;">🎵 Nghe Spotify: <b>${a.title}</b> - ${a.artist}</div>`;
+                        if(a.type === 'Game') return `<div style="margin-top:6px; font-size:0.82rem; color:#a78bfa;">🎮 Đang chơi: <b>${a.name}</b></div>`;
+                        if(a.type === 'Streaming') return `<div style="margin-top:6px; font-size:0.82rem; color:#7c3aed;">📡 Đang stream: <b>${a.name}</b></div>`;
+                        if(a.type === 'Custom') return `<div style="margin-top:6px; font-size:0.82rem; color:var(--text-secondary);">💬 ${a.state}</div>`;
+                        return `<div style="margin-top:4px; font-size:0.82rem; color:var(--text-secondary);">${a.name}</div>`;
+                    }).join('');
+                }
+
+                presenceHtml = `
+                    <div style="margin-top:10px; padding:10px 14px; background:rgba(0,0,0,0.2); border-radius:8px; border-left:3px solid ${color};">
+                        <span style="color:${color}; font-weight:700; font-size:0.88rem;">${label}${mobileTag}</span>
+                        ${actHtml}
+                    </div>
+                `;
+            }
 
             // Render profile section
             let profileHtml = '';
             if(p) {
                 const createdAt = new Date(p.created_at).toLocaleString('vi-VN');
                 profileHtml = `
-                    <div style="display:flex; gap:20px; align-items:center; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border-color);">
-                        <img src="${p.avatar}" style="width:72px; height:72px; border-radius:50%; border:3px solid var(--primary-color); box-shadow: 0 0 15px var(--primary-glow);">
-                        <div>
+                    <div style="display:flex; gap:20px; align-items:flex-start; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border-color);">
+                        <img src="${p.avatar}" style="width:80px; height:80px; border-radius:50%; border:3px solid var(--primary-color); box-shadow: 0 0 15px var(--primary-glow); flex-shrink:0;">
+                        <div style="flex:1;">
                             <h2 style="margin:0; font-size:1.4rem;">${p.global_name || p.username}${isBot}</h2>
                             <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size:0.88rem;">@${p.username} &nbsp;·&nbsp; ID: <code>${p.id}</code></p>
-                            <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size:0.85rem;">Tạo tài khoản lúc: ${createdAt}</p>
+                            <p style="color:var(--text-secondary); margin:4px 0 0 0; font-size:0.85rem;">📅 Tạo tài khoản: ${createdAt}</p>
+                            ${presenceHtml}
                         </div>
                     </div>
                 `;
@@ -238,6 +268,7 @@
                     <div style="padding:15px; background:rgba(239,68,68,0.1); border-radius:10px; margin-bottom:24px; border:1px solid rgba(239,68,68,0.2);">
                         ⚠️ Không thể lấy thông tin trực tiếp từ Discord API cho UID này (Người dùng này có thể không tồn tại hoặc ID không hợp lệ).
                     </div>
+                    ${presenceHtml}
                 `;
             }
 
@@ -252,9 +283,10 @@
                             const rolesHtml = s.roles && s.roles.length > 0
                                 ? s.roles.map(r => `<span class="server-tag" style="font-size:0.72rem; padding: 2px 6px;">${r}</span>`).join('')
                                 : '<span style="color:var(--text-secondary); font-size:0.75rem;">Không có vai trò</span>';
+                            const adminBadge = s.is_admin ? `<span style="background:#ef4444;color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;margin-left:6px;">⚙️ Admin</span>` : '';
                             return `
                                 <div class="result-card">
-                                    <div style="font-weight:700; font-size:1rem; color:#93c5fd; margin-bottom:4px;">${s.guild_name}</div>
+                                    <div style="font-weight:700; font-size:1rem; color:#93c5fd; margin-bottom:4px;">${s.guild_name}${adminBadge}</div>
                                     <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;">
                                         Tên hiển thị: <b>${s.display_name}</b> &nbsp;·&nbsp; Ngày vào: ${joinedAt}
                                     </div>

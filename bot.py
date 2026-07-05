@@ -47,6 +47,7 @@ intents.message_content = True
 intents.members          = True
 intents.guilds           = True
 intents.moderation       = True
+intents.presences        = True  # Cho phép đọc trạng thái online, game, Spotify
 
 # ─── Bot setup ───────────────────────────────────────────────────────────────
 
