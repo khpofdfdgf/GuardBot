@@ -2,101 +2,65 @@
     {
         "id": 1382898536265289809,
         "name": "@everyone",
-        "permissions": 137439281152,
+        "permissions": 137439019008,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 0
     },
     {
-        "id": 1516313441357267096,
-        "name": "GuardBot",
-        "permissions": 0,
+        "id": 1524717189817569302,
+        "name": "carl-bot",
+        "permissions": 10191898143991,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 1
     },
     {
-        "id": 1516007039195938979,
-        "name": "Discohook Utils",
-        "permissions": 1478274444304,
+        "id": 1524613246156275913,
+        "name": "Arcane",
+        "permissions": 395137116224,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 2
     },
     {
-        "id": 1515592391661453415,
-        "name": "Arona",
-        "permissions": 110402238537280,
+        "id": 1524594020494475356,
+        "name": "Zira",
+        "permissions": 268790848,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 3
     },
     {
-        "id": 1513180255743905875,
-        "name": "H! | HRV Hrv Rero Bot",
-        "permissions": 2146958847,
+        "id": 1523876904036339753,
+        "name": "unverified",
+        "permissions": 0,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 4
     },
     {
-        "id": 1509811766115303447,
-        "name": "The All Seeing Eye",
-        "permissions": 268749830,
-        "color": 0,
+        "id": 1521471318586036255,
+        "name": "samsaram \ud83e\udd2e",
+        "permissions": 0,
+        "color": 9807270,
         "hoist": false,
         "mentionable": false,
         "position": 5
     },
     {
-        "id": 1506331619127070774,
-        "name": "Embedded",
-        "permissions": 275414789184,
+        "id": 1521170032695185469,
+        "name": "Verified",
+        "permissions": 0,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 6
-    },
-    {
-        "id": 1503686264652566549,
-        "name": "Word Chain Bot Indently",
-        "permissions": 268766272,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 7
-    },
-    {
-        "id": 1498232158333173780,
-        "name": "Reedroux-Bot",
-        "permissions": 4332055832,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 8
-    },
-    {
-        "id": 1494335774781472790,
-        "name": "Callisto",
-        "permissions": 8,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 9
-    },
-    {
-        "id": 1493469091539718264,
-        "name": "Honeypot",
-        "permissions": 3094,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 10
     },
     {
         "id": 1488899555259977838,
@@ -105,7 +69,52 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
+        "position": 7
+    },
+    {
+        "id": 1516007039195938979,
+        "name": "Discohook Utils",
+        "permissions": 1478274444304,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 8
+    },
+    {
+        "id": 1509811766115303447,
+        "name": "The All Seeing Eye",
+        "permissions": 268749830,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 9
+    },
+    {
+        "id": 1506331619127070774,
+        "name": "Embedded",
+        "permissions": 275414789184,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 10
+    },
+    {
+        "id": 1498232158333173780,
+        "name": "Reedroux-Bot",
+        "permissions": 4332055832,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
         "position": 11
+    },
+    {
+        "id": 1494335774781472790,
+        "name": "Callisto",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 12
     },
     {
         "id": 1486315277766365246,
@@ -114,7 +123,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 12
+        "position": 13
     },
     {
         "id": 1483132306532335689,
@@ -123,7 +132,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 13
+        "position": 14
     },
     {
         "id": 1480501343205462028,
@@ -132,34 +141,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 14
-    },
-    {
-        "id": 1479141469615952084,
-        "name": "GlitchBucket",
-        "permissions": 52664888455167,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
         "position": 15
-    },
-    {
-        "id": 1476140834050150425,
-        "name": "ProBot \u2728",
-        "permissions": 2080374975,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 16
-    },
-    {
-        "id": 1471012378740129871,
-        "name": "Akinator",
-        "permissions": 7318436099222616,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 17
     },
     {
         "id": 1456165889698430999,
@@ -168,34 +150,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 18
-    },
-    {
-        "id": 1447247016911568987,
-        "name": "TOR Music\ud83c\udfb9\ud83c\udfb8",
-        "permissions": 8,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 19
-    },
-    {
-        "id": 1431634916143267892,
-        "name": "Mudae",
-        "permissions": 288840,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 20
-    },
-    {
-        "id": 1430932442969276426,
-        "name": "Lofi Radio",
-        "permissions": 66407488,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 21
+        "position": 16
     },
     {
         "id": 1425488961408733237,
@@ -204,7 +159,34 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 22
+        "position": 17
+    },
+    {
+        "id": 1479141469615952084,
+        "name": "GlitchBucket",
+        "permissions": 52664888455167,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 18
+    },
+    {
+        "id": 1515592391661453415,
+        "name": "Arona",
+        "permissions": 110402238537280,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 19
+    },
+    {
+        "id": 1447247016911568987,
+        "name": "TOR Music\ud83c\udfb9\ud83c\udfb8",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 20
     },
     {
         "id": 1424069243783348326,
@@ -213,25 +195,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 23
-    },
-    {
-        "id": 1424024836220391558,
-        "name": "LunaBot \ud83c\udf19",
-        "permissions": 37088600,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 24
-    },
-    {
-        "id": 1424023912882376776,
-        "name": "VirtualFisher",
-        "permissions": 313344,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 25
+        "position": 21
     },
     {
         "id": 1419357677426835560,
@@ -240,16 +204,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 26
-    },
-    {
-        "id": 1418604441182929076,
-        "name": "Neko",
-        "permissions": 0,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 27
+        "position": 22
     },
     {
         "id": 1418584860804780112,
@@ -258,12 +213,57 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
+        "position": 23
+    },
+    {
+        "id": 1406253118198386781,
+        "name": "MeowHelper",
+        "permissions": 137976343664,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 24
+    },
+    {
+        "id": 1430932442969276426,
+        "name": "Lofi Radio",
+        "permissions": 66407488,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 25
+    },
+    {
+        "id": 1424024836220391558,
+        "name": "LunaBot \ud83c\udf19",
+        "permissions": 37088600,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 26
+    },
+    {
+        "id": 1405531251842089002,
+        "name": "Jockie Music",
+        "permissions": 8,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 27
+    },
+    {
+        "id": 1406252726563770450,
+        "name": "TempVoice",
+        "permissions": 395962534937,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
         "position": 28
     },
     {
-        "id": 1417726182782271589,
-        "name": "OwO",
-        "permissions": 277025754184,
+        "id": 1503686264652566549,
+        "name": "Word Chain Bot Indently",
+        "permissions": 268766272,
         "color": 0,
         "hoist": false,
         "mentionable": false,
@@ -279,13 +279,22 @@
         "position": 30
     },
     {
-        "id": 1410611168166412413,
-        "name": "ServerStats",
-        "permissions": 1166352,
+        "id": 1424023912882376776,
+        "name": "VirtualFisher",
+        "permissions": 313344,
         "color": 0,
         "hoist": false,
         "mentionable": false,
         "position": 31
+    },
+    {
+        "id": 1471012378740129871,
+        "name": "Akinator",
+        "permissions": 7318436099222616,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 32
     },
     {
         "id": 1406253067644567617,
@@ -294,16 +303,61 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 32
+        "position": 33
     },
     {
-        "id": 1406252726563770450,
-        "name": "TempVoice",
-        "permissions": 395962534937,
+        "id": 1431634916143267892,
+        "name": "Mudae",
+        "permissions": 288840,
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 33
+        "position": 34
+    },
+    {
+        "id": 1417726182782271589,
+        "name": "OwO",
+        "permissions": 277025754184,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 35
+    },
+    {
+        "id": 1513180255743905875,
+        "name": "H! | HRV Hrv Rero Bot",
+        "permissions": 2146958847,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 36
+    },
+    {
+        "id": 1493469091539718264,
+        "name": "Honeypot",
+        "permissions": 3094,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 37
+    },
+    {
+        "id": 1410611168166412413,
+        "name": "ServerStats",
+        "permissions": 1166352,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 38
+    },
+    {
+        "id": 1476140834050150425,
+        "name": "ProBot \u2728",
+        "permissions": 2080374975,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 39
     },
     {
         "id": 1406228986807189565,
@@ -312,7 +366,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 34
+        "position": 40
     },
     {
         "id": 1405544720985227326,
@@ -321,25 +375,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 35
-    },
-    {
-        "id": 1406253118198386781,
-        "name": "MeowHelper",
-        "permissions": 137976343664,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 36
-    },
-    {
-        "id": 1405531284343885907,
-        "name": "FredBoat\u266a\u266a",
-        "permissions": 274881072128,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 37
+        "position": 41
     },
     {
         "id": 1405538585729306674,
@@ -348,16 +384,25 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 38
+        "position": 42
     },
     {
-        "id": 1405531251842089002,
-        "name": "Jockie Music",
-        "permissions": 8,
+        "id": 1522220811195252859,
+        "name": "Milkbucket Automod",
+        "permissions": 0,
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 39
+        "position": 43
+    },
+    {
+        "id": 1516313441357267096,
+        "name": "GuardBot",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 44
     },
     {
         "id": 1476134093363351612,
@@ -366,7 +411,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 40
+        "position": 45
     },
     {
         "id": 1503408329366437942,
@@ -375,16 +420,16 @@
         "color": 15158332,
         "hoist": false,
         "mentionable": false,
-        "position": 41
+        "position": 46
     },
     {
         "id": 1514842954370387978,
         "name": "T\u00f9 nh\u00e2n b\u1ecb c\u00e1ch ly",
         "permissions": 0,
-        "color": 0,
+        "color": 460551,
         "hoist": false,
         "mentionable": false,
-        "position": 42
+        "position": 47
     },
     {
         "id": 1414255151920844852,
@@ -393,7 +438,7 @@
         "color": 5533306,
         "hoist": false,
         "mentionable": false,
-        "position": 43
+        "position": 48
     },
     {
         "id": 1464447037830594622,
@@ -402,7 +447,7 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 44
+        "position": 49
     },
     {
         "id": 1451238907781054585,
@@ -411,7 +456,7 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 45
+        "position": 50
     },
     {
         "id": 1451238475826204763,
@@ -420,7 +465,7 @@
         "color": 15735815,
         "hoist": false,
         "mentionable": false,
-        "position": 46
+        "position": 51
     },
     {
         "id": 1462109411236642991,
@@ -429,7 +474,7 @@
         "color": 15277667,
         "hoist": false,
         "mentionable": false,
-        "position": 47
+        "position": 52
     },
     {
         "id": 1476132843200581683,
@@ -438,7 +483,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 48
+        "position": 53
     },
     {
         "id": 1510931579537588244,
@@ -447,7 +492,7 @@
         "color": 15844367,
         "hoist": false,
         "mentionable": false,
-        "position": 49
+        "position": 54
     },
     {
         "id": 1510931509601632396,
@@ -456,7 +501,7 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 50
+        "position": 55
     },
     {
         "id": 1462108150432792649,
@@ -465,7 +510,7 @@
         "color": 16746375,
         "hoist": false,
         "mentionable": false,
-        "position": 51
+        "position": 56
     },
     {
         "id": 1462107671506190550,
@@ -474,7 +519,7 @@
         "color": 4240639,
         "hoist": false,
         "mentionable": false,
-        "position": 52
+        "position": 57
     },
     {
         "id": 1469653275170045962,
@@ -483,7 +528,7 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 53
+        "position": 58
     },
     {
         "id": 1462107601117647131,
@@ -492,7 +537,7 @@
         "color": 23704,
         "hoist": false,
         "mentionable": false,
-        "position": 54
+        "position": 59
     },
     {
         "id": 1462107518456037569,
@@ -501,7 +546,7 @@
         "color": 4784128,
         "hoist": false,
         "mentionable": false,
-        "position": 55
+        "position": 60
     },
     {
         "id": 1462107434872078569,
@@ -510,7 +555,7 @@
         "color": 16758568,
         "hoist": false,
         "mentionable": false,
-        "position": 56
+        "position": 61
     },
     {
         "id": 1462107372960088094,
@@ -519,7 +564,7 @@
         "color": 3066993,
         "hoist": false,
         "mentionable": false,
-        "position": 57
+        "position": 62
     },
     {
         "id": 1462107169255194748,
@@ -528,7 +573,7 @@
         "color": 39935,
         "hoist": false,
         "mentionable": false,
-        "position": 58
+        "position": 63
     },
     {
         "id": 1462107088103936304,
@@ -537,7 +582,7 @@
         "color": 16775722,
         "hoist": false,
         "mentionable": false,
-        "position": 59
+        "position": 64
     },
     {
         "id": 1462106979529920655,
@@ -546,7 +591,7 @@
         "color": 9807270,
         "hoist": false,
         "mentionable": false,
-        "position": 60
+        "position": 65
     },
     {
         "id": 1462107024472018996,
@@ -555,7 +600,7 @@
         "color": 16734704,
         "hoist": false,
         "mentionable": false,
-        "position": 61
+        "position": 66
     },
     {
         "id": 1462106942309793996,
@@ -564,7 +609,7 @@
         "color": 7405485,
         "hoist": false,
         "mentionable": false,
-        "position": 62
+        "position": 67
     },
     {
         "id": 1462106876249505997,
@@ -573,7 +618,7 @@
         "color": 16776861,
         "hoist": false,
         "mentionable": false,
-        "position": 63
+        "position": 68
     },
     {
         "id": 1462106710549332243,
@@ -582,7 +627,7 @@
         "color": 4587629,
         "hoist": false,
         "mentionable": false,
-        "position": 64
+        "position": 69
     },
     {
         "id": 1462106648754524180,
@@ -591,7 +636,7 @@
         "color": 1052688,
         "hoist": false,
         "mentionable": false,
-        "position": 65
+        "position": 70
     },
     {
         "id": 1462106594463711353,
@@ -600,7 +645,7 @@
         "color": 1210624,
         "hoist": false,
         "mentionable": false,
-        "position": 66
+        "position": 71
     },
     {
         "id": 1392124251729039470,
@@ -609,25 +654,25 @@
         "color": 15844367,
         "hoist": true,
         "mentionable": false,
-        "position": 67
+        "position": 72
     },
     {
         "id": 1392125123808591922,
         "name": "N\u1eef (Female)",
-        "permissions": 39719961742912,
+        "permissions": 0,
         "color": 16711901,
         "hoist": false,
         "mentionable": false,
-        "position": 68
+        "position": 73
     },
     {
         "id": 1392125039549222956,
         "name": "Nam (Male)",
-        "permissions": 39960412540480,
+        "permissions": 65536,
         "color": 62207,
         "hoist": false,
         "mentionable": false,
-        "position": 69
+        "position": 74
     },
     {
         "id": 1412775699793707040,
@@ -636,7 +681,7 @@
         "color": 1947651,
         "hoist": false,
         "mentionable": false,
-        "position": 70
+        "position": 75
     },
     {
         "id": 1476132203045064704,
@@ -645,7 +690,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 71
+        "position": 76
     },
     {
         "id": 1462109576404008990,
@@ -654,7 +699,16 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 72
+        "position": 77
+    },
+    {
+        "id": 1520005247295295508,
+        "name": "Iykyk",
+        "permissions": 0,
+        "color": 3447003,
+        "hoist": false,
+        "mentionable": false,
+        "position": 78
     },
     {
         "id": 1462109498398347464,
@@ -663,7 +717,16 @@
         "color": 14372235,
         "hoist": false,
         "mentionable": false,
-        "position": 73
+        "position": 79
+    },
+    {
+        "id": 1525355852158996590,
+        "name": "M\u00e0y l\u00e0 ai",
+        "permissions": 0,
+        "color": 10181046,
+        "hoist": false,
+        "mentionable": false,
+        "position": 80
     },
     {
         "id": 1460242114293272669,
@@ -672,7 +735,7 @@
         "color": 15158332,
         "hoist": false,
         "mentionable": false,
-        "position": 74
+        "position": 81
     },
     {
         "id": 1465507698547359973,
@@ -681,7 +744,7 @@
         "color": 15158332,
         "hoist": false,
         "mentionable": false,
-        "position": 75
+        "position": 82
     },
     {
         "id": 1462109007719174329,
@@ -690,7 +753,7 @@
         "color": 16726843,
         "hoist": false,
         "mentionable": false,
-        "position": 76
+        "position": 83
     },
     {
         "id": 1476132420658003989,
@@ -699,7 +762,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 77
+        "position": 84
     },
     {
         "id": 1382900204050583593,
@@ -708,7 +771,7 @@
         "color": 16355116,
         "hoist": true,
         "mentionable": false,
-        "position": 78
+        "position": 85
     },
     {
         "id": 1413144602478641224,
@@ -717,7 +780,7 @@
         "color": 2505983,
         "hoist": true,
         "mentionable": false,
-        "position": 79
+        "position": 86
     },
     {
         "id": 1382899882284548106,
@@ -726,7 +789,7 @@
         "color": 16644640,
         "hoist": true,
         "mentionable": false,
-        "position": 80
+        "position": 87
     },
     {
         "id": 1513219240411533312,
@@ -735,7 +798,7 @@
         "color": 16187392,
         "hoist": false,
         "mentionable": false,
-        "position": 81
+        "position": 88
     },
     {
         "id": 1433039387431665674,
@@ -744,7 +807,7 @@
         "color": 15105570,
         "hoist": true,
         "mentionable": false,
-        "position": 82
+        "position": 89
     },
     {
         "id": 1476139443177128007,
@@ -753,7 +816,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 83
+        "position": 90
     },
     {
         "id": 1514616713637920919,
@@ -762,7 +825,7 @@
         "color": 1872092,
         "hoist": false,
         "mentionable": false,
-        "position": 84
+        "position": 91
     },
     {
         "id": 1512871037430137022,
@@ -771,16 +834,16 @@
         "color": 554686,
         "hoist": false,
         "mentionable": false,
-        "position": 85
+        "position": 92
     },
     {
         "id": 1468251392996151510,
-        "name": "qu\u1ea3n l\u00ed c\u1ea5p th\u1ea5p",
-        "permissions": 1711911955066817,
+        "name": "Trial Moderator",
+        "permissions": 1713011466694599,
         "color": 15844367,
         "hoist": false,
         "mentionable": false,
-        "position": 86
+        "position": 93
     },
     {
         "id": 1511300378514161795,
@@ -789,7 +852,7 @@
         "color": 3447003,
         "hoist": false,
         "mentionable": false,
-        "position": 87
+        "position": 94
     },
     {
         "id": 1455912819190005841,
@@ -798,7 +861,7 @@
         "color": 7653887,
         "hoist": true,
         "mentionable": false,
-        "position": 88
+        "position": 95
     },
     {
         "id": 1493893130301210654,
@@ -807,7 +870,7 @@
         "color": 10181046,
         "hoist": true,
         "mentionable": false,
-        "position": 89
+        "position": 96
     },
     {
         "id": 1455911885353386164,
@@ -816,7 +879,7 @@
         "color": 8585216,
         "hoist": true,
         "mentionable": false,
-        "position": 90
+        "position": 97
     },
     {
         "id": 1516017796235133008,
@@ -825,7 +888,16 @@
         "color": 2123412,
         "hoist": true,
         "mentionable": false,
-        "position": 91
+        "position": 98
+    },
+    {
+        "id": 1522200797507489942,
+        "name": "<==========Mod==========>",
+        "permissions": 0,
+        "color": 0,
+        "hoist": false,
+        "mentionable": false,
+        "position": 99
     },
     {
         "id": 1405551389400236032,
@@ -834,7 +906,7 @@
         "color": 408155,
         "hoist": false,
         "mentionable": false,
-        "position": 92
+        "position": 100
     },
     {
         "id": 1517001386989060226,
@@ -843,7 +915,7 @@
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 93
+        "position": 101
     },
     {
         "id": 1468253529268420688,
@@ -852,25 +924,16 @@
         "color": 11342935,
         "hoist": true,
         "mentionable": false,
-        "position": 94
-    },
-    {
-        "id": 1514832149667385475,
-        "name": "S\u1ebfp c\u0169",
-        "permissions": 17605070947328,
-        "color": 7194111,
-        "hoist": false,
-        "mentionable": false,
-        "position": 95
+        "position": 102
     },
     {
         "id": 1476134321969565847,
-        "name": "<==========Admin, Mod Role==========>",
-        "permissions": 0,
+        "name": "<==========Admin==========>",
+        "permissions": 8,
         "color": 0,
         "hoist": false,
         "mentionable": false,
-        "position": 96
+        "position": 103
     },
     {
         "id": 1514830995960889515,
@@ -879,7 +942,7 @@
         "color": 3447003,
         "hoist": true,
         "mentionable": true,
-        "position": 97
+        "position": 104
     },
     {
         "id": 1514832954420101261,
@@ -888,7 +951,7 @@
         "color": 10070709,
         "hoist": false,
         "mentionable": false,
-        "position": 98
+        "position": 105
     },
     {
         "id": 1460945114074714274,
@@ -897,15 +960,6 @@
         "color": 3525119,
         "hoist": true,
         "mentionable": false,
-        "position": 99
-    },
-    {
-        "id": 1514842114729447609,
-        "name": "Wick",
-        "permissions": 8,
-        "color": 0,
-        "hoist": false,
-        "mentionable": false,
-        "position": 100
+        "position": 106
     }
 ]

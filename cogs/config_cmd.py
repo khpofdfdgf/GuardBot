@@ -31,6 +31,19 @@ def duration_str(minutes: int) -> str:
     return f"{minutes // 1440} ngày"
 
 
+async def safe_respond(interaction: discord.Interaction, content=None, embed=None, ephemeral=True):
+    try:
+        if interaction.response.is_done():
+            await interaction.followup.send(content=content, embed=embed, ephemeral=ephemeral)
+        else:
+            await interaction.response.send_message(content=content, embed=embed, ephemeral=ephemeral)
+    except Exception:
+        try:
+            await interaction.followup.send(content=content, embed=embed, ephemeral=ephemeral)
+        except Exception as e:
+            print(f"[config_cmd] Safe response failure: {e}")
+
+
 # ─── Embeds ──────────────────────────────────────────────────────────────────
 
 def _embed_overview() -> discord.Embed:
@@ -55,9 +68,11 @@ def _embed_overview() -> discord.Embed:
     # Roles
     def ro(id_): return f"<@&{id_}>" if id_ else "`chưa đặt`"
     e.add_field(name="👤 Roles", value=(
-        f"Mod:   {ro(cfg.mod_role_id)}\n"
-        f"Admin: {ro(cfg.admin_role_id)}\n"
-        f"Muted: {ro(cfg.muted_role_id)}"
+        f"Mod:        {ro(cfg.mod_role_id)}\n"
+        f"Admin:      {ro(cfg.admin_role_id)}\n"
+        f"Muted:      {ro(cfg.muted_role_id)}\n"
+        f"Verified:   {ro(cfg.verified_role_id)}\n"
+        f"Unverified: {ro(cfg.unverified_role_id)}"
     ), inline=True)
 
     e.add_field(name="\u200b", value="\u200b", inline=True)
@@ -236,6 +251,8 @@ class ConfigCommand(commands.Cog):
         app_commands.Choice(name="mod_role_id",          value="mod_role_id"),
         app_commands.Choice(name="admin_role_id",        value="admin_role_id"),
         app_commands.Choice(name="muted_role_id",        value="muted_role_id"),
+        app_commands.Choice(name="verified_role_id",     value="verified_role_id"),
+        app_commands.Choice(name="unverified_role_id",   value="unverified_role_id"),
         app_commands.Choice(name="spam_threshold",       value="spam_threshold"),
         app_commands.Choice(name="spam_window",          value="spam_window"),
         app_commands.Choice(name="max_emoji",            value="max_emoji"),
@@ -244,31 +261,29 @@ class ConfigCommand(commands.Cog):
     async def config_set(self, interaction: discord.Interaction,
                          key: str, value: str):
         if not self._check_admin(interaction):
-            return await interaction.response.send_message("❌ Chỉ Admin mới dùng được!", ephemeral=True)
+            await safe_respond(interaction, content="❌ Chỉ Admin mới dùng được!", ephemeral=True)
+            return
 
         # Ép kiểu đúng
         int_keys = {
             "guild_id", "mod_log_channel_id", "rules_channel_id",
             "appeal_channel_id", "mod_role_id", "admin_role_id",
-            "muted_role_id", "spam_threshold", "spam_window",
+            "muted_role_id", "verified_role_id", "unverified_role_id", "spam_threshold", "spam_window",
             "max_emoji", "max_mentions",
         }
         try:
             parsed = int(value) if key in int_keys else value
         except ValueError:
-            return await interaction.response.send_message(
-                f"❌ `{key}` cần giá trị số nguyên!", ephemeral=True
-            )
+            await safe_respond(interaction, content=f"❌ `{key}` cần giá trị số nguyên!", ephemeral=True)
+            return
 
         cfg.set(key, parsed)
-        await interaction.response.send_message(
-            embed=utils.mod_embed(
-                "✅ Đã cập nhật",
-                f"**{key}** → `{parsed}`",
-                0x2ECC71,
-            ),
-            ephemeral=True,
+        embed = utils.mod_embed(
+            "✅ Đã cập nhật",
+            f"**{key}** → `{parsed}`",
+            0x2ECC71,
         )
+        await safe_respond(interaction, embed=embed, ephemeral=True)
 
     # ── /config warn ────────────────────────────────────────────────────────
 

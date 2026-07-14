@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kháng cáo vi phạm - Discord Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2">
+    <style>
+        .appeals-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            height: calc(100vh - 180px);
+            min-height: 500px;
+        }
+
+        .appeal-item {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .appeal-item:hover,
+        .appeal-item.active {
+            background: rgba(88, 101, 242, 0.08);
+            border-color: var(--primary-color);
+        }
+
+        .appeal-status {
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .status-accepted {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .status-closed {
+            background: rgba(107, 114, 128, 0.15);
+            color: #9ca3af;
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 166px 16px;
+            /* Sửa padding gọn gàng */
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .msg {
+            max-width: 70%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .msg-appellant {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 2px;
+        }
+
+        .msg-staff {
+            align-self: flex-end;
+            background: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-meta {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .chat-footer {
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .chat-input:disabled {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.88rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .sidebar-search {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="toast-container"></div>
+    <div class="container animate-fade-in">
+        <header>
+            <div class="brand">
+                <h1 style="cursor:pointer;" onclick="window.location.href='/'">🤖 Discord Moderation</h1>
+            </div>
+            <div class="user-profile">
+                <span>{{ user.username }}</span>
+                <img src="{{ user.avatar_url }}" alt="Avatar"
+                    onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                <a href="/auth/logout" class="btn" style="background:rgba(255,255,255,0.1);color:white;">Logout</a>
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <a href="/tracking">Stats & Logs</a>
+            <a href="/control" class="active">Control Panel</a>
+            <a href="/lookup">Public Lookup</a>
+            <a href="/appeals">Kháng cáo</a>
+            <a href="/verify">Xác minh danh tính</a>
+            <a href="/terminal">Terminal</a>
+        </div>
+
+        {% if is_admin %}
+        <!-- ==================== GIAO DIỆN ADMIN ==================== -->
+        <div class="appeals-layout">
+            <!-- Sidebar Admin -->
+            <div class="glass-panel" style="display:flex; flex-direction:column; padding:15px;">
+                <h3 style="margin-top:0;">📂 Quản lý đơn</h3>
+                <input type="text" id="admin-search" onkeyup="filterAppeals()" placeholder="🔍 Tìm đơn theo username..."
+                    class="sidebar-search">
+
+                <div style="margin-bottom:12px;">
+                    <select id="admin-status-filter" onchange="loadAppealsData()"
+                        style="width:100%; padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); color:white; border-radius:4px;">
+                        <option value="all">Tất cả trạng thái</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="accepted">Đã duyệt</option>
+                        <option value="rejected">Từ chối</option>
+                        <option value="closed">Đã đóng</option>
+                    </select>
+                </div>
+                <div id="admin-appeals-list" style="flex:1; overflow-y:auto;"></div>
+            </div>
+
+            <!-- Khung Chat Admin -->
+            <div id="admin-chat-area" class="chat-area" style="display:none;">
+                <div class="chat-header">
+                    <div>
+                        <h4 id="admin-chat-title" style="margin:0;">Kháng cáo</h4>
+                        <span id="admin-chat-status" class="appeal-status"></span>
+                    </div>
+                    <!-- Bộ 3 nút Admin: Đồng ý, Từ chối, Đóng đơn -->
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn" style="background:#22c55e; color:white; font-weight:600;"
+                            onclick="handleAdminAction('accepted')">✓ Đồng ý</button>
+                        <button class="btn" style="background:#ef4444; color:white; font-weight:600;"
+                            onclick="handleAdminAction('rejected')">❌ Từ chối</button>
+                        <button class="btn" style="background:#6b7280; color:white; font-weight:600;"
+                            onclick="handleAdminAction('closed')">🔒 Đóng đơn</button>
+                    </div>
+                </div>
+                <div class="chat-body" id="admin-chat-body"></div>
+                <div class="chat-footer">
+                    <input type="text" id="admin-chat-input" class="chat-input" placeholder="Nhập phản hồi..."
+                        onkeypress="if(event.key==='Enter') sendMsg('admin')">
+                    <button class="btn btn-primary" onclick="sendMsg('admin')">Gửi</button>
+                </div>
+            </div>
+            <div id="admin-empty-state" class="glass-panel"
+                style="display:flex; align-items:center; justify-content:center; color:var(--text-secondary);">
+                Chọn một đơn kháng cáo bên trái để bắt đầu xử lý.
+            </div>
+        </div>
+
+        {% else %}
+        <!-- ==================== GIAO DIỆN NGƯỜI DÙNG (USER) ==================== -->
+        <div class="appeals-layout">
+            <!-- Sidebar User -->
+            <div class="glass-panel" style="display:flex; flex-direction:column; padding:15px;">
+                <h3 style="margin-top:0;">📋 Đơn của bạn</h3>
+
+                <!-- Ô tìm đơn User -->
+                <input type="text" id="user-search" onkeyup="filterAppeals()" placeholder="🔍 Tìm kiếm đơn đã tạo..."
+                    class="sidebar-search">
+
+                <!-- Cặp nút hành động -->
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:12px;">
+                    <button class="btn btn-primary" style="font-size:0.82rem; padding:8px 4px; font-weight:600;"
+                        onclick="openNewForm()">➕ Tạo đơn mới</button>
+                    <button id="user-btn-revoke" class="btn"
+                        style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); font-size:0.82rem; padding:8px 4px; display:none; font-weight:600;"
+                        onclick="handleUserRevoke()">🗑️ Thu hồi đơn</button>
+                </div>
+
+                <div id="user-appeals-list" style="flex:1; overflow-y:auto;"></div>
+            </div>
+
+            <!-- Khung hiển thị nội dung bên phải (Form HOẶC Khung Chat) -->
+            <div id="user-main-content" style="height:100%;">
+
+                <!-- Form gửi đơn mới -->
+                <div id="user-form-view" class="glass-panel" style="display:block; max-width:700px; margin:0 auto;">
+                    <h3>📝 Gửi Đơn Kháng Cáo Mới</h3>
+                    <div class="form-group">
+                        <label>Lý do bị xử phạt</label>
+                        <input type="text" id="form-violation" class="form-control"
+                            placeholder="Ví dụ: Spam kênh, phá hoại...">
+                    </div>
+                    <div class="form-group">
+                        <label>Lời giải trình / Cam kết giải quyết</label>
+                        <textarea id="form-explanation" class="form-control" rows="5" style="resize:vertical;"
+                            placeholder="Viết rõ nội dung giải trình tại đây..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Case ID (Nếu có)</label>
+                        <input type="text" id="form-case-id" class="form-control" placeholder="Ví dụ: #102">
+                    </div>
+                    <button class="btn btn-primary" style="width:100%; padding:12px; font-weight:700;"
+                        onclick="submitNewAppeal()">Gửi đơn ngay</button>
+                </div>
+
+                <!-- Khung Chat hỗ trợ -->
+                <div id="user-chat-area" class="chat-area" style="display:none;">
+                    <div class="chat-header">
+                        <div>
+                            <h4 id="user-chat-title" style="margin:0;">Chi tiết đơn</h4>
+                            <span id="user-chat-status" class="appeal-status"></span>
+                        </div>
+                    </div>
+                    <div class="chat-body" id="user-chat-body"></div>
+                    <div class="chat-footer">
+                        <input type="text" id="user-chat-input" class="chat-input" placeholder="Nhập câu trả lời..."
+                            onkeypress="if(event.key==='Enter') sendMsg('user')">
+                        <button class="btn btn-primary" onclick="sendMsg('user')">Gửi</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const isAdmin = {{ "true" if is_admin else "false" }};
+        let appealsData = [];
+        let activeAppealId = null;
+        let pollTimer = null;
+
+        window.onload = function () {
+            loadAppealsData();
+        };
+
+        function showToast(msg, type = 'info') {
+            let container = document.getElementById('toast-container') || document.createElement('div');
+            container.id = 'toast-container'; document.body.appendChild(container);
+            const t = document.createElement('div'); t.className = `toast ${type}`;
+            t.innerHTML = `<span>${msg}</span>`; container.appendChild(t);
+            setTimeout(() => { t.style.animation = 'fadeOut 0.3s forwards'; setTimeout(() => t.remove(), 300); }, 3000);
+        }
+
+        // Đọc danh sách đơn phù hợp với API từng bên
+        async function loadAppealsData() {
+            try {
+                if (isAdmin) {
+                    const res = await fetch("/api/appeals");
+                    const data = await res.json();
+                    appealsData = data.appeals || [];
+                } else {
+                    // Dựa trên BỔ SUNG 3: Lấy dữ liệu từ route kiểm tra đơn nhanh của user
+                    const res = await fetch("/api/public/appeal/track");
+                    const data = await res.json();
+                    if (data.has_appeal) {
+                        // Chuyển đối tượng latest_appeal thành dạng mảng để render đồng bộ lên sidebar
+                        appealsData = [{
+                            id: data.latest_appeal.id,
+                            status: data.latest_appeal.status,
+                            violation: data.latest_appeal.violation,
+                            username: "{{ user.username }}"
+                        }];
+                    } else {
+                        appealsData = [];
+                    }
+                }
+                renderList(appealsData);
+            } catch (e) { showToast("Lỗi dữ liệu hệ thống", "error"); }
+        }
+
+        function renderList(list) {
+            const listId = isAdmin ? "admin-appeals-list" : "user-appeals-list";
+            const container = document.getElementById(listId);
+            if (!container) return;
+            container.innerHTML = "";
+
+            let processedList = list;
+            if (isAdmin) {
+                const filterVal = document.getElementById("admin-status-filter").value;
+                if (filterVal !== "all") processedList = list.filter(a => a.status === filterVal);
+            }
+
+            if (processedList.length === 0) {
+                container.innerHTML = `<div style="color:var(--text-secondary); text-align:center; padding:20px; font-size:0.85rem;">Không có đơn nào.</div>`;
+                return;
+            }
+
+            processedList.forEach(a => {
+                const item = document.createElement("div");
+                item.className = `appeal-item ${activeAppealId === a.id ? 'active' : ''}`;
+                item.onclick = () => selectAppeal(a.id);
+                item.innerHTML = `
+                    <div style="font-weight:700; color:var(--text-primary);">@${a.username}</div>
+                    <div style="font-size:0.8rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">Lý do: ${a.violation}</div>
+                    <span class="appeal-status status-${a.status}">${a.status.toUpperCase()}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function filterAppeals() {
+            const inputId = isAdmin ? "admin-search" : "user-search";
+            const kw = document.getElementById(inputId).value.trim().toLowerCase();
+            if (!kw) { renderList(appealsData); return; }
+
+            const matches = appealsData.filter(a =>
+                a.username.toLowerCase().includes(kw) ||
+                (a.violation && a.violation.toLowerCase().includes(kw))
+            );
+            renderList(matches);
+        }
+
+        async function selectAppeal(id) {
+            activeAppealId = id;
+            renderList(appealsData);
+
+            try {
+                const res = await fetch(`/api/appeals/${id}/messages`);
+                if (!res.ok) return;
+                const appeal = await res.json();
+
+                if (isAdmin) {
+                    document.getElementById("admin-empty-state").style.display = "none";
+                    document.getElementById("admin-chat-area").style.display = "flex";
+                    document.getElementById("admin-chat-title").innerText = `Kháng cáo - @${appeal.username}`;
+
+                    const badge = document.getElementById("admin-chat-status");
+                    badge.className = `appeal-status status-${appeal.status}`;
+                    badge.innerText = appeal.status.toUpperCase();
+
+                    document.getElementById("admin-chat-input").disabled = (appeal.status === 'closed');
+                    document.getElementById("admin-chat-input").placeholder = appeal.status === 'closed' ? "Đơn này đã đóng." : "Nhập phản hồi...";
+
+                    renderMessages(appeal.messages, "admin-chat-body");
+                } else {
+                    document.getElementById("user-form-view").style.display = "none";
+                    document.getElementById("user-chat-area").style.display = "flex";
+                    document.getElementById("user-chat-title").innerText = `Đơn vi phạm: ${appeal.violation}`;
+
+                    const badge = document.getElementById("user-chat-status");
+                    badge.className = `appeal-status status-${appeal.status}`;
+                    badge.innerText = appeal.status.toUpperCase();
+
+                    // Đồng bộ nút Thu hồi đơn chỉ hiện khi đơn có status pending
+                    const btnRevoke = document.getElementById("user-btn-revoke");
+                    btnRevoke.style.display = (appeal.status === "pending") ? "inline-block" : "none";
+
+                    document.getElementById("user-chat-input").disabled = (appeal.status === 'closed');
+                    document.getElementById("user-chat-input").placeholder = appeal.status === 'closed' ? "Đơn đã đóng, không thể nhắn tin." : "Nhập câu trả lời...";
+
+                    renderMessages(appeal.messages, "user-chat-body");
+                }
+                startPolling();
+            } catch (e) { showToast("Không thể mở chi tiết đơn", "error"); }
+        }
+
+        function renderMessages(msgs, bodyId) {
+            const body = document.getElementById(bodyId);
+            body.innerHTML = "";
+            if (!msgs || msgs.length === 0) return;
+
+            msgs.forEach(m => {
+                const div = document.createElement("div");
+                div.className = `msg ${m.sender === 'staff' ? 'msg-staff' : 'msg-appellant'}`;
+                let time = ""; try { time = new Date(m.timestamp).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }); } catch (e) { }
+                div.innerHTML = `
+                    <div style="font-weight:700; font-size:0.75rem; margin-bottom:2px;">${m.sender_name}</div>
+                    <div>${m.content}</div>
+                    <div class="msg-meta"><span>${time}</span></div>
+                `;
+                body.appendChild(div);
+            });
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function startPolling() {
+            if (pollTimer) clearInterval(pollTimer);
+            pollTimer = setInterval(async () => {
+                if (!activeAppealId) return;
+                try {
+                    const res = await fetch(`/api/appeals/${activeAppealId}/messages`);
+                    if (res.ok) {
+                        const appeal = await res.json();
+                        const prefix = isAdmin ? "admin" : "user";
+
+                        document.getElementById(`${prefix}-chat-status`).className = `appeal-status status-${appeal.status}`;
+                        document.getElementById(`${prefix}-chat-status`).innerText = appeal.status.toUpperCase();
+
+                        if (!isAdmin) {
+                            document.getElementById("user-btn-revoke").style.display = (appeal.status === "pending") ? "inline-block" : "none";
+                        }
+                        if (appeal.status === 'closed') {
+                            document.getElementById(`${prefix}-chat-input`).disabled = true;
+                        }
+                        renderMessages(appeal.messages, `${prefix}-chat-body`);
+                    }
+                } catch (e) { }
+            }, 3000);
+        }
+
+        async function sendMsg(role) {
+            const input = document.getElementById(`${role}-chat-input`);
+            const content = input.value.trim();
+            if (!content || !activeAppealId) return;
+
+            try {
+                const res = await fetch(`/api/appeals/${activeAppealId}/messages`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content })
+                });
+                if (res.ok) {
+                    input.value = "";
+                    const data = await res.json();
+                    renderMessages(data.messages, `${role}-chat-body`);
+                }
+            } catch (e) { showToast("Lỗi gửi tin nhắn", "error"); }
+        }
+
+        // --- HÀNH ĐỘNG DÀNH CHO USER ---
+        function openNewForm() {
+            activeAppealId = null;
+            if (pollTimer) clearInterval(pollTimer);
+            renderList(appealsData);
+            document.getElementById("user-chat-area").style.display = "none";
+            document.getElementById("user-btn-revoke").style.display = "none";
+            document.getElementById("user-form-view").style.display = "block";
+        }
+
+        async function submitNewAppeal() {
+            const violation = document.getElementById("form-violation").value.trim();
+            const explanation = document.getElementById("form-explanation").value.trim();
+            const caseId = document.getElementById("form-case-id").value.trim();
+
+            if (!violation || !explanation) { showToast("Vui lòng điền đủ Lý do và Giải trình!", "error"); return; }
+
+            try {
+                const res = await fetch("/api/public/appeal", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ violation, explanation, case_id: caseId })
+                });
+                if (res.ok) {
+                    showToast("Đã gửi đơn kháng cáo lên hệ thống!", "success");
+                    document.getElementById("form-violation").value = "";
+                    document.getElementById("form-explanation").value = "";
+                    document.getElementById("form-case-id").value = "";
+                    await loadAppealsData();
+                    if (appealsData.length > 0) selectAppeal(appealsData[0].id);
+                } else {
+                    const err = await res.json(); showToast(err.detail || "Gửi thất bại", "error");
+                }
+            } catch (e) { showToast("Lỗi kết nối", "error"); }
+        }
+
+        // Đồng bộ BỔ SUNG 2: Xử lý thu hồi hoàn toàn khỏi DB
+        async function handleUserRevoke() {
+            if (!activeAppealId || !confirm("Xác nhận THU HỒI đơn kháng cáo này? Hệ thống sẽ hủy đơn hoàn toàn.")) return;
+            try {
+                const res = await fetch(`/api/public/appeal/${activeAppealId}/revoke`, { method: "POST" });
+                if (res.ok) {
+                    showToast("Đã thu hồi đơn thành công!", "success");
+                    await loadAppealsData();
+                    openNewForm();
+                } else {
+                    const err = await res.json(); showToast(err.detail || "Không thể thu hồi", "error");
+                }
+            } catch (e) { showToast("Lỗi kết nối", "error"); }
+        }
+
+        // --- HÀNH ĐỘNG DÀNH CHO ADMIN ---
+        async function handleAdminAction(status) {
+            if (!activeAppealId) return;
+
+            // Đồng bộ BỔ SUNG 1: Đóng đơn và khóa Thread
+            if (status === 'closed') {
+                if (!confirm("Bạn có chắc muốn đóng và khóa đơn kháng cáo này?")) return;
+                try {
+                    const res = await fetch(`/api/appeals/${activeAppealId}/close`, { method: "POST" });
+                    if (res.ok) {
+                        showToast("Đã đóng và lưu trữ đơn thành công!", "success");
+                        await loadAppealsData();
+                        selectAppeal(activeAppealId);
+                    }
+                } catch (e) { }
+                return;
+            }
+
+            // Đồng ý (accepted) / Từ chối (rejected)
+            try {
+                const res = await fetch(`/api/appeals/${activeAppealId}/status`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status })
+                });
+                if (res.ok) {
+                    showToast(`Đã chuyển trạng thái đơn sang: ${status.toUpperCase()}`, "success");
+                    await loadAppealsData();
+                    selectAppeal(activeAppealId);
+                }
+            } catch (e) { }
+        }
+    </script>
+</body>
+
+</html>

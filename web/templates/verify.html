@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác minh tài khoản - Discord Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================
+           CSS GIAO DIỆN (DARK MODE / GLASSMORPHISM)
+           ========================================== */
+        :root {
+            --bg-color: #0f172a;
+            --primary-color: #5865F2;
+            /* Discord Blue */
+            --primary-glow: rgba(88, 101, 242, 0.4);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top right, rgba(88, 101, 242, 0.15), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.8), var(--bg-color));
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verify-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .captcha-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        #captcha-image {
+            background: #f3f4f6;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        #captcha-image:hover {
+            transform: scale(1.02);
+        }
+
+        .verify-input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 6px;
+            font-weight: 700;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .verify-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-glow);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .verify-input::placeholder {
+            letter-spacing: normal;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 14px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #4752c4;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        /* ==========================================
+           TOAST NOTIFICATION SYSTEM
+           ========================================== */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: #1e293b;
+            border-left: 4px solid #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+            font-weight: 600;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        .toast.success {
+            border-left-color: #10b981;
+        }
+
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toast-container"></div>
+
+    <div class="verify-container animate-fade-in">
+        <div class="glass-panel text-center">
+            <h2>🛡️ Cổng Xác Minh</h2>
+            <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.5; margin-bottom: 25px;">
+                Chào mừng <b>{{ user.global_name or user.username }}</b>! Để tham gia đầy đủ server, bạn cần hoàn thành
+                mã Captcha bảo mật dưới đây để nhận vai trò <b>Dân thường</b>.
+            </p>
+
+            <div class="captcha-box">
+                <img id="captcha-image" src="/api/captcha" width="200" height="70" alt="Captcha"
+                    title="Click để đổi mã khác">
+
+                <div style="font-size:0.75rem; color:var(--text-secondary); margin-top: 5px;">
+                    Click vào hình để tải lại mã khác nếu không nhìn rõ
+                </div>
+
+                <input type="text" id="captcha-input" class="verify-input" placeholder="NHẬP MÃ" maxlength="5"
+                    autocomplete="off">
+            </div>
+
+            <button class="btn btn-primary" style="width:100%; padding:14px; font-weight:700;"
+                onclick="submitVerification()">
+                Xác nhận & Nhận Role
+            </button>
+
+            <div
+                style="margin-top:25px; border-top:1px solid var(--border-color); padding-top:15px; font-size:0.85rem; color:var(--text-secondary);">
+                Bạn chưa ở trong server? <a href="{{ server_invite }}" target="_blank"
+                    style="color:#5865F2; font-weight:700; text-decoration: none;">Tham gia ngay ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showToast(message, type = "info") {
+            let container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = "fadeOut 0.3s ease forwards";
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- HÀM FETCH BASE64 TỪ BACKEND ĐỂ ĐỔI ẢNH ---
+        async function reloadCaptcha() {
+            const captchaImg = document.getElementById("captcha-image");
+            try {
+                // Gọi API lấy chuỗi JSON chứa base64
+                const res = await fetch("/api/captcha");
+                const data = await res.json();
+
+                if (res.ok && data.status === "success") {
+                    // Cập nhật chuỗi base64 vào thuộc tính src của thẻ img
+                    captchaImg.src = data.image;
+                } else {
+                    showToast("Không thể tải mã Captcha!", "error");
+                }
+            } catch (err) {
+                showToast("Mất kết nối với máy chủ Captcha!", "error");
+            }
+        }
+
+        // --- HÀM SUBMIT XÁC MINH ---
+        async function submitVerification() {
+            const inputField = document.getElementById("captcha-input");
+            const input = inputField.value.trim().toUpperCase();
+
+            if (!input) {
+                showToast("Vui lòng điền mã bảo mật!", "error");
+                return;
+            }
+
+            try {
+                const res = await fetch("/api/verify_captcha", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ captcha: input })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.status === "success") {
+                    showToast("Xác minh thành công!", "success");
+                    inputField.value = "";
+                } else {
+                    showToast(data.detail || "Sai mã Captcha, vui lòng thử lại!", "error");
+                    inputField.value = "";
+                    // Thất bại là tự động đổi mã siêu nhiễu mới luôn
+                    reloadCaptcha();
+                }
+            } catch (err) {
+                showToast("Lỗi hệ thống, vui lòng thử lại sau.", "error");
+            }
+        }
+
+        // LẮNG NGHE SỰ KIỆN
+        document.getElementById("captcha-image").addEventListener("click", reloadCaptcha);
+
+        document.getElementById("captcha-input").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") submitVerification();
+        });
+
+        // BẮT BUỘC: Khi trang web vừa tải xong, gọi ngay API để lấy ảnh Base64 lần đầu tiên
+        window.addEventListener("DOMContentLoaded", reloadCaptcha);
+    </script>
+</body>
+
+</html>

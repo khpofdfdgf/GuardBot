@@ -74,8 +74,18 @@ class ModerationBot(commands.Bot):
             "cogs.config_cmd",
             "cogs.safemode",
             "cogs.online",
+            "cogs.terminal",
         ]
 
+        # 1. Dọn dẹp các lệnh global cũ trên Discord (sync một tree trống trước khi load cogs)
+        try:
+            if cfg.guild_id:
+                await self.tree.sync()
+                log.info("🧹 Đã dọn dẹp các lệnh global cũ trên Discord")
+        except Exception as e:
+            log.error(f"❌ Lỗi khi dọn dẹp lệnh global: {e}")
+
+        # 2. Load cogs (thêm lệnh vào bộ nhớ)
         for cog in cogs:
             try:
                 await self.load_extension(cog)
@@ -90,7 +100,7 @@ class ModerationBot(commands.Bot):
         except Exception as e:
             log.error(f"❌ View error: {e}")
 
-        # sync slash commands
+        # 3. Sync slash commands vào Guild
         try:
             if cfg.guild_id:
                 guild = discord.Object(id=cfg.guild_id)
@@ -275,10 +285,10 @@ class ModerationBot(commands.Bot):
 
     # ─── Help command ────────────────────────────────────────────────────────
     async def on_command_error(
-    self,
-    ctx: commands.Context,
-    error: commands.CommandError
-) -> None:
+        self,
+        ctx: commands.Context,
+        error: commands.CommandError
+    ) -> None:
 
         # =========================
         # UNWRAP HYBRID ERROR SAFE
@@ -319,16 +329,38 @@ class ModerationBot(commands.Bot):
                 color=COLOR_ERROR,
             )
 
-        elif isinstance(error, (commands.MemberNotFound, commands.UserNotFound, commands.BadArgument)):
+        # Kiểm tra cực kỳ chặt chẽ: Chỉ báo "Không tìm thấy" nếu thực sự lỗi do tìm kiếm User/Member thất bại TRƯỚC KHI lệnh chạy
+        elif isinstance(error, (commands.MemberNotFound, commands.UserNotFound)):
             embed = discord.Embed(
                 title="❌ Không tìm thấy người dùng",
                 description="Mention hoặc ID sai rồi, bot không đọc được suy nghĩ con người đâu 😏",
                 color=COLOR_ERROR,
             )
 
+        elif isinstance(error, commands.BadArgument):
+            embed = discord.Embed(
+                title="❌ Đối số không hợp lệ",
+                description="Tham số bạn truyền vào không đúng kiểu dữ liệu yêu cầu.",
+                color=COLOR_ERROR,
+            )
+
         elif isinstance(error, commands.CheckFailure):
             log.warning(f"[CHECK FAILED] user={ctx.author} cmd={ctx.command}")
             return
+
+        # Bỏ qua hoặc phân tách riêng TransformerError của AppCommand ra, tránh bị nhận vơ thành lỗi Unban
+        elif "TransformerError" in repr(error) or "CommandInvokeError" in repr(error):
+            # Nếu lệnh unban đã chạy và bạn biết nó unban được, tức là lỗi này chỉ là lỗi phản hồi UI của Discord.
+            # Ta sẽ kiểm tra nếu lệnh là unban thì không in lỗi ảo này ra nữa.
+            if getattr(ctx.command, 'name', None) == 'unban':
+                log.info("[ERROR HANDLER] Bỏ qua lỗi phản hồi ảo của lệnh unban.")
+                return
+            
+            embed = discord.Embed(
+                title="❌ Lỗi thực thi lệnh",
+                description="Discord không kịp phản hồi hoặc lệnh nhập sai định dạng.",
+                color=COLOR_ERROR,
+            )
 
         else:
             embed = discord.Embed(
@@ -346,23 +378,25 @@ class ModerationBot(commands.Bot):
 
         try:
             if hasattr(ctx, "interaction") and ctx.interaction:
-
-                try:
-                    if ctx.interaction.response.is_done():
-                        await ctx.interaction.followup.send(
-                            embed=embed,
-                            ephemeral=True
-                        )
-                    else:
-                        await ctx.interaction.response.send_message(
-                            embed=embed,
-                            ephemeral=True
-                        )
-
-                except Exception as ie:
-                    log.error(f"[INTERACTION SEND FAIL] {ie}")
-                    await ctx.send(embed=embed)
-
+                # Kiểm tra cả webhook hoàn thành hoặc trạng thái phản hồi để chọn cách gửi phù hợp
+                if ctx.interaction.response.is_done() or ctx.interaction.command_failed:
+                    try:
+                        await ctx.interaction.followup.send(embed=embed, ephemeral=True)
+                    except Exception:
+                        # Nếu followup vẫn tịt ngòi (do interaction chết hẳn), gửi thẳng qua channel bằng ctx.send
+                        await ctx.send(embed=embed)
+                else:
+                    try:
+                        await ctx.interaction.response.send_message(embed=embed, ephemeral=True)
+                    except discord.HTTPException as he:
+                        # Bắt lỗi code 40060 hoặc lỗi tương tự khi Discord từ chối response_message
+                        if he.code == 40060:
+                            try:
+                                await ctx.interaction.followup.send(embed=embed, ephemeral=True)
+                            except Exception:
+                                await ctx.send(embed=embed)
+                        else:
+                            await ctx.send(embed=embed)
             else:
                 await ctx.send(embed=embed)
 
@@ -401,19 +435,40 @@ class ModerationBot(commands.Bot):
 
 # ─── Main ────────────────────────────────────────────────────────────────────
 
+# ─── KHỞI CHẠY ĐỒNG BỘ BACKEND FASTAPI & DISCORD BOT ──────────────────────────
+
 async def main() -> None:
     if not TOKEN:
         log.error("❌ Chưa có DISCORD_TOKEN!")
-        log.error("   Tạo file .env và điền: DISCORD_TOKEN=your_token_here")
         sys.exit(1)
 
+    # 1. Khởi tạo đối tượng Bot độc lập
     bot = ModerationBot()
-    async with bot:
-        await bot.start(TOKEN)
-    @bot.event
-    async def on_ready():
-        print(f"Bot ready: {bot.user}")
-        dump_modules()   
+
+    # 2. Tự động tìm và import biến "app" từ file chạy Web của bạn
+    try:
+        from web.main import app as fastapi_app  # Thử tìm trong file main.py
+    except ImportError:
+        try:
+            from app import app as fastapi_app  # Nếu không có, thử tìm trong app.py
+        except ImportError:
+            log.error("❌ Không tìm thấy file khai báo FastAPI (app/main). Vui lòng kiểm tra lại cấu trúc file!")
+            sys.exit(1)
+
+    # 🌟 CẦU NỐI ĐỒNG BỘ: Gán app vào bot để Cog Discord đọc được app.state
+    bot.app = fastapi_app
+    fastapi_app.state.terminal_session = None  # Khởi tạo tránh lỗi trống bộ nhớ ban đầu
+
+    # 3. Cấu hình cổng chạy cho Web Server (Port 8000 hoặc port hiện tại của web bạn)
+    import uvicorn
+    config = uvicorn.Config(fastapi_app, host="127.0.0.1", port=8000, log_level="info")
+    server = uvicorn.Server(config)
+
+    # Đút cả 2 luồng Web Backend và Discord Bot vào chạy song song không block nhau
+    await asyncio.gather(
+        server.serve(),  # Luồng 1: Chạy Web API
+        bot.start(TOKEN) # Luồng 2: Chạy Discord Bot
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())

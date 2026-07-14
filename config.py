@@ -45,6 +45,8 @@ DEFAULTS = {
     "mod_role_id":   0,
     "admin_role_id": 0,
     "muted_role_id": 0,
+    "verified_role_id": 0,
+    "unverified_role_id": 0,
 
     # Auto-mod thresholds
     "spam_threshold": 5,   # số tin nhắn giống nhau
@@ -172,6 +174,10 @@ class _ConfigManager:
     def admin_role_id(self) -> int:     return self.get("admin_role_id")
     @property
     def muted_role_id(self) -> int:     return self.get("muted_role_id")
+    @property
+    def verified_role_id(self) -> int:  return self.get("verified_role_id")
+    @property
+    def unverified_role_id(self) -> int: return self.get("unverified_role_id")
     @property
     def spam_threshold(self) -> int:    return self.get("spam_threshold")
     @property

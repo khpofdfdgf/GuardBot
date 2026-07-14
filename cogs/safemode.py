@@ -62,7 +62,17 @@ class SafeMode(commands.Cog):
     async def check_permissions(self, interaction: discord.Interaction) -> bool:
         if interaction.user.id == interaction.guild.owner_id or interaction.user.guild_permissions.administrator:
             return True
-        await interaction.response.send_message("❌ Bạn không có quyền sử dụng lệnh này (Yêu cầu: Admin/Owner).", ephemeral=True)
+        msg = "❌ Bạn không có quyền sử dụng lệnh này (Yêu cầu: Admin/Owner)."
+        try:
+            if interaction.response.is_done():
+                await interaction.followup.send(msg, ephemeral=True)
+            else:
+                await interaction.response.send_message(msg, ephemeral=True)
+        except Exception:
+            try:
+                await interaction.followup.send(msg, ephemeral=True)
+            except Exception:
+                pass
         return False
 
     @app_commands.command(name="safemode", description="Bật/Tắt chế độ bảo vệ khẩn cấp")
@@ -75,11 +85,15 @@ class SafeMode(commands.Cog):
         app_commands.Choice(name="off", value="off")
     ])
     async def safemode_cmd(self, interaction: discord.Interaction, state: str, spam: str = "on"):
+        try:
+            await interaction.response.defer()
+        except Exception:
+            pass
+
         if not await self.check_permissions(interaction):
             return
 
         if state == "on":
-            await interaction.response.defer()
             self.safemode_active = True
             self.spam_protection = (spam == "on")
             self.save_config()
@@ -97,15 +111,20 @@ class SafeMode(commands.Cog):
         else:
             self.safemode_active = False
             self.save_config()
-            await interaction.response.send_message("✅ SafeMode Disabled", ephemeral=False)
+            await interaction.followup.send("✅ SafeMode Disabled", ephemeral=False)
 
 
     @app_commands.command(name="backup", description="Tạo snapshot thủ công cho server")
     async def backup_cmd(self, interaction: discord.Interaction):
+        # Defer ngay lập tức trước mọi tác vụ
+        try:
+            await interaction.response.defer()
+        except Exception:
+            pass
+
         if not await self.check_permissions(interaction):
             return
         
-        await interaction.response.defer()
         backup_path = await self._create_backup(interaction.guild)
         
         if backup_path:
@@ -186,10 +205,13 @@ class SafeMode(commands.Cog):
         app_commands.Choice(name="Members", value="members")
     ])
     async def restore_cmd(self, interaction: discord.Interaction, type: str):
+        try:
+            await interaction.response.defer()
+        except Exception:
+            pass
+
         if not await self.check_permissions(interaction):
             return
-            
-        await interaction.response.defer()
         
         if not os.path.exists(BACKUPS_DIR):
             await interaction.followup.send("❌ Không có backup nào.")
@@ -340,10 +362,13 @@ class SafeMode(commands.Cog):
 
     @app_commands.command(name="lockdown", description="Khóa server khẩn cấp")
     async def lockdown_cmd(self, interaction: discord.Interaction):
+        try:
+            await interaction.response.defer()
+        except Exception:
+            pass
+
         if not await self.check_permissions(interaction):
             return
-        
-        await interaction.response.defer()
         guild = interaction.guild
         default_role = guild.default_role
         
@@ -367,10 +392,13 @@ class SafeMode(commands.Cog):
 
     @app_commands.command(name="unlockdown", description="Mở khóa server")
     async def unlockdown_cmd(self, interaction: discord.Interaction):
+        try:
+            await interaction.response.defer()
+        except Exception:
+            pass
+
         if not await self.check_permissions(interaction):
             return
-            
-        await interaction.response.defer()
         guild = interaction.guild
         default_role = guild.default_role
         

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Live Terminal Control</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css?v=2">
+
+    <style>
+        :root {
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --success-color: #10b981;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: #111827;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-tabs {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            color: var(--text-main);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 24px;
+            width: 100%;
+            max-width: 1400px;
+            height: calc(100vh - 80px);
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .terminal-wrapper {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .terminal-header {
+            background-color: #111827;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #64748b;
+        }
+
+        .status-dot.online {
+            background-color: var(--success-color);
+            box-shadow: 0 0 8px var(--success-color);
+        }
+
+        .mode-badge {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .terminal-body {
+            flex: 1;
+            background-color: #000000;
+            position: relative;
+        }
+
+        .terminal-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #000000;
+        }
+
+        .placeholder-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            color: var(--text-secondary);
+            background-color: #0b0f19;
+            z-index: 5;
+        }
+
+        .placeholder-screen i {
+            font-size: 3.5rem;
+            color: #334155;
+        }
+
+        .login-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 8;
+        }
+
+        .login-box {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .login-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-hover);
+            color: white;
+        }
+
+        .credentials-box {
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(16, 185, 129, 0.06);
+            border-left: 4px solid var(--success-color);
+            border-radius: 6px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .code-highlight {
+            font-family: 'Fira Code', monospace;
+            background-color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .guide-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .guide-list li {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .guide-list li::before {
+            content: "•";
+            position: absolute;
+            left: 4px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-tabs">
+            <a href="/tracking">Stats & Logs</a>
+            <a href="/control">Control Panel</a>
+            <a href="/lookup">Public Lookup</a>
+            <a href="/appeals">Kháng cáo</a>
+            <a href="/verify">Xác minh danh tính</a>
+            <a href="/terminal" class="active">Terminal</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="terminal-wrapper">
+            <div class="terminal-header">
+                <div class="status-indicator">
+                    <div id="status-dot" class="status-dot"></div>
+                    <span id="status-text">Terminal Session Đang Tắt</span>
+                </div>
+                <div class="mode-badge">FastAPI Reverse Proxy Mode</div>
+            </div>
+
+            <div class="terminal-body">
+                <div id="placeholder" class="placeholder-screen">
+                    <i class="fa-solid fa-terminal"></i>
+                    <p>Chưa kích hoạt luồng điều khiển. Nhấn Khởi Tạo để kết nối.</p>
+                </div>
+
+                <div id="login-overlay" class="login-overlay" style="display: none;">
+                    <div class="login-box">
+                        <h3><i class="fa-solid fa-shield-halved"
+                                style="color: var(--primary-color); margin-right: 8px;"></i>Xác Thực Bảo Mật</h3>
+                        <p>Vui lòng nhập Credential động được cung cấp từ lệnh Discord <span
+                                class="code-highlight">/terminal cred</span>.</p>
+
+                        <div class="input-group">
+                            <label>Tài khoản hệ thống</label>
+                            <input type="text" id="auth-username" class="input-field" placeholder="Ví dụ: admin_32"
+                                autocomplete="off">
+                        </div>
+                        <div class="input-group">
+                            <label>Mật khẩu phiên động</label>
+                            <input type="password" id="auth-password" class="input-field"
+                                placeholder="Ví dụ: guard_849201" autocomplete="off">
+                        </div>
+
+                        <button class="btn btn-success" style="margin-top: 10px;" onclick="submitCustomLogin()">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Terminal
+                        </button>
+                    </div>
+                </div>
+
+                <iframe id="terminal-iframe" class="terminal-frame" style="display: none;"></iframe>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> Quản Lý Phiên
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">
+                    Kích hoạt hoặc dọn dẹp hệ thống Engine Linux Shell ngầm chạy dưới VPS.
+                </p>
+
+                <div class="btn-group">
+                    <button id="btn-start" class="btn btn-primary" onclick="startTerminalSession()">
+                        <i class="fa-solid fa-key"></i> Khởi Tạo Phiên Mới
+                    </button>
+                    <button id="btn-stop" class="btn btn-danger" onclick="stopTerminalSession()">
+                        <i class="fa-solid fa-circle-stop"></i> Hủy Phiên Làm Việc
+                    </button>
+                </div>
+
+                <div id="credentials-area" class="credentials-box" style="display: none;">
+                    <div>🔒 <strong>Hệ thống đã khóa bằng Basic Auth.</strong></div>
+                    <div style="margin-top: 6px; font-size: 0.82rem; color: var(--text-secondary);">
+                        Vui lòng truy cập Discord và gõ lệnh: <br>
+                        <span class="code-highlight">/terminal cred</span> <br>
+                        để lấy Tài khoản và Mật khẩu động mới nhất điền vào Form Đăng Nhập nhé!
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="flex: 1;">
+                <div class="card-title">
+                    <i class="fa-solid fa-info-circle" style="color: #38bdf8;"></i> Hướng Dẫn Sử Dụng
+                </div>
+                <ul class="guide-list">
+                    <li>Nhấp nút <b>Khởi Tạo Phiên Mới</b> để dựng môi trường tương tác shell an toàn độc lập.</li>
+                    <li>Sử dụng tài khoản quản trị lấy được từ Discord để cấp quyền tương tác cho Iframe thông qua luồng
+                        xác thực.</li>
+                    <li>Mọi tiến trình chạy ngầm qua <span class="code-highlight">tmux</span> vẫn được giữ lại an toàn
+                        ngay cả khi bạn vô tình tải lại (reload) trang Web.</li>
+                    <li>Hãy luôn nhớ bấm nút <b>Hủy Phiên Làm Việc</b> sau khi hoàn thành công việc kỹ thuật để đóng
+                        cổng bảo mật tuyệt đối.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🛠️ ĐOẠN SCRIPT ĐÃ ĐƯỢC FIX LỖI ĐEN MÀN HÌNH & CHẶN POPUP TRÌNH DUYỆT -->
+    <script>
+        const iframe = document.getElementById('terminal-iframe');
+        const placeholder = document.getElementById('placeholder');
+        const loginOverlay = document.getElementById('login-overlay');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        const credArea = document.getElementById('credentials-area');
+
+        let streamUrl = "";
+
+        async function startTerminalSession() {
+            statusText.innerText = "Đang khởi tạo Engine...";
+
+            try {
+                const response = await fetch('/api/terminal/start', { method: 'POST' });
+                const data = await response.json();
+
+                if (response.ok && data.status === "online") {
+                    statusDot.className = "status-dot online";
+                    statusText.innerText = "Terminal Session sẵn sàng đăng nhập";
+
+                    if (credArea) credArea.style.display = 'block';
+                    placeholder.style.display = 'none';
+
+                    loginOverlay.style.display = 'flex';
+                    iframe.style.display = 'none';
+
+                    streamUrl = data.url;
+
+                    document.getElementById('auth-username').value = "";
+                    document.getElementById('auth-password').value = "";
+                } else {
+                    alert("Khởi động thất bại: " + (data.detail || "Lỗi không xác định."));
+                    resetGiaoDien();
+                }
+            } catch (error) {
+                alert("Không thể kết nối đến API Server backend.");
+                resetGiaoDien();
+            }
+        }
+
+        // ĐĂNG NHẬP QUA COOKIE: Khắc phục lỗi đen màn hình Iframe & Chặn hoàn toàn Popup Basic Auth
+        async function submitCustomLogin() {
+            const user = document.getElementById('auth-username').value.trim();
+            const pass = document.getElementById('auth-password').value.trim();
+
+            if (!user || !pass) {
+                alert("Vui lòng điền đầy đủ cả tài khoản và mật khẩu!");
+                return;
+            }
+
+            // Gửi dữ liệu bằng phương thức POST / nhận diện Header tùy biến để Backend không trả về WWW-Authenticate kích nổ Popup
+            const headers = new Headers();
+            headers.set('Authorization', 'Basic ' + btoa(user + ':' + pass));
+            headers.set('X-Requested-With', 'XMLHttpRequest'); // Mẹo báo hiệu chặn sinh Popup phía trình duyệt
+
+            try {
+                // Thử gửi một lệnh gọi để test tài khoản ngầm
+                const res = await fetch(streamUrl, { method: 'GET', headers: headers });
+
+                if (res.status === 401) {
+                    // Nếu sai, vứt thẳng alert ra màn hình và kết thúc luôn. KHÔNG bị nổ popup.
+                    alert("❌ Sai tài khoản hoặc mật khẩu động! Vui lòng kiểm tra lại lệnh trên Discord.");
+                    return;
+                }
+
+                // Nếu đúng (Status 200 OK): Tiến hành ép trình duyệt ghi nhận Auth thông qua chèn Cookie tạm thời cho Iframe thừa hưởng
+                // Giải pháp này thay thế cơ chế điền user:pass@ url cũ bị Chrome chặn gây đen màn hình.
+                document.cookie = `terminal_auth=${btoa(user + ':' + pass)}; path=/; max-age=3600; SameSite=Strict`;
+
+                // Nạp thẳng URL gốc sạch sẽ vào Iframe
+                iframe.src = streamUrl;
+
+                // Mở bung màn hình hiển thị Terminal
+                loginOverlay.style.display = 'none';
+                iframe.style.display = 'block';
+                statusText.innerText = "Terminal Session hoạt động ổn định";
+
+            } catch (err) {
+                alert("Lỗi kết nối kiểm tra tài khoản với Server.");
+            }
+        }
+
+        async function stopTerminalSession() {
+            try {
+                const response = await fetch('/api/terminal/stop', { method: 'POST' });
+                if (response.ok) {
+                    alert("Đã hủy phiên và dọn dẹp các tiến trình kẹt thành công!");
+                }
+            } catch (error) {
+                console.error("Lỗi khi gửi lệnh dừng:", error);
+            } finally {
+                // Xóa sạch cookie auth khi kết thúc phiên để bảo mật
+                document.cookie = "terminal_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                resetGiaoDien();
+            }
+        }
+
+        function resetGiaoDien() {
+            statusDot.className = "status-dot";
+            statusText.innerText = "Terminal Session Đang Tắt";
+            if (credArea) credArea.style.display = 'none';
+            loginOverlay.style.display = 'none';
+            iframe.src = "";
+            iframe.style.display = 'none';
+            placeholder.style.display = 'flex';
+            streamUrl = "";
+        }
+    </script>
+</body>
+
+</html>

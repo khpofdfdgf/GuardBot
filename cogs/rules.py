@@ -15,7 +15,7 @@ import utils
 RULES_DATA = [
     {
         "emoji": "🤝",
-        "title": "1. Tôn trọng lẫn nhau",
+        "title": "1. Tôn trọng lẫn nhau & Phát ngôn",
         "rules": [
             "Luôn tôn trọng và lịch sự với mọi người.",
             "Cấm quấy rối dưới mọi hình thức.",
@@ -23,14 +23,16 @@ RULES_DATA = [
             "Cấm đe dọa người khác.",
             "Không tranh cãi công khai – xử lý mâu thuẫn qua DM.",
             "Không **rage bait** (cố tình khiêu khích để gây tranh luận).",
-            "Không lạm dụng ngôn từ tục tĩu quá mức.",
+            "**Ngôn từ tục tĩu:** Có thể sử dụng ngôn từ tục tĩu ở mức độ vừa phải, miễn là theo hướng không xúc phạm người khác (ví dụ: black english, hiphop style...).",
+            "**Quy định về trò đùa gia đình (Family Jokes):** Cấm tuyệt đối lôi gia đình người khác vào các cuộc cãi vã hoặc làm trò đùa hạ thấp danh dự. Nếu cãi nhau mà lôi gia đình đối phương ra đùa cợt sẽ bị **xử tử tại chỗ (Ban vĩnh viễn)**. *Lưu ý: Dad joke (chơi chữ vô hại) được chấp nhận, Mom joke (xúc phạm mẹ) bị cấm hoàn toàn.*",
+            "**Tự do ngôn luận:** Bạn được tự do ngôn luận, nhưng tự do ngôn luận không đồng nghĩa với việc phát ngôn tùy tiện. Việc lợi dụng quyền này để tuyên truyền chống phá Nhà nước, phát tán thông tin sai sự thật, xúc phạm danh dự cá nhân, hoặc kích động bạo lực sẽ bị xử lý khắt khe hoặc báo cáo trực tiếp lên cơ quan chức năng có thẩm quyền.",
         ],
     },
     {
         "emoji": "⚖️",
         "title": "2. Không chia sẻ nội dung vi phạm pháp luật",
         "rules": [
-            "**Cấm tuyệt đối** chia sẻ nội dung đồi trụy, bạo lực, lừa đảo hoặc vi phạm pháp luật.",
+            "**Cấm tuyệt đối** chia sẻ nội dung đồi trụy, bạo lực, lừa đảo hoặc vi phạm pháp luật Nhà nước Việt Nam.",
         ],
     },
     {
@@ -53,14 +55,14 @@ RULES_DATA = [
     },
     {
         "emoji": "🚫",
-        "title": "5. Nội dung bị cấm",
+        "title": "5. Nội dung & Hành vi bị cấm",
         "rules": [
-            "**Spam:** Gửi tin nhắn lặp đi lặp lại.",
-            "**NSFW/NSFL/Gore:** Cấm mọi hình thức.",
+            "**Spam:** Gửi tin nhắn lặp đi lặp lại vô nghĩa.",
             "**GIF/Video nhấp nháy mạnh** không gắn spoiler.",
             "**Link đáng ngờ/độc hại** → ban ngay lập tức.",
-            "**Thông tin cá nhân người khác** → ban vĩnh viễn.",
-            "**Nội dung chính trị bao gồm nhưng không giới hạn ở tôn giáo , chính trị , ...** → xóa và cảnh báo; tái phạm → mute/ban.",
+            "**Nội dung chính trị/tôn giáo:** Cấm các nội dung kích động, truyền bá cực đoan → xóa và cảnh báo; tái phạm → mute/ban.",
+            "**Quyền riêng tư & Bảo mật:** Nghiêm cấm mọi hành vi **Doxxing** (lộ thông tin cá nhân), xâm phạm quyền riêng tư của người khác, **Spy** (gián điệp), **Stalk** (rình rập) hoặc bất kỳ hành động nào cố ý làm người khác cảm thấy bất an. Vi phạm nhẹ sẽ bị ban vĩnh viễn, trường hợp nặng gây hậu quả nghiêm trọng sẽ bị thu thập bằng chứng và báo cáo lên cơ quan chức năng nhà nước.",
+            "**Quy định về NSFW/NSFL/Gore:** Cấm mọi hình thức chia sẻ vượt quá mức độ cho phép. Chi tiết phân loại xem ở bảng bên dưới.",
         ],
     },
     {
@@ -99,7 +101,7 @@ RULES_DATA = [
         "emoji": "📜",
         "title": "10. Điều khoản Discord",
         "rules": [
-            "Tuân thủ [Điều khoản dịch vụ](https://discord.com/terms) và [Quy tắc cộng đồng](https://discord.com/guidelines) của Discord.",
+            "Tuân thủ [Điều khoản dịch vụ](https://discord.com/terms) and [Quy tắc cộng đồng](https://discord.com/guidelines) của Discord.",
         ],
     },
 ]
@@ -120,6 +122,31 @@ PUNISHMENT_INFO = """
 
 **Kháng cáo:** Dùng lệnh `/appeal` nếu bạn cho rằng mình bị xử oan.
 """
+
+# Bổ sung Bảng phân loại NSFW/NSFL dạng Embed Field dữ liệu
+NSFW_CLASSIFICATION = [
+    {
+        "name": "🟢 Low NSFW (Nhẹ / Gợi ý)",
+        "value": "• **Nội dung:** Chứa yếu tố gợi cảm, ngôn từ không phù hợp nhưng không phô bày da thịt hay bạo lực.\n• **Ví dụ:** Ảnh mặc bikini (chụp nghệ thuật/bãi biển), lời bài hát có từ chửi thề nhẹ, hài hước người lớn không lộ liễu."
+    },
+    {
+        "name": "🟡 Medium NSFW (Trung bình / Bán khỏa thân)",
+        "value": "• **Nội dung:** Phơi bày một phần cơ thể, có tính chất lãng mạn người lớn, bạo lực ở mức điện ảnh.\n• **Ví dụ:** Ảnh bán khỏa thân che đậy, cảnh ôm hôn thân mật, cảnh đánh nhau có máu me trong phim hành động."
+    },
+    {
+        "name": "🔴 High NSFW (Nặng / Khiêu dâm hoặc Bạo lực đồ họa)",
+        "value": "• **Nội dung:** Hình ảnh khiêu dâm, khỏa thân toàn bộ hoặc bạo lực máu me gây chấn động tâm lý nhẹ cho người xem.\n• **Ví dụ:** Các cảnh quan hệ tình dục, tai nạn giao thông nghiêm trọng, phẫu thuật y tế đẫm máu."
+    },
+    {
+        "name": "🔥 Extreme NSFW (Cực kỳ nghiêm trọng)",
+        "value": "• **Nội dung:** Vi phạm nghiêm trọng tiêu chuẩn cộng đồng, có tính chất phạm pháp hoặc cực kỳ tàn nhẫn.\n• **Ví dụ:** Bạo lực học đường tàn nhẫn, hành hạ động vật, các hành vi tình dục lệch lạc hoặc bạo lực cực đoan."
+    },
+    {
+        "name": "💀 NSFL - Not Safe For Life (Cấm kỵ / Kinh tởm)",
+        "value": "• **Nội dung:** Mức độ cao nhất của NSFW, chứa nội dung gây ám ảnh, tổn thương tâm lý, buồn nôn hoặc suy sụp tinh thần.\n• **Ví dụ:** Xác chết biến dạng, tự tử trực tiếp (Gore), thảm họa đẫm máu thực tế."
+    }
+]
+
 STAFF_RULES_DATA = [
     {
         "emoji": "⚖️",
@@ -187,7 +214,7 @@ class Rules(commands.Cog):
         self.bot = bot
 
     async def _send_rules_to_channel(self, channel: discord.abc.Messageable,
-                                      guild: discord.Guild) -> None:
+                                     guild: discord.Guild) -> None:
         """Gửi toàn bộ nội quy dưới dạng embed đẹp."""
 
         # Header embed
@@ -205,7 +232,7 @@ class Rules(commands.Cog):
         header.set_footer(text=f"{guild.name} • Nội quy có hiệu lực từ khi tham gia")
         await channel.send(embed=header)
 
-        # Gửi từng mục
+        # Gửi từng mục quy định
         for item in RULES_DATA:
             embed = discord.Embed(
                 title=f"{item['emoji']} {item['title']}",
@@ -213,6 +240,17 @@ class Rules(commands.Cog):
                 color=0x5865F2,
             )
             await channel.send(embed=embed)
+
+        # Gửi Bảng phân loại NSFW/NSFL bổ sung
+        nsfw_embed = discord.Embed(
+            title="🔞 BẢNG PHÂN LOẠI MỨC ĐỘ NSFW / NSFL",
+            description="Để đảm bảo nội dung chia sẻ phù hợp, yêu cầu mọi người tuân thủ nghiêm ngặt bảng đối chiếu phân loại dưới đây:",
+            color=0x34495E
+        )
+        for field in NSFW_CLASSIFICATION:
+            nsfw_embed.add_field(name=field["name"], value=field["value"], inline=False)
+        nsfw_embed.set_footer(text="Mọi hành vi đăng tải vượt ngưỡng cho phép (Extreme/NSFL) sẽ bị xử lý nặng.")
+        await channel.send(embed=nsfw_embed)
 
         # Hệ thống xử phạt
         punishment_embed = discord.Embed(
@@ -224,7 +262,7 @@ class Rules(commands.Cog):
         await channel.send(embed=punishment_embed)
 
     async def _send_staff_rules_to_channel(self, channel: discord.abc.Messageable,
-                                            guild: discord.Guild) -> None:
+                                           guild: discord.Guild) -> None:
         """Gửi nội quy dành riêng cho Staff."""
 
         header = discord.Embed(

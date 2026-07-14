@@ -59,8 +59,13 @@ class ProposalView(discord.ui.View):
         custom_id="proposal_approve",
     )
     async def approve(self, interaction: discord.Interaction, button: discord.ui.Button) -> None:
+        try:
+            await interaction.response.defer(ephemeral=True)
+        except Exception:
+            pass
+
         if not utils.is_admin(interaction.user):
-            await interaction.response.send_message("❌ Chỉ Admin mới có quyền duyệt đề nghị này.", ephemeral=True)
+            await interaction.followup.send("❌ Chỉ Admin mới có quyền duyệt đề nghị này.", ephemeral=True)
             return
 
         embed = interaction.message.embeds[0]
@@ -76,7 +81,7 @@ class ProposalView(discord.ui.View):
                 reason = field.value
 
         if not target_id or not action:
-            await interaction.response.send_message("❌ Lỗi: Không tìm thấy thông tin đối tượng hoặc hành động trong Embed.", ephemeral=True)
+            await interaction.followup.send("❌ Lỗi: Không tìm thấy thông tin đối tượng hoặc hành động trong Embed.", ephemeral=True)
             return
 
         guild = interaction.guild
@@ -86,7 +91,7 @@ class ProposalView(discord.ui.View):
             try:
                 target = await interaction.client.fetch_user(target_id)
             except discord.HTTPException:
-                await interaction.response.send_message("❌ Không tìm thấy người dùng này trên Discord.", ephemeral=True)
+                await interaction.followup.send("❌ Không tìm thấy người dùng này trên Discord.", ephemeral=True)
                 return
 
         try:
@@ -97,7 +102,7 @@ class ProposalView(discord.ui.View):
                 await guild.kick(target, reason=f"[Duyệt Đề Nghị bởi {interaction.user}] {reason}")
                 utils.log_case("KICK", target, interaction.user, f"[Duyệt Đề Nghị] {reason}")
         except discord.Forbidden:
-            await interaction.response.send_message("❌ Bot không đủ quyền để thực hiện hành động này.", ephemeral=True)
+            await interaction.followup.send("❌ Bot không đủ quyền để thực hiện hành động này.", ephemeral=True)
             return
 
         embed.color = COLOR_SUCCESS
@@ -109,7 +114,7 @@ class ProposalView(discord.ui.View):
             child.disabled = True
 
         await interaction.message.edit(embed=embed, view=self)
-        await interaction.response.send_message(f"✅ Đã duyệt và thực thi **{action.upper()}** đối với {target}.", ephemeral=True)
+        await interaction.followup.send(f"✅ Đã duyệt và thực thi **{action.upper()}** đối với {target}.", ephemeral=True)
 
     @discord.ui.button(
         label="Từ chối (Reject)",
@@ -117,8 +122,13 @@ class ProposalView(discord.ui.View):
         custom_id="proposal_reject",
     )
     async def reject(self, interaction: discord.Interaction, button: discord.ui.Button) -> None:
+        try:
+            await interaction.response.defer(ephemeral=True)
+        except Exception:
+            pass
+
         if not utils.is_admin(interaction.user):
-            await interaction.response.send_message("❌ Chỉ Admin mới có quyền từ chối đề nghị này.", ephemeral=True)
+            await interaction.followup.send("❌ Chỉ Admin mới có quyền từ chối đề nghị này.", ephemeral=True)
             return
 
         embed = interaction.message.embeds[0]
@@ -131,7 +141,7 @@ class ProposalView(discord.ui.View):
             child.disabled = True
 
         await interaction.message.edit(embed=embed, view=self)
-        await interaction.response.send_message("❌ Đã từ chối đề nghị xử phạt.", ephemeral=True)
+        await interaction.followup.send("❌ Đã từ chối đề nghị xử phạt.", ephemeral=True)
 
 
 async def send_proposal(guild: discord.Guild, target: discord.Member | discord.User, action: str, reason: str, proposer_mention: str) -> bool:
@@ -273,6 +283,10 @@ class Moderation(commands.Cog):
     @mod_only()
     async def warn(self, ctx: commands.Context,
                    member: discord.Member, *, reason: str = "Không có lý do") -> None:
+        try:
+            await ctx.defer()
+        except Exception:
+            pass
 
         if member.bot:
             return await ctx.send("Không thể cảnh cáo bot.")
@@ -433,6 +447,10 @@ class Moderation(commands.Cog):
     @mod_only()
     async def mute(self, ctx: commands.Context, member: discord.Member,
                    duration: int = 60, *, reason: str = "Không có lý do") -> None:
+        try:
+            await ctx.defer()
+        except Exception:
+            pass
 
         if member.bot:
             return await ctx.send("Không thể mute bot.")
@@ -469,6 +487,11 @@ class Moderation(commands.Cog):
     @mod_only()
     async def unmute(self, ctx: commands.Context, member: discord.Member) -> None:
         try:
+            await ctx.defer()
+        except Exception:
+            pass
+
+        try:
             await member.timeout(None)
         except discord.Forbidden:
             return await ctx.send("❌ Không có quyền bỏ mute.")
@@ -490,6 +513,10 @@ class Moderation(commands.Cog):
     @app_commands.describe(member="Thành viên cần mute", reason="Lý do")
     @mod_only()
     async def mutejail(self, ctx: commands.Context, member: discord.Member, *, reason: str = "Không có lý do") -> None:
+        try:
+            await ctx.defer()
+        except Exception:
+            pass
 
         if member.bot:
             return await ctx.send("Bot thì khỏi mute, nó im sẵn rồi 😌")
@@ -525,6 +552,10 @@ class Moderation(commands.Cog):
     @app_commands.describe(member="Thành viên cần unmute")
     @mod_only()
     async def unmutejail(self, ctx: commands.Context, member: discord.Member) -> None:
+        try:
+            await ctx.defer()
+        except Exception:
+            pass
 
         role = ctx.guild.get_role(JAIL_ROLE_ID)
 
@@ -561,6 +592,11 @@ class Moderation(commands.Cog):
     async def kick(self, ctx: commands.Context,
                    member: discord.Member, *, reason: str = "Không có lý do") -> None:
         try:
+            await ctx.defer()
+        except Exception:
+            pass
+
+        try:
             await self._dm_user(member, "kick", reason)
             await member.kick(reason=reason)
         except discord.Forbidden:
@@ -585,21 +621,36 @@ class Moderation(commands.Cog):
     # BAN
     # ═══════════════════════════════════════════════════════════════════════════
 
-    @commands.hybrid_command(name="ban", description="Ban một thành viên")
-    @app_commands.describe(member="Thành viên cần ban", reason="Lý do")
+    @commands.hybrid_command(name="ban", description="Ban thẳng một thành viên khỏi server (Không qua bộ lọc)")
+    @app_commands.describe(member="Thành viên hoặc ID người dùng cần ban", reason="Lý do")
     @admin_only()
     async def ban(self, ctx: commands.Context,
-                  member: discord.Member, *, reason: str = "Không có lý do") -> None:
+                  member: discord.User | discord.Member, *, reason: str = "Không có lý do") -> None:
         try:
+            await ctx.defer()
+        except Exception:
+            pass
+
+        if isinstance(member, discord.Member):
             await self._dm_user(member, "ban", reason)
+
+        try:
+            # Ép buộc gọi chính xác API BAN của Discord, không dùng hàm bọc (wrapper)
             await ctx.guild.ban(member, reason=reason, delete_message_days=0)
         except discord.Forbidden:
-            return await ctx.send("❌ Không có quyền ban.")
+            if ctx.interaction:
+                return await ctx.interaction.followup.send("❌ Bot không đủ quyền (Role dưới quyền hoặc thiếu quyền Ban Members) để ban người này.", ephemeral=True)
+            return await ctx.send("❌ Bot không đủ quyền để ban người này.")
+        except Exception as e:
+            if ctx.interaction:
+                return await ctx.interaction.followup.send(f"❌ Discord API từ chối lệnh Ban: `{e}`", ephemeral=True)
+            return await ctx.send(f"❌ Discord API từ chối lệnh Ban: `{e}`")
 
+        # Ghi nhận log cụ thể hành động BAN
         case_id = utils.log_case("BAN", member, ctx.author, reason)
         embed = utils.mod_embed(
-            title="🔨 Đã ban",
-            description=f"**{member}** đã bị ban vĩnh viễn.",
+            title="🔨 Đã ban thực tế",
+            description=f"**{member}** đã bị hệ thống cấm truy cập vĩnh viễn.",
             color=COLOR_ERROR,
             fields=[
                 ("Người dùng", f"{member} (`{member.id}`)", True),
@@ -608,41 +659,88 @@ class Moderation(commands.Cog):
                 ("Case ID",    f"#{case_id}",               True),
             ],
         )
-        await ctx.send(embed=embed)
+        
+        if ctx.interaction:
+            await ctx.interaction.followup.send(embed=embed)
+        else:
+            await ctx.send(embed=embed)
+            
         await self._send_log(ctx.guild, embed)
-
     # ═══════════════════════════════════════════════════════════════════════════
     # UNBAN
     # ═══════════════════════════════════════════════════════════════════════════
 
     @commands.hybrid_command(name="unban", description="Bỏ ban một người dùng")
-    @app_commands.describe(user_id="ID người dùng cần bỏ ban", reason="Lý do")
+    @app_commands.describe(user_id="ID người dùng cần bỏ ban (chuỗi số)", reason="Lý do")
     @admin_only()
     async def unban(self, ctx: commands.Context,
-                    user_id: int, *, reason: str = "Kháng cáo được chấp nhận") -> None:
+                    user_id: str, *, reason: str = "Kháng cáo được chấp nhận") -> None:
         try:
-            user = await self.bot.fetch_user(user_id)
-            await ctx.guild.unban(user, reason=reason)
-        except discord.NotFound:
-            return await ctx.send("❌ Không tìm thấy người dùng hoặc họ chưa bị ban.")
-        except discord.Forbidden:
-            return await ctx.send("❌ Không có quyền bỏ ban.")
+            await ctx.defer()
+        except Exception:
+            pass
 
-        case_id = utils.log_case("UNBAN", user, ctx.author, reason)
+        try:
+            target_id = int(user_id.strip())
+        except ValueError:
+            return await ctx.send("❌ ID nhập vào không hợp lệ (Phải là một chuỗi toàn số).")
+
+        fake_user = discord.Object(id=target_id)
+
+        # 1. Thử unban bất chấp
+        try:
+            await ctx.guild.unban(fake_user, reason=reason)
+            is_unbanned_successfully = True
+        except discord.NotFound:
+            # Nếu dính NotFound, ta đi kiểm tra lại danh sách Ban thực tế của server xem có đúng là không có không
+            is_unbanned_successfully = True
+            try:
+                # Quét xem user này có còn trong danh sách ban không
+                await ctx.guild.fetch_ban(fake_user)
+                # Nếu chạy được đến dòng này, tức là user VẪN CÒN bị ban -> Lệnh unban thực sự thất bại
+                is_unbanned_successfully = False
+            except discord.NotFound:
+                # Nếu fetch_ban cũng trả về NotFound -> Chứng tỏ user KHÔNG CÒN trong danh sách ban nữa 
+                # -> Lệnh unban trước đó thực chất ĐÃ THÀNH CÔNG, Discord API báo lỗi láo!
+                is_unbanned_successfully = True
+        except discord.Forbidden:
+            return await ctx.send("❌ Bot thiếu quyền 'Ban Members' nên không thể unban.")
+        except Exception as e:
+            return await ctx.send(f"❌ Lỗi hệ thống: `{e}`")
+
+        # 2. Xử lý kết quả dựa trên kiểm tra thực tế
+        if not is_unbanned_successfully:
+            return await ctx.send("❌ Không tìm thấy người dùng này trong danh sách bị ban của server.")
+
+        # Lấy thông tin để làm Embed đẹp
+        try:
+            user = await self.bot.fetch_user(target_id)
+            user_str = f"**{user}**"
+            user_field = f"{user} (`{user.id}`)"
+        except Exception:
+            user_str = f"Người dùng ID `{target_id}`"
+            user_field = f"`{target_id}`"
+
+        # GHI LOG VÀ IN EMBED THÀNH CÔNG
+        case_id = utils.log_case("UNBAN", fake_user, ctx.author, reason)
         embed = utils.mod_embed(
-            title="✅ Đã bỏ ban",
-            description=f"**{user}** đã được bỏ ban.",
+            title="✅ Đã bỏ ban thành công",
+            description=f"{user_str} đã được gỡ lệnh cấm khỏi server.",
             color=COLOR_SUCCESS,
             fields=[
-                ("Người dùng", f"{user} (`{user.id}`)", True),
+                ("Người dùng", user_field,              True),
                 ("Moderator",  str(ctx.author),         True),
                 ("Lý do",      reason,                  False),
                 ("Case ID",    f"#{case_id}",           True),
             ],
         )
-        await ctx.send(embed=embed)
+        
+        try:
+            await ctx.send(embed=embed)
+        except Exception:
+            pass
+            
         await self._send_log(ctx.guild, embed)
-
     # ═══════════════════════════════════════════════════════════════════════════
     # WARNS
     # ═══════════════════════════════════════════════════════════════════════════
@@ -821,31 +919,18 @@ class Moderation(commands.Cog):
     )
     @mod_only()
     async def baocao(self, ctx: commands.Context) -> None:
-        print("interaction =", ctx.interaction)
-       
-
+        # Defer NGAY LẬP TỨC trước mọi tác vụ để tránh timeout 3 giây
         if ctx.interaction:
-            print("done =", ctx.interaction.response.is_done())
-            
+            try:
+                await ctx.interaction.response.defer(ephemeral=False)
+            except Exception:
+                pass  # Đã được defer hoặc đã hết hạn
+
         try:
-            # Slash command => defer trước
-            if ctx.interaction:
-                print("BEFORE:", ctx.interaction.response.is_done())
-
-                try:
-                    await ctx.defer()
-                    print("AFTER:", ctx.interaction.response.is_done())
-                except Exception as e:
-                    import traceback
-                    print("DEFER ERROR:", repr(e))
-                    traceback.print_exc()
-                    raise
-
             cases = utils.load_json(utils.CASES_FILE)
 
             if not cases:
                 msg = "📋 Chưa có dữ liệu xử phạt nào để báo cáo."
-
                 if ctx.interaction:
                     await ctx.interaction.followup.send(msg)
                 else:
@@ -939,23 +1024,16 @@ class Moderation(commands.Cog):
 
             embed.set_footer(text=f"Yêu cầu bởi {ctx.author}")
 
-            # Gửi đúng kiểu theo interaction
             if ctx.interaction:
-                print("FOLLOWUP:", ctx.interaction.response.is_done())
                 await ctx.interaction.followup.send(embed=embed)
             else:
                 await ctx.send(embed=embed)
 
         except Exception as e:
-
             error_msg = f"❌ Lỗi khi tạo báo cáo:\n```{e}```"
-
             if ctx.interaction:
                 try:
-                    await ctx.interaction.followup.send(
-                        error_msg,
-                        ephemeral=True
-                    )
+                    await ctx.interaction.followup.send(error_msg, ephemeral=True)
                 except Exception:
                     pass
             else:

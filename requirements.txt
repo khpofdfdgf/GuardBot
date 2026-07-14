@@ -9,3 +9,8 @@ requests
 google-genai
 python-dotenv
 openai
+fastapi
+uvicorn
+dotenv
+subprocess
+os

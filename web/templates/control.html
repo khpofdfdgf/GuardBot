@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
+
 <body>
     <div class="container animate-fade-in" style="max-width: 1400px;">
         <header>
@@ -14,9 +16,11 @@
                 <h1>Control Panel</h1>
             </div>
             <div class="user-profile">
-                <a href="{{ invite_url }}" target="_blank" class="btn" style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); color: white; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="{{ invite_url }}" target="_blank" class="btn"
+                    style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); color: white; display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="16" height="16" viewBox="0 0 127.14 96.36" fill="white">
-                        <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.1,46,96,53,91.08,65.69,84.69,65.69Z"/>
+                        <path
+                            d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.1,46,96,53,91.08,65.69,84.69,65.69Z" />
                     </svg>
                     Invite Bot
                 </a>
@@ -32,20 +36,29 @@
             <a href="/tracking">Stats & Logs</a>
             <a href="/control" class="active">Control Panel</a>
             <a href="/lookup">Public Lookup</a>
+            <a href="/appeals">Kháng cáo</a>
+            <a href="/verify">Xác minh danh tính</a>
+            <a href="/terminal">Terminal</a>
         </div>
 
         <div class="three-column">
             <!-- Cột 1: Danh sách -->
             <div class="glass-panel" style="display: flex; flex-direction: column;">
                 <h3>Quản Lý</h3>
-                <select id="guild-selector" onchange="loadGuildData()" style="width: 100%; padding: 8px; margin-bottom: 10px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-color); border-radius: 4px;">
+                <select id="guild-selector" onchange="loadGuildData()"
+                    style="width: 100%; padding: 8px; margin-bottom: 10px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-color); border-radius: 4px;">
                     <option value="">Chọn Server...</option>
                 </select>
-                
+
                 <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                    <button class="btn btn-primary" style="flex: 1; padding: 5px;" onclick="switchTab('channels')">Channels</button>
-                    <button class="btn" style="flex: 1; padding: 5px; background: rgba(255,255,255,0.1); color: white;" onclick="switchTab('members')" id="btn-members">Members</button>
+                    <button class="btn btn-primary" style="flex: 1; padding: 5px;"
+                        onclick="switchTab('channels')">Channels</button>
+                    <button class="btn" style="flex: 1; padding: 5px; background: rgba(255,255,255,0.1); color: white;"
+                        onclick="switchTab('members')" id="btn-members">Members</button>
                 </div>
+
+                <input type="text" id="list-search" placeholder="🔍 Tìm kênh hoặc thành viên..." oninput="filterLists()"
+                    style="width:100%; padding:7px 10px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:6px; color:white; font-size:0.84rem; box-sizing:border-box; margin-bottom:8px; outline:none;">
 
                 <div id="list-channels" class="scroll-list"></div>
                 <div id="list-members" class="scroll-list" style="display: none;"></div>
@@ -53,14 +66,17 @@
 
             <!-- Cột 2: Live Chat -->
             <div class="glass-panel chat-container">
-                <h3>Live Chat <span id="ws-status" style="font-size: 0.8rem; color: var(--danger-color);">(Đang kết nối...)</span></h3>
+                <h3>Live Chat <span id="ws-status" style="font-size: 0.8rem; color: var(--danger-color);">(Đang kết
+                        nối...)</span></h3>
                 <div class="chat-messages" id="chat-box">
-                    <div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">
+                    <div
+                        style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">
                         Tin nhắn sẽ hiện ở đây theo thời gian thực...
                     </div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="chat-input-text" placeholder="Nhập tin nhắn để gửi với tư cách Bot..." onkeypress="handleChatKey(event)">
+                    <input type="text" id="chat-input-text" placeholder="Nhập tin nhắn để gửi với tư cách Bot..."
+                        onkeypress="handleChatKey(event)">
                     <button class="btn btn-primary" onclick="sendChat()">Gửi</button>
                 </div>
             </div>
@@ -74,7 +90,8 @@
                     <!-- Target input -->
                     <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
                         <div>
-                            <label style="font-size:0.78rem; color:var(--text-secondary);">Đối tượng (UID hoặc @tên)</label>
+                            <label style="font-size:0.78rem; color:var(--text-secondary);">Đối tượng (UID hoặc
+                                @tên)</label>
                             <input type="text" id="cmd-target" placeholder="VD: 123456789 hoặc username"
                                 style="width:100%; padding:8px 10px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:6px; color:white; font-size:0.88rem; box-sizing:border-box; margin-top:3px;">
                         </div>
@@ -87,7 +104,9 @@
 
                     <!-- Bot commands -->
                     <div style="margin-top:10px;">
-                        <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">🤖 Bot của bạn</div>
+                        <div
+                            style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">
+                            🤖 Bot của bạn</div>
                         <div style="display:flex; flex-wrap:wrap; gap:6px;">
                             <button class="cmd-btn cmd-mod" onclick="runCmd('warn')">⚠️ Warn</button>
                             <button class="cmd-btn cmd-mod" onclick="runCmd('mute')">🔇 Mute</button>
@@ -106,7 +125,9 @@
 
                     <!-- Dyno commands -->
                     <div style="margin-top:12px;">
-                        <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">🤖 Dyno</div>
+                        <div
+                            style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">
+                            🤖 Dyno</div>
                         <div style="display:flex; flex-wrap:wrap; gap:6px;">
                             <button class="cmd-btn cmd-dyno" onclick="runDyno('warn')">⚠️ ?warn</button>
                             <button class="cmd-btn cmd-dyno" onclick="runDyno('mute')">🔇 ?mute</button>
@@ -120,13 +141,16 @@
                     </div>
 
                     <!-- Result -->
-                    <div id="cmd-result" style="display:none; margin-top:10px; padding:8px 12px; border-radius:6px; font-size:0.85rem; background:rgba(0,0,0,0.3); border-left:3px solid var(--primary-color);"></div>
+                    <div id="cmd-result"
+                        style="display:none; margin-top:10px; padding:8px 12px; border-radius:6px; font-size:0.85rem; background:rgba(0,0,0,0.3); border-left:3px solid var(--primary-color);">
+                    </div>
                 </div>
 
                 <div class="glass-panel">
                     <h3>🔍 Tra Người Dùng</h3>
                     <div class="chat-input" style="margin-top: 10px;">
-                        <input type="text" id="lookup-input" placeholder="UID hoặc tên người dùng..." onkeypress="if(event.key==='Enter') lookupUser()">
+                        <input type="text" id="lookup-input" placeholder="UID hoặc tên người dùng..."
+                            onkeypress="if(event.key==='Enter') lookupUser()">
                         <button class="btn btn-primary" onclick="lookupUser()">Tra</button>
                     </div>
                     <div id="lookup-result" style="margin-top: 12px; display: none;"></div>
@@ -141,9 +165,11 @@
                         </label>
                         <span id="safemode-text" style="font-weight: bold;">Loading...</span>
                     </div>
-                    <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px; justify-content: space-between;">
+                    <div
+                        style="margin-top: 12px; display: flex; align-items: center; gap: 10px; justify-content: space-between;">
                         <span style="font-size: 0.85rem; color: var(--text-secondary);">Chặn Spam khi bật:</span>
-                        <select id="safemode-spam" onchange="changeSafeModeSpam()" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 6px; color: white; padding: 4px 10px; font-size: 0.85rem; font-family: inherit; cursor: pointer; outline: none;">
+                        <select id="safemode-spam" onchange="changeSafeModeSpam()"
+                            style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 6px; color: white; padding: 4px 10px; font-size: 0.85rem; font-family: inherit; cursor: pointer; outline: none;">
                             <option value="on">Bật (ON)</option>
                             <option value="off">Tắt (OFF)</option>
                         </select>
@@ -154,11 +180,16 @@
                 <div class="glass-panel" style="flex: 1; display: flex; flex-direction: column;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h3>Backups</h3>
-                        <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.8rem;" onclick="uploadBackup()">Upload Backup</button>
+                        <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.8rem;"
+                            onclick="uploadBackup()">Upload Backup</button>
                     </div>
                     <div style="flex: 1; overflow-y: auto; margin-top: 10px;">
                         <table style="width: 100%; font-size: 0.9rem;">
-                            <tbody id="backups-list"><tr><td>Loading...</td></tr></tbody>
+                            <tbody id="backups-list">
+                                <tr>
+                                    <td>Loading...</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -170,7 +201,7 @@
         // Toast Notification System
         function showToast(message, type = 'info') {
             let container = document.getElementById('toast-container');
-            if(!container) {
+            if (!container) {
                 container = document.createElement('div');
                 container.id = 'toast-container';
                 document.body.appendChild(container);
@@ -179,7 +210,7 @@
             toast.className = `toast ${type}`;
             toast.innerHTML = `<span>${message}</span>`;
             container.appendChild(toast);
-            
+
             setTimeout(() => {
                 toast.style.animation = 'fadeOut 0.3s ease forwards';
                 setTimeout(() => toast.remove(), 300);
@@ -306,11 +337,11 @@
         function runDyno(cmd) {
             sendBotCommand(cmd, "?");
         }
-        
+
         // Setup WebSocket
         const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
         const ws = new WebSocket(`${wsProtocol}//${window.location.host}/ws/chat`);
-        
+
         ws.onopen = () => {
             document.getElementById('ws-status').innerText = "(Đã kết nối Live)";
             document.getElementById('ws-status').style.color = "var(--success-color)";
@@ -363,7 +394,7 @@
                 data.guilds.forEach(g => {
                     sel.innerHTML += `<option value="${g.id}">${g.name}</option>`;
                 });
-                if(data.guilds.length > 0) {
+                if (data.guilds.length > 0) {
                     sel.value = data.guilds[0].id;
                     loadGuildData();
                 }
@@ -371,23 +402,37 @@
         }
 
         function switchTab(tab) {
-            if(tab === 'channels') {
+            if (tab === 'channels') {
                 document.getElementById('list-channels').style.display = 'block';
                 document.getElementById('list-members').style.display = 'none';
             } else {
                 document.getElementById('list-channels').style.display = 'none';
                 document.getElementById('list-members').style.display = 'block';
             }
+            // Clear search when switching tabs
+            document.getElementById('list-search').value = '';
+            filterLists();
+        }
+
+        function filterLists() {
+            const query = document.getElementById('list-search').value.toLowerCase();
+            const channelsVisible = document.getElementById('list-channels').style.display !== 'none';
+            const listId = channelsVisible ? 'list-channels' : 'list-members';
+            const items = document.querySelectorAll(`#${listId} .list-item`);
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? '' : 'none';
+            });
         }
 
         async function loadGuildData() {
             const gid = document.getElementById('guild-selector').value;
-            if(!gid) return;
+            if (!gid) return;
             currentGuildId = gid;
-            
+
             // Fetch Channels
             const cRes = await fetch(`/api/guilds/${gid}/channels`);
-            if(cRes.ok) {
+            if (cRes.ok) {
                 const data = await cRes.json();
                 const clist = document.getElementById('list-channels');
                 clist.innerHTML = '';
@@ -395,10 +440,10 @@
                     clist.innerHTML += `<div class="list-item" onclick="selectChannel('${c.id}', '${c.name}')"># ${c.name}</div>`;
                 });
             }
-            
+
             // Fetch Members
             const mRes = await fetch(`/api/guilds/${gid}/members`);
-            if(mRes.ok) {
+            if (mRes.ok) {
                 const data = await mRes.json();
                 const mlist = document.getElementById('list-members');
                 mlist.innerHTML = '';
@@ -420,12 +465,12 @@
             showToast(`Đã chọn kênh #${name}`, 'info');
             const box = document.getElementById('chat-box');
             box.innerHTML = `<div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">Đang tải lịch sử kênh #${name}...</div>`;
-            
+
             const res = await fetch(`/api/channels/${id}/messages`);
             if (res.ok) {
                 const data = await res.json();
                 box.innerHTML = '';
-                if(data.messages.length === 0) {
+                if (data.messages.length === 0) {
                     box.innerHTML = `<div style="text-align: center; color: var(--text-secondary); margin-top: auto; margin-bottom: auto;">Chưa có tin nhắn nào.</div>`;
                 } else {
                     data.messages.forEach(msg => appendMessage(msg));
@@ -436,32 +481,32 @@
         }
 
         async function memberAction(gid, uid, action) {
-            if(!confirm(`Bạn có chắc muốn ${action} người này?`)) return;
-            const res = await fetch(`/api/members/${gid}/${uid}/${action}`, {method: 'POST'});
-            if(res.ok) showToast(`Đã ${action} thành công!`, 'success');
+            if (!confirm(`Bạn có chắc muốn ${action} người này?`)) return;
+            const res = await fetch(`/api/members/${gid}/${uid}/${action}`, { method: 'POST' });
+            if (res.ok) showToast(`Đã ${action} thành công!`, 'success');
             else showToast(`Lỗi khi ${action}!`, 'error');
         }
 
         async function sendChat() {
             const text = document.getElementById('chat-input-text').value;
-            if(!text || !activeChannelId) {
+            if (!text || !activeChannelId) {
                 showToast("Vui lòng chọn 1 kênh ở cột trái và nhập tin nhắn!", "error");
                 return;
             }
             const res = await fetch('/api/chat/send', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({channel_id: activeChannelId, content: text})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ channel_id: activeChannelId, content: text })
             });
-            if(res.ok) {
+            if (res.ok) {
                 document.getElementById('chat-input-text').value = '';
             } else {
                 showToast("Lỗi gửi tin!", "error");
             }
         }
-        
+
         function handleChatKey(e) {
-            if(e.key === 'Enter') sendChat();
+            if (e.key === 'Enter') sendChat();
         }
 
         async function fetchSafeMode() {
@@ -509,11 +554,11 @@
                 const data = await res.json();
                 const tbody = document.getElementById('backups-list');
                 tbody.innerHTML = '';
-                
+
                 // Thêm data/cases.json và data/warnings.json như là backup mặc định
                 const defaultFiles = ['cases.json', 'warnings.json'];
                 const allFiles = [...new Set([...data.backups, ...defaultFiles])];
-                
+
                 allFiles.forEach(b => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
@@ -536,12 +581,12 @@
                 if (!file) return;
                 const formData = new FormData();
                 formData.append('file', file);
-                
+
                 const res = await fetch('/api/backups/import', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 if (res.ok) {
                     showToast(`Đã tải lên ${file.name} thành công!`, 'success');
                     fetchBackups();
@@ -555,4 +600,5 @@
         initData();
     </script>
 </body>
+
 </html>

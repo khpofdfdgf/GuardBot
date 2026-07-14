@@ -51,6 +51,15 @@ class Logging(commands.Cog):
         await self._log(member.guild, embed)
         self.write_log("JOIN", f"{member} ({member.id}) joined. Total members: {member.guild.member_count}")
 
+        # Tự động gán role unverified nếu cấu hình
+        if cfg.unverified_role_id:
+            role = member.guild.get_role(cfg.unverified_role_id)
+            if role:
+                try:
+                    await member.add_roles(role, reason="Auto-assign unverified role on join")
+                except Exception as e:
+                    print(f"[logging_events] Lỗi gán role unverified cho {member}: {e}")
+
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member) -> None:
         embed = discord.Embed(
