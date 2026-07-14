@@ -75,6 +75,7 @@ class ModerationBot(commands.Bot):
             "cogs.safemode",
             "cogs.online",
             "cogs.terminal",
+            "cogs.AI_chat",
         ]
 
         # 1. Dọn dẹp các lệnh global cũ trên Discord (sync một tree trống trước khi load cogs)
