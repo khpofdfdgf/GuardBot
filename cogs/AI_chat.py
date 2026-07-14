@@ -61,7 +61,7 @@ class AIChat(commands.Cog):
         }
         
         payload = {
-            "model": "llama3-8b-8192",
+            "model": "llama-3.3-70b-versatile",
             "messages": self.memory[user_id],
             "temperature": 0.85, # Tăng nhẹ độ sáng tạo cho AI bay bổng, hài hước hơn
             "max_tokens": 2048
